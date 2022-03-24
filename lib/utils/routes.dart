@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../pages/RegisterUser.dart';
+import '../pages/RegisterUserPage.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
