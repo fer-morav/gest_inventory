@@ -1,14 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
-//import 'package:gest_inventory/data/models/Bussiness.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/data/framework/FirebaseBussinessDataSource.dart';
-import 'package:gest_inventory/pages/TempMainPage.dart';
-
-import 'package:gest_inventory/utils/strings.dart';
 import '../data/models/Bussiness.dart';
 
 
@@ -142,20 +137,6 @@ class _AddBussinessState extends State<AddBussinessPage> {
                 },
                 text: "Añadir negocio",
                 isDisabled: false,
-              ),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: ButtonMain(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TempMainPage()),
-                  );
-                },
-                text: "Regresar al menú",
-                isDisabled: true,
               ),
             ),
           ],
