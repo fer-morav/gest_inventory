@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/TextFieldMain.dart';
+import 'package:gest_inventory/utils/colors.dart';
+import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
 
@@ -66,8 +68,8 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
             padding: _padding,
             height: 80,
             child: TextFieldMain(
-              hintText: "Correo Electronico",
-              labelText: "Correo Electronico",
+              hintText: textfield_email,
+              labelText: textfield_email,
               textEditingController: emailController,
               isPassword: false,
               isPasswordTextStatus: false,
@@ -78,8 +80,8 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
             padding: _padding,
             height: 80,
             child: TextFieldMain(
-              hintText: "Contraseña",
-              labelText: "Contraseña",
+              hintText: textfield_password,
+              labelText: textfield_password,
               textEditingController: passwordController,
               isPassword: true,
               isPasswordTextStatus: showPassword,
@@ -90,8 +92,8 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
             padding: _padding,
             height: 80,
             child: TextFieldMain(
-              hintText: "ID negocio",
-              labelText: "ID negocio",
+              hintText: textfield_id_bussiness,
+              labelText: textfield_id_bussiness,
               textEditingController: idNegocioController,
               isPassword: false,
               isPasswordTextStatus: false,
@@ -102,8 +104,8 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
             padding: _padding,
             height: 80,
             child: TextFieldMain(
-              hintText: "Nombre",
-              labelText: "Nombre",
+              hintText: textfield_name,
+              labelText: textfield_name,
               textEditingController: nombreController,
               isPassword: false,
               isPasswordTextStatus: false,
@@ -114,8 +116,8 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
             padding: _padding,
             height: 80,
             child: TextFieldMain(
-              hintText: "Apellidos",
-              labelText: "Apellidos",
+              hintText: textfield_last_name,
+              labelText: textfield_last_name,
               textEditingController: apellidosController,
               isPassword: false,
               isPasswordTextStatus: false,
@@ -126,8 +128,8 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
             padding: _padding,
             height: 80,
             child: TextFieldMain(
-              hintText: "Telefono",
-              labelText: "Telefono",
+              hintText: textfield_number_phone,
+              labelText: textfield_number_phone,
               textEditingController: telefonoController,
               isPassword: false,
               isPasswordTextStatus: false,
@@ -139,8 +141,8 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
             padding: _padding,
             height: 80,
             child: TextFieldMain(
-              hintText: "Salario",
-              labelText: "Salario",
+              hintText: textfield_salary,
+              labelText: textfield_salary,
               textEditingController: salarioController,
               isPassword: false,
               isPasswordTextStatus: false,
@@ -150,20 +152,29 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           ),
           Container(
             padding: _padding,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             child: MultiSelect(
-                cancelButtonText: "Cancelar",
-                saveButtonText: "Guardar",
-                clearButtonText: "Reiniciar",
-                titleText: "Roles",
+                cancelButtonText: button_cancel,
+                saveButtonText: button_save,
+                clearButtonText: button_reset,
+                titleText: title_roles,
                 checkBoxColor: Colors.blue,
                 selectedOptionsInfoText: "",
-                hintText: "Cargo",
-                maxLength: 1,
+                hintText: textfield_cargo,
+                maxLengthIndicatorColor: Colors.white,
                 dataSource: const [
-                  {"cargo": "Empleado", "code": "Empleado"},
-                  {"cargo": "Administrador", "code": "Administrador"},
+                  {
+                    textfield_cargo: button_login_help,
+                    "code": button_login_help
+                  },
+                  {
+                    textfield_cargo: title_administrator,
+                    "code": title_administrator
+                  },
                 ],
-                textField: 'cargo',
+                textField: textfield_cargo,
+                enabledBorderColor: primaryColor,
+                hintTextColor: primaryColor,
                 valueField: 'code',
                 filterable: true,
                 required: true,
@@ -203,9 +214,11 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
         telefonoController.text.isEmpty &&
         cargo.isEmpty &&
         idNegocio.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Informacion incompleta"),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Informacion incompleta"),
+        ),
+      );
     } else {
       newUser.nombre = nombre;
       newUser.apellidos = apellidos;
@@ -225,24 +238,24 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
 
   void _signUp(String email, String password) {
     _authDataSource.signUpWithEmail(email, password).then((id) => {
-      if(id != null){
-        _showToast("Sign up: " + id.toString()),
-        newUser.id = id,
-        _addUser()
-      }
-    });
+          if (id != null)
+            {
+              _showToast("Sign up: " + id.toString()),
+              newUser.id = id,
+              _addUser()
+            }
+        });
   }
 
   void _addUser() {
     _userDataSource.addUser(newUser).then((value) => {
       _showToast("Add user: " + value.toString()),
-    });
+      _nextScreen(login_route),
+        });
   }
 
-  void _signIn(String email, String password) {
-    _authDataSource.signInWithEmail(email, password).then((id) => {
-      _showToast("Sign in: " + id.toString()),
-    });
+  void _nextScreen(String route) {
+    Navigator.pushNamed(context, route);
   }
 
   void _showToast(String content) {
