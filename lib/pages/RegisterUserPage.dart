@@ -158,7 +158,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                 checkBoxColor: Colors.blue,
                 selectedOptionsInfoText: "",
                 hintText: "Cargo",
-                maxLengthIndicatorColor: Colors.white,
+                maxLength: 1,
                 dataSource: const [
                   {"cargo": "Empleado", "code": "Empleado"},
                   {"cargo": "Administrador", "code": "Administrador"},
@@ -235,14 +235,14 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
 
   void _addUser() {
     _userDataSource.addUser(newUser).then((value) => {
-          _showToast("Add user: " + value.toString()),
-        });
+      _showToast("Add user: " + value.toString()),
+    });
   }
 
   void _signIn(String email, String password) {
     _authDataSource.signInWithEmail(email, password).then((id) => {
-          _showToast("Sign in: " + id.toString()),
-        });
+      _showToast("Sign in: " + id.toString()),
+    });
   }
 
   void _showToast(String content) {
