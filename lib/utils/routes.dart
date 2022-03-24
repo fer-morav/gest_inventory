@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../pages/InitLoginPage.dart';
+import '../pages/RegisterUser.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    init_login_route: (BuildContext context) => InitLoginPage(),
+    register_user_route: (BuildContext context) => RegisterUserPage(),
   };
 }
 
 const init_login_route = 'login';
+const register_user_route = 'register';
