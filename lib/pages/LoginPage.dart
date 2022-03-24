@@ -50,7 +50,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        textAppBar: title_register_user,
+        textAppBar: title_login_user,
         onPressed: () {
           Navigator.of(context).pop();
         },
