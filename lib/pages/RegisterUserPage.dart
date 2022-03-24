@@ -158,7 +158,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                 checkBoxColor: Colors.blue,
                 selectedOptionsInfoText: "",
                 hintText: "Cargo",
-                maxLength: 1,
+                maxLengthIndicatorColor: Colors.white,
                 dataSource: const [
                   {"cargo": "Empleado", "code": "Empleado"},
                   {"cargo": "Administrador", "code": "Administrador"},
