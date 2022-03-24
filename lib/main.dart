@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: app_name,
       theme: light,
-      initialRoute: init_tmain_route,
+      initialRoute: register_user_route,
       routes: getApplicationRoutes(),
     );
   }
