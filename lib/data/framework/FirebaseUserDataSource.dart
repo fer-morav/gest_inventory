@@ -29,4 +29,15 @@ class FirebaseUserDataSouce {
       return false;
     }
   }
+
+  Future<bool> updateUser(User user) async {
+    try {
+
+      await _database.collection(USERS_COLLECTION).doc(user.id).update(user.toMap());
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }

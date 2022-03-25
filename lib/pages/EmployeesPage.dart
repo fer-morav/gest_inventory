@@ -3,14 +3,14 @@ import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/utils/strings.dart';
 
-class RecordDatePage extends StatefulWidget {
-  const RecordDatePage({Key? key}) : super(key: key);
+class EmployeesPage extends StatefulWidget {
+  const EmployeesPage({Key? key}) : super(key: key);
 
   @override
-  State<RecordDatePage> createState() => _RecordDateState();
+  State<EmployeesPage> createState() => _Employees();
 }
 
-class _RecordDateState extends State<RecordDatePage> {
+class _Employees extends State<EmployeesPage> {
   final _padding = const EdgeInsets.only(
     left: 15,
     top: 10,
@@ -22,7 +22,7 @@ class _RecordDateState extends State<RecordDatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        textAppBar: title_report,
+        textAppBar: title_employees,
         onPressed: () {
           Navigator.of(context).pop();
         },
@@ -34,7 +34,7 @@ class _RecordDateState extends State<RecordDatePage> {
             height: 80,
             child: ButtonMain(
               onPressed: () {},
-              text: button_hoy,
+              text: button_make_sale,
               isDisabled: true,
             ),
           ),
@@ -43,7 +43,7 @@ class _RecordDateState extends State<RecordDatePage> {
             height: 80,
             child: ButtonMain(
               onPressed: () {},
-              text: button_semana,
+              text: button_stock,
               isDisabled: true,
             ),
           ),
@@ -52,7 +52,16 @@ class _RecordDateState extends State<RecordDatePage> {
             height: 80,
             child: ButtonMain(
               onPressed: () {},
-              text: button_mes,
+              text: button_see_info_product,
+              isDisabled: true,
+            ),
+          ),
+          Container(
+            padding: _padding,
+            height: 80,
+            child: ButtonMain(
+              onPressed: () {},
+              text: button_see_info_business,
               isDisabled: true,
             ),
           ),

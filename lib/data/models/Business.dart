@@ -1,8 +1,7 @@
 import 'dart:convert';
 
-class Bussiness {
+class Business {
   String id = "";
-  String idNegocio = "";
   String nombreNegocio = "";
   String nombreDueno = "";
   String direccion = "";
@@ -10,9 +9,8 @@ class Bussiness {
   int telefono = 0;
   bool activo = false;
 
-  Bussiness({
+  Business({
     required this.id,
-    required this.idNegocio,
     required this.nombreNegocio,
     required this.nombreDueno,
     required this.direccion,
@@ -21,9 +19,8 @@ class Bussiness {
     required this.activo,
   });
 
-  Bussiness copyWith({
+  Business copyWith({
     String? id,
-    String? idNegocio,
     String? nombreNegocio,
     String? nombreDueno,
     String? direccion,
@@ -31,9 +28,8 @@ class Bussiness {
     int? telefono,
     bool? activo,
   }) {
-    return Bussiness(
+    return Business(
       id: id ?? this.id,
-      idNegocio: idNegocio?? this.idNegocio,
       nombreNegocio: nombreNegocio ?? this.nombreNegocio,
       nombreDueno: nombreDueno ?? this.nombreDueno,
       direccion: direccion ?? this.direccion,
@@ -46,7 +42,6 @@ class Bussiness {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'idNegocio': idNegocio,
       'nombreNegocio': nombreNegocio,
       'nombreDueno': nombreDueno,
       'direccion': direccion,
@@ -56,10 +51,9 @@ class Bussiness {
     };
   }
 
-  factory Bussiness.fromMap(Map<String, dynamic> map) {
-    return Bussiness(
+  factory Business.fromMap(Map<String, dynamic> map) {
+    return Business(
       id: map['id'],
-      idNegocio: map['idNegocio'],
       nombreNegocio: map['nombreNegocio'],
       nombreDueno: map['nombreDueno'],
       direccion: map['direccion'],
@@ -71,11 +65,11 @@ class Bussiness {
 
   String toJson() => json.encode(toMap());
 
-  factory Bussiness.fromJson(String source) => Bussiness.fromMap(json.decode(source));
+  factory Business.fromJson(String source) => Business.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'User( id: $id, idNegocio: $idNegocio, nombreNegocio: $nombreNegocio, '
+    return 'User( id: $id, nombreNegocio: $nombreNegocio, '
         '         nombreDueno: $nombreDueno, direccion: $direccion, correo: $correo,'
         '         telefono: $telefono, activo: $activo)';
   }

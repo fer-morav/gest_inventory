@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/pages/RecordDatePage.dart';
+import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 
 class StatisticsPage extends StatefulWidget {
@@ -14,9 +15,9 @@ class StatisticsPage extends StatefulWidget {
 
 class _StatisticsState extends State<StatisticsPage> {
   final _padding = const EdgeInsets.only(
-    left: 30,
+    left: 15,
     top: 10,
-    right: 30,
+    right: 15,
     bottom: 10,
   );
 
@@ -35,12 +36,7 @@ class _StatisticsState extends State<StatisticsPage> {
             padding: _padding,
             height: 80,
             child: ButtonMain(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RecordDatePage()),
-                );
-              },
+              onPressed: () => _nextScreen(records_date_route),
               text: button_masvendidos,
               isDisabled: true,
             ),
@@ -49,12 +45,7 @@ class _StatisticsState extends State<StatisticsPage> {
             padding: _padding,
             height: 80,
             child: ButtonMain(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RecordDatePage()),
-                );
-              },
+              onPressed: () => _nextScreen(records_date_route),
               text: button_menosvendidos,
               isDisabled: true,
             ),
@@ -62,5 +53,9 @@ class _StatisticsState extends State<StatisticsPage> {
         ],
       ),
     );
+  }
+
+  void _nextScreen(String route) {
+    Navigator.pushNamed(context, route);
   }
 }
