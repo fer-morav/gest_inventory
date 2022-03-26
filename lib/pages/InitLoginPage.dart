@@ -25,7 +25,7 @@ class _InitLoginPageState extends State<InitLoginPage> {
     return WillPopScope(
       child: Scaffold(
         appBar: AppBarComponent(
-          textAppBar: title_login,
+          textAppBar: title_admin,
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -35,28 +35,181 @@ class _InitLoginPageState extends State<InitLoginPage> {
             Container(
               padding: _padding,
               height: 80,
-              child: ButtonMain(
-                onPressed: () {},
-                text: button_login_admin,
-                isDisabled: true,
+              child: const Text.rich(
+                TextSpan(
+                  text: subTitle_InfoNego,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Color.fromARGB(1000, 0, 68, 106),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 60,
+              child: const Text.rich(
+                TextSpan(
+                  text: NombreNegocio,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color.fromARGB(1000, 0, 68, 106),
+                  ),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 45,
+              child: const Text.rich(
+                TextSpan(
+                  text: "Dueño : " + DuenoNegocio,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color.fromARGB(1000, 0, 68, 106),
+                  ),
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 45,
+              child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children:[
+                  const Text.rich(
+                    TextSpan(
+                      text: "Empleados : " + NoEmpleados,
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Color.fromARGB(1000, 0, 68, 106),
+                      ),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  ButtonMain(
+                    text: button_verEmpleados,
+                    isDisabled: true, 
+                    onPressed: () {  },
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 45,
+              child: const Text.rich(
+                TextSpan(
+                  text: "Dirección : " + DirNeg,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color.fromARGB(1000, 0, 68, 106),
+                  ),
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 45,
+              child: const Text.rich(
+                TextSpan(
+                  text: "Teléfono : " + TelNeg,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color.fromARGB(1000, 0, 68, 106),
+                  ),
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 45,
+              child: const Text.rich(
+                TextSpan(
+                  text: "Correo : " + EmailNeg,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color.fromARGB(1000, 0, 68, 106),
+                  ),
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 45,
+              child: const Text.rich(
+                TextSpan(
+                  text: "Fecha de Registro : " + FechaRegNeg,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color.fromARGB(1000, 0, 68, 106),
+                  ),
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 45,
+              child: const Text.rich(
+                TextSpan(
+                  text: "Activo : " + ActivoNeg,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color.fromARGB(1000, 0, 68, 106),
+                  ),
+                ),
+                textAlign: TextAlign.left,
               ),
             ),
             Container(
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                onPressed: () {},
-                text: button_login_help,
-                isDisabled: true,
+                text: button_ModInfo,
+                isDisabled: true, 
+                onPressed: () {  },
               ),
             ),
             Container(
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                onPressed: () {},
-                text: button_recover_password,
-                isDisabled: true,
+                text: button_CambContra,
+                isDisabled: true, 
+                onPressed: () {  },
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 80,
+              child: ButtonMain(
+                text: button_EliminarNeg,
+                isDisabled: true, 
+                onPressed: () {  },
               ),
             ),
           ],

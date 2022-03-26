@@ -29,6 +29,6 @@ class AppBarComponent extends AppBar {
       ),
     ),
     backgroundColor:  appBarColor,
-    leading: isBack != true ? null : const Icon(Icons.arrow_back_sharp) ,
+    leading:const Icon(Icons.arrow_back_sharp) ,
   );
 }
