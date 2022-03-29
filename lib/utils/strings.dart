@@ -3,12 +3,14 @@ const app_name = "GestInventory";
 ////////////////Titles////////////////////////////////////////
 const title_login_user = "Inicio de Sesión";
 const title_register_user = "Registro de Usuario";
+const title_register_employee = "Registro de Empleado";
 const title_administrator = "Administrador";
 const title_employees = "Empleado";
 const title_roles = "Roles";
 const title_report = "Registros";
 const title_statistics = " Estadisticas";
 const title_add_bussines = "Añadir Negocio";
+const title_opt_report = "Generar Registro";
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";
@@ -41,6 +43,9 @@ const button_restock = "Reabastecer Stock";
 const button_administrator_stock = "Existencias";
 const button_records = "Ver Registros";
 const button_add_business = "Añadir Negocio";
+const button_add_employee = "Añadir empleado";
+const button_sales_report = "Ventas";
+const button_ticket_report = "Entradas";
 
 ////////////////TextFields////////////////////////////////////
 const textfield_label_email = "Correo Electronico";
