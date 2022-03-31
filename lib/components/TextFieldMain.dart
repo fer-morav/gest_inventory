@@ -28,14 +28,14 @@ class TextFieldMain extends StatefulWidget {
 }
 
 class _TextFieldMainState extends State<TextFieldMain> {
-  final _border = const UnderlineInputBorder(
-    //borderRadius: BorderRadius.circular(10),
-    borderSide: BorderSide(color: primaryColor),
+  final _border = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10),
+    borderSide: const BorderSide(color: primaryColor),
   );
 
-  final _errorBorder = const UnderlineInputBorder(
-    //borderRadius: BorderRadius.circular(10),
-    borderSide: BorderSide(color: Colors.red),
+  final _errorBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10),
+    borderSide: const BorderSide(color: Colors.red),
   );
 
   @override
@@ -50,7 +50,6 @@ class _TextFieldMainState extends State<TextFieldMain> {
       style: const TextStyle(
         color: primaryColor,
         fontSize: 18,
-        fontWeight: FontWeight.bold,
       ),
       decoration: InputDecoration(
         errorText: widget.errorText,
@@ -58,7 +57,6 @@ class _TextFieldMainState extends State<TextFieldMain> {
         hintText: widget.hintText,
         labelStyle: const TextStyle(
           color: primaryColor,
-          fontWeight: FontWeight.bold,
         ),
         enabledBorder: _border,
         focusedBorder: _border,

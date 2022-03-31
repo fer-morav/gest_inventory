@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import 'package:gest_inventory/utils/themes.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(Phoenix(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: app_name,
       theme: light,
-      initialRoute: init_tmain_route,
+      initialRoute: login_route,
       routes: getApplicationRoutes(),
     );
   }

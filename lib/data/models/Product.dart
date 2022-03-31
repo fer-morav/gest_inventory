@@ -3,45 +3,43 @@ import 'dart:convert';
 class Product {
   String id = "";
   String idNegocio = "";
-  String codigoBarras = "";
-  String marca = "";
   String nombre = "";
-
-  int precioUnidad = 0;
-  int precioMayoreo = 0;
-  int existencias = 0;
-
+  double precioUnitario = 0.0;
+  double precioMayoreo = 0.0;
+  double stock = 0.0;
+  int ventaSemana = 0;
+  int ventaMes = 0;
 
   Product({
     required this.id,
     required this.idNegocio,
-    required this.codigoBarras,
-    required this.marca,
     required this.nombre,
-    required this.precioUnidad,
+    required this.precioUnitario,
     required this.precioMayoreo,
-    required this.existencias,
+    required this.stock,
+    required this.ventaSemana,
+    required this.ventaMes,
   });
 
   Product copyWith({
     String? id,
     String? idNegocio,
-    String? codigoBarras,
-    String? marca,
     String? nombre,
-    int? precioUnidad,
-    int? precioMayoreo,
-    int? existencias,
+    double? precioUnitario,
+    double? precioMayoreo,
+    double? stock,
+    int? ventaSemana,
+    int? ventaMes,
   }) {
     return Product(
       id: id ?? this.id,
       idNegocio: idNegocio?? this.idNegocio,
-      codigoBarras: codigoBarras ?? this.codigoBarras,
-      marca: marca ?? this.marca,
       nombre: nombre ?? this.nombre,
-      precioUnidad: precioUnidad ?? this.precioUnidad,
+      precioUnitario: precioUnitario ?? this.precioUnitario,
       precioMayoreo: precioMayoreo ?? this.precioMayoreo,
-      existencias: existencias ?? this.existencias,
+      stock: stock ?? this.stock,
+      ventaMes: ventaMes ?? this.ventaMes,
+      ventaSemana: ventaSemana ?? this.ventaSemana,
     );
   }
 
@@ -49,12 +47,12 @@ class Product {
     return {
       'id': id,
       'idNegocio': idNegocio,
-      'codigoBarras': codigoBarras,
-      'marca': marca,
       'nombre': nombre,
-      'precioUnidad': precioUnidad,
+      'precioUnitario': precioUnitario,
       'precioMayoreo': precioMayoreo,
-      'existencias': existencias,
+      'stock': stock,
+      'ventaSemana': ventaSemana,
+      'ventaMes': ventaMes,
     };
   }
 
@@ -62,12 +60,12 @@ class Product {
     return Product(
       id: map['id'],
       idNegocio: map['idNegocio'],
-      codigoBarras: map['codigoBarras'],
-      marca: map['marca'],
       nombre: map['nombre'],
-      precioUnidad: map['precioUnidad'],
       precioMayoreo: map['precioMayoreo'],
-      existencias: map['existencias'],
+      precioUnitario: map['precioUnitario'],
+      stock: map['stock'],
+      ventaSemana: map['ventaSemana'],
+      ventaMes: map['ventaMes'],
     );
   }
 
@@ -77,8 +75,6 @@ class Product {
 
   @override
   String toString() {
-    return 'User( id: $id, idNegocio: $idNegocio, codigoBarras: $codigoBarras, '
-        '         marca: $marca, nombre: $nombre, precioUnidad: $precioUnidad,'
-        '         precioMayoreo: $precioMayoreo, existencias: $existencias)';
+    return 'User(id: $id, idNegocio: $idNegocio, nombre: $nombre, precioUnitario: $precioUnitario, precioMayoreo: $precioMayoreo, stock: $stock, ventaSemana: $ventaSemana, ventaMes: $ventaMes)';
   }
 }

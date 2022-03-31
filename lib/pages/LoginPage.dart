@@ -1,9 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/TextFieldMain.dart';
+import 'package:gest_inventory/utils/resources.dart';
+import 'package:gest_inventory/utils/routes.dart';
+import 'package:gest_inventory/utils/strings.dart';
 import 'package:gest_inventory/pages/ModifyAdminProfilePage.dart';
 import 'package:gest_inventory/pages/ModifyEmployeeProfilePage.dart';
 import 'package:gest_inventory/utils/strings.dart';
@@ -12,6 +14,8 @@ import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:gest_inventory/data/models/User.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/data/framework/FirebaseUserDataSource.dart';
+
+import '../utils/colors.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -47,50 +51,96 @@ class _LoginPageState extends State<LoginPage> {
   bool showPassword = true;
 
   @override
+  void initState(){
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp){
+      _checkLogin();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarComponent(
-        textAppBar: "Iniciar Sesión",
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
-      body: ListView(
-        children: [
-          Container(
-            padding: _padding,
-            height: 80,
-            child: TextFieldMain(
-              hintText: "Correo Electronico",
-              labelText: "Correo Electronico",
-              textEditingController: emailController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
+    return WillPopScope(
+      onWillPop: () => exit(0),
+      child: Scaffold(
+        appBar: AppBarComponent(
+          textAppBar: title_login_user,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        body: ListView(
+          children: [
+            Container(
+              padding: _padding,
+              child: Image.asset(image_logo_azul_png),
             ),
-          ),
-          Container(
-            padding: _padding,
-            height: 80,
-            child: TextFieldMain(
-              hintText: "Contraseña",
-              labelText: "Contraseña",
-              textEditingController: passwordController,
-              isPassword: true,
-              isPasswordTextStatus: showPassword,
-              onTap: _showPassword,
+            Container(
+              padding: _padding,
+              height: 80,
+              child: TextFieldMain(
+                hintText: textfield_hint_email,
+                labelText: textfield_label_email,
+                textEditingController: emailController,
+                isPassword: false,
+                isPasswordTextStatus: false,
+                onTap: () {},
+              ),
             ),
-          ),
-          Container(
-            padding: _padding,
-            height: 80,
-            child: ButtonMain(
-              onPressed: _loginUser,
-              text: "Iniciar Sesión",
-              isDisabled: true,
+            Container(
+              padding: _padding,
+              height: 80,
+              child: TextFieldMain(
+                hintText: textfield_hint_password,
+                labelText: textfield_label_password,
+                textEditingController: passwordController,
+                isPassword: true,
+                isPasswordTextStatus: showPassword,
+                onTap: _showPassword,
+              ),
             ),
-          ),
-        ],
+            Container(
+              padding: _padding,
+              height: 80,
+              child: ButtonMain(
+                onPressed: _loginUser,
+                text: button_login,
+                isDisabled: true,
+              ),
+            ),
+            Container(
+              padding:
+              const EdgeInsets.only(left: 30, top: 0, right: 30, bottom: 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                    text_havent_account,
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _nextScreen(register_user_route);
+                    },
+                    child: const Text(
+                      button_registry,
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontSize: 15,
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      foregroundColor:
+                      MaterialStateProperty.all<Color>(primaryColor),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -99,22 +149,21 @@ class _LoginPageState extends State<LoginPage> {
     String email = emailController.text;
     String password = passwordController.text;
 
-    if (email.isEmpty &&
-        password.isEmpty) {
+    if (email.isEmpty && password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Ingrese correo y contraseña válidos"),
       ));
     } else {
-      if(email.isEmpty){
+      if (email.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Ingrese un correo electrónico válido"),
         ));
-      }else{
-        if(password.isEmpty){
+      } else {
+        if (password.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Ingrese una contraseña válida"),
           ));
-        }else{
+        } else {
           _signIn();
         }
       }
@@ -128,35 +177,57 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   String? _signIn() {
-    /* Los siguientes valores seran remplazados por los datos de email y
-    * contraseña capturados del usuario, si el usuario ya registro sus
-    * credenciales podra iniciar sesion sin problemas*/
-
     String? _userId;
-    _authDataSource.signInWithEmail(emailController.text, passwordController.text).then((id) async =>
-    {_userId = id,
-      if(_userId == null){
-        _showToast("Correo o contraseña invalidos"),
-      }else{
-        //Se obtiene los datos del usuario
-        newUser = (await _userDataSource.getUser(_userId!))! ,
-        //_showToast("Bienvenido "+ newUser.cargo +" "+ newUser.nombre),
-        //Envio a interfaces
-        if(newUser.cargo == "[Empleado]" ){
-          //Ingresar interfaz de empleado
-          //_showToast("No cuentas con permisos de administrador"),
-          _showToast("Bienvenido "+ newUser.cargo +" "+ newUser.nombre),
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ModifyEmployeeProfilePage()))
+    _authDataSource
+        .signInWithEmail(emailController.text, passwordController.text)
+        .then((id) async => {
+              _userId = id,
+              if (_userId == null)
+                {
+                  _showToast("Correo o contraseña invalidos"),
+                }
+              else
+                {
+                  //Se obtiene los datos del usuario
+                  newUser = (await _userDataSource.getUser(_userId!))!,
+                  _showToast(
+                      "Bienvenido " + newUser.cargo + " " + newUser.nombre),
+                  //Envio a interfaces
+                  if (newUser.cargo == "[Empleado]")
+                    {
+                      //Ingresar interfaz de empleado
+                      _nextScreen(employees_route)
+                    }
+                  else
+                    {
+                      if (newUser.cargo == "[Administrador]")
+                        {
+                          _nextScreen(administrator_route)
+                        }
+                    }
+                }
+            });
+    return _userId;
+  }
+
+  void _checkLogin() async {
+    String? userId;
+    userId = _authDataSource.getUserId();
+
+    if(userId != null) {
+      User? user = await _userDataSource.getUser(userId);
+      if (user != null) {
+        if(user.cargo == "[Empleado]"){
+          _nextScreen(employees_route);
         }else{
-          if(newUser.cargo == "[Administrador]"){
-            //Ingresar interfaz de Administrador
-            _showToast("Bienvenido "+ newUser.cargo +" "+ newUser.nombre),
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ModifyAdminProfilePage()))
-          }
+          _nextScreen(administrator_route);
         }
       }
-    });
-    return _userId;
+    }
+  }
+
+  void _nextScreen(String route) {
+    Navigator.pushNamed(context, route);
   }
 
   void _showToast(String content) {
