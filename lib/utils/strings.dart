@@ -13,7 +13,7 @@ const title_add_bussines = "Añadir Negocio";
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";
 const button_register_user = "Registrar";
-const button_registry = "Registrate";
+const button_registry = "Registrar";
 const button_login_help = "Empleado";
 const button_recover_password = "Recuperar Contraseña";
 const button_accept = "Aceptar";
@@ -69,4 +69,4 @@ const textfield_hint_salary = "Ingrese el salario";
 const textfield_hint_id_business = "Ingrese el ID del negocio";
 ////////////////Labels////////////////////////////////////////
 
-const text_havent_business = "¿Aún no Registras tu Negocio??";
+const text_havent_business = "¿Aún no Registras tu Negocio?";

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/TextFieldMain.dart';
+import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
+import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
@@ -45,10 +48,23 @@ class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
     salario: 0.0,
   );
 
+  User? admin;
+  Business? business;
+
   late final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
   late final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
+  late final FirebaseBusinessDataSource _businessDataSource =
+      FirebaseBusinessDataSource();
 
   bool showPassword = true;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      _getAdminAndBusiness();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,6 +192,17 @@ class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
     );
   }
 
+  void _getAdminAndBusiness() async {
+    String? adminId;
+    adminId = _authDataSource.getUserId();
+    if (adminId != null) {
+      admin = await _userDataSource.getUser(adminId);
+      if(admin != null){
+        business = await _businessDataSource.getBusiness(admin!.idNegocio);
+      }
+    }
+  }
+
   void _registerUser() {
     if (emailController.text.isNotEmpty &&
         passwordController.text.isNotEmpty &&
@@ -189,7 +216,7 @@ class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
       newUser.salario = double.parse(salarioController.text);
       newUser.telefono = int.parse(telefonoController.text);
       newUser.cargo = cargoController.text;
-      _signUp(emailController.text, passwordController.text);
+      _signUp(emailController.text.split(" ").first, passwordController.text.split(" ").first);
     } else {
       _showToast("Informacion Incompleta");
     }
@@ -203,25 +230,26 @@ class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
 
   void _signUp(String email, String password) {
     _authDataSource.signUpWithEmail(email, password).then((id) => {
-      if (id != null)
-        {
-          _showToast("Sign up: " + id.toString()),
-          newUser.id = id,
-          _addUser()
-        }else{
-        _showToast("No lo registra")
-      }
-    });
+          if (id != null)
+            {
+              _showToast("Sign up: " + id.toString()),
+              newUser.id = id,
+              _addUser()
+            }
+          else
+            {_showToast("No lo registra")}
+        });
   }
 
   void _addUser() {
-    _userDataSource.addUser(newUser).then((value) => {
-      _showToast("Add user: " + value.toString()),
-      if (value)
-        {
-          _nextScreen(administrator_route),
-        }
-    });
+    if (admin != null) {
+      newUser.idNegocio = admin!.idNegocio;
+      _userDataSource.addUser(newUser).then((value) => {
+            _showToast("Add user: " + value.toString()),
+            if (value) {
+              _nextScreen(login_route)}
+          });
+    }
   }
 
   void _nextScreen(String route) {
