@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/pages/AddBussinessPage.dart';
 import 'package:gest_inventory/pages/TempMainPage.dart';
 import 'package:gest_inventory/pages/ViewRecordsPage.dart';
-import '../pages/InitLoginPage.dart';
+import '../pages/LoginPage.dart';
 import '../pages/RegisterUserPage.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    init_login_route: (BuildContext context) => InitLoginPage(),
+    init_login_route: (BuildContext context) => LoginPage(),
     init_records_route: (BuildContext context) => ViewRecordsPage(),
     init_tmain_route: (BuildContext context) => TempMainPage(),
     init_addbus_route: (BuildContext context) => AddBussinessPage(),
