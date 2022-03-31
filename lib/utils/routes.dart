@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/pages/AddBusinessPage.dart';
 import 'package:gest_inventory/pages/RecordDatePage.dart';
+import 'package:gest_inventory/pages/RegisterEmployeePage.dart';
 import 'package:gest_inventory/pages/StatisticsPage.dart';
 import 'package:gest_inventory/pages/ViewRecordsPage.dart';
 import '../pages/AdministratorPage.dart';
@@ -18,6 +19,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     addbus_route: (BuildContext context) => const AddBusinessPage(),
     statistics_route: (BuildContext context) => const StatisticsPage(),
     records_date_route: (BuildContext context) => const RecordDatePage(),
+    register_employees_route: (BuildContext context) => const RegisterEmployeePage(),
   };
 }
 
@@ -28,5 +30,6 @@ const addbus_route = "add_business";
 const records_date_route = "records_date";
 const statistics_route = "statistics";
 const register_user_route = 'register';
+const register_employees_route = 'register_employee';
 const employees_route = "employees";
 const administrator_route = "administrator";

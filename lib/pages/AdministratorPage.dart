@@ -43,15 +43,6 @@ class _Administrator extends State<AdministratorPage> {
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                onPressed: () => _nextScreen(addbus_route),
-                text: button_add_business,
-                isDisabled: true,
-              ),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: ButtonMain(
                 onPressed: () {},
                 text: button_see_info_business,
                 isDisabled: true,
@@ -63,6 +54,15 @@ class _Administrator extends State<AdministratorPage> {
               child: ButtonMain(
                 onPressed: () {},
                 text: button_employees_list,
+                isDisabled: true,
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 80,
+              child: ButtonMain(
+                onPressed: () => _nextScreen(register_employees_route),
+                text: button_add_employees,
                 isDisabled: true,
               ),
             ),

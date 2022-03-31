@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/TextFieldMain.dart';
+import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
+import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
@@ -11,14 +14,14 @@ import 'package:gest_inventory/data/models/User.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/data/framework/FirebaseUserDataSource.dart';
 
-class RegisterUserPage extends StatefulWidget {
-  const RegisterUserPage({Key? key}) : super(key: key);
+class RegisterEmployeePage extends StatefulWidget {
+  const RegisterEmployeePage({Key? key}) : super(key: key);
 
   @override
-  State<RegisterUserPage> createState() => _RegisterUserPageState();
+  State<RegisterEmployeePage> createState() => _RegisterEmployeePageState();
 }
 
-class _RegisterUserPageState extends State<RegisterUserPage> {
+class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController idNegocioController = TextEditingController();
@@ -45,10 +48,23 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
     salario: 0.0,
   );
 
+  User? admin;
+  Business? business;
+
   late final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
   late final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
+  late final FirebaseBusinessDataSource _businessDataSource =
+      FirebaseBusinessDataSource();
 
   bool showPassword = true;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      _getAdminAndBusiness();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,6 +153,33 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           ),
           Container(
             padding: _padding,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+            child: MultiSelect(
+                cancelButtonText: button_cancel,
+                saveButtonText: button_save,
+                clearButtonText: button_reset,
+                titleText: title_roles,
+                checkBoxColor: Colors.blue,
+                selectedOptionsInfoText: "",
+                hintText: textfield_label_cargo,
+                maxLength: 1,
+                maxLengthText: textfield_hint_one_option,
+                dataSource: const [
+                  {"cargo": title_employees, "code": title_employees},
+                  {"cargo": title_administrator, "code": title_administrator},
+                ],
+                textField: "cargo",
+                valueField: "code",
+                hintTextColor: primaryColor,
+                enabledBorderColor: primaryColor,
+                filterable: true,
+                required: true,
+                onSaved: (value) {
+                  cargoController.text = value.toString();
+                }),
+          ),
+          Container(
+            padding: _padding,
             height: 80,
             child: ButtonMain(
               onPressed: _registerUser,
@@ -149,19 +192,31 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
     );
   }
 
+  void _getAdminAndBusiness() async {
+    String? adminId;
+    adminId = _authDataSource.getUserId();
+    if (adminId != null) {
+      admin = await _userDataSource.getUser(adminId);
+      if(admin != null){
+        business = await _businessDataSource.getBusiness(admin!.idNegocio);
+      }
+    }
+  }
+
   void _registerUser() {
     if (emailController.text.isNotEmpty &&
         passwordController.text.isNotEmpty &&
         nombreController.text.isNotEmpty &&
         apellidosController.text.isNotEmpty &&
         salarioController.text.isNotEmpty &&
-        telefonoController.text.isNotEmpty) {
+        telefonoController.text.isNotEmpty &&
+        cargoController.text.isNotEmpty) {
       newUser.nombre = nombreController.text;
       newUser.apellidos = apellidosController.text;
       newUser.salario = double.parse(salarioController.text);
       newUser.telefono = int.parse(telefonoController.text);
-      newUser.cargo = "[Administrador]";
-      _signUp(emailController.text, passwordController.text);
+      newUser.cargo = cargoController.text;
+      _signUp(emailController.text.split(" ").first, passwordController.text.split(" ").first);
     } else {
       _showToast("Informacion Incompleta");
     }
@@ -181,17 +236,20 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
               newUser.id = id,
               _addUser()
             }
+          else
+            {_showToast("No lo registra")}
         });
   }
 
   void _addUser() {
-    _userDataSource.addUser(newUser).then((value) => {
-          _showToast("Add user: " + value.toString()),
-          if (value)
-            {
-              _nextScreen(addbus_route),
-            }
-        });
+    if (admin != null) {
+      newUser.idNegocio = admin!.idNegocio;
+      _userDataSource.addUser(newUser).then((value) => {
+            _showToast("Add user: " + value.toString()),
+            if (value) {
+              _nextScreen(login_route)}
+          });
+    }
   }
 
   void _nextScreen(String route) {

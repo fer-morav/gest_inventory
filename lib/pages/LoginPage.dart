@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const Text(
-                    text_havent_account,
+                    text_havent_business,
                     style: TextStyle(
                       fontSize: 15,
                     ),
@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
   String? _signIn() {
     String? _userId;
     _authDataSource
-        .signInWithEmail(emailController.text, passwordController.text)
+        .signInWithEmail(emailController.text.split(" ").first, passwordController.text.split(" ").first)
         .then((id) async => {
               _userId = id,
               if (_userId == null)
