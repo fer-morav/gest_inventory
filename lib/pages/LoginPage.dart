@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const Text(
-                    text_havent_account,
+                    text_havent_business,
                     style: TextStyle(
                       fontSize: 15,
                     ),

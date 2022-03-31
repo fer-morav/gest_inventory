@@ -33,6 +33,7 @@ const button_menosvendidos = "Menos Vendidos";
 const button_sales = "Venta";
 const button_stock = "Existencias";
 const button_employees_list = "Ver Lista de Empleados";
+const button_add_employees = "Añadir Empleado";
 const button_see_info_business = "Ver Informacion del Negocio";
 const button_see_info_product = "Ver Informacion de Productos";
 const button_make_sale = "Realizar Venta";
@@ -68,4 +69,4 @@ const textfield_hint_salary = "Ingrese el salario";
 const textfield_hint_id_business = "Ingrese el ID del negocio";
 ////////////////Labels////////////////////////////////////////
 
-const text_havent_account = "¿Aun no Tienes Cuenta?";
+const text_havent_business = "¿Aún no Registras tu Negocio??";

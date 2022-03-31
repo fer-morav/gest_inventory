@@ -11,14 +11,14 @@ import 'package:gest_inventory/data/models/User.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/data/framework/FirebaseUserDataSource.dart';
 
-class RegisterUserPage extends StatefulWidget {
-  const RegisterUserPage({Key? key}) : super(key: key);
+class RegisterEmployeePage extends StatefulWidget {
+  const RegisterEmployeePage({Key? key}) : super(key: key);
 
   @override
-  State<RegisterUserPage> createState() => _RegisterUserPageState();
+  State<RegisterEmployeePage> createState() => _RegisterEmployeePageState();
 }
 
-class _RegisterUserPageState extends State<RegisterUserPage> {
+class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController idNegocioController = TextEditingController();
@@ -137,6 +137,33 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           ),
           Container(
             padding: _padding,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+            child: MultiSelect(
+                cancelButtonText: button_cancel,
+                saveButtonText: button_save,
+                clearButtonText: button_reset,
+                titleText: title_roles,
+                checkBoxColor: Colors.blue,
+                selectedOptionsInfoText: "",
+                hintText: textfield_label_cargo,
+                maxLength: 1,
+                maxLengthText: textfield_hint_one_option,
+                dataSource: const [
+                  {"cargo": title_employees, "code": title_employees},
+                  {"cargo": title_administrator, "code": title_administrator},
+                ],
+                textField: "cargo",
+                valueField: "code",
+                hintTextColor: primaryColor,
+                enabledBorderColor: primaryColor,
+                filterable: true,
+                required: true,
+                onSaved: (value) {
+                  cargoController.text = value.toString();
+                }),
+          ),
+          Container(
+            padding: _padding,
             height: 80,
             child: ButtonMain(
               onPressed: _registerUser,
@@ -155,12 +182,13 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
         nombreController.text.isNotEmpty &&
         apellidosController.text.isNotEmpty &&
         salarioController.text.isNotEmpty &&
-        telefonoController.text.isNotEmpty) {
+        telefonoController.text.isNotEmpty &&
+        cargoController.text.isNotEmpty) {
       newUser.nombre = nombreController.text;
       newUser.apellidos = apellidosController.text;
       newUser.salario = double.parse(salarioController.text);
       newUser.telefono = int.parse(telefonoController.text);
-      newUser.cargo = "[Administrador]";
+      newUser.cargo = cargoController.text;
       _signUp(emailController.text, passwordController.text);
     } else {
       _showToast("Informacion Incompleta");
@@ -175,23 +203,25 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
 
   void _signUp(String email, String password) {
     _authDataSource.signUpWithEmail(email, password).then((id) => {
-          if (id != null)
-            {
-              _showToast("Sign up: " + id.toString()),
-              newUser.id = id,
-              _addUser()
-            }
-        });
+      if (id != null)
+        {
+          _showToast("Sign up: " + id.toString()),
+          newUser.id = id,
+          _addUser()
+        }else{
+        _showToast("No lo registra")
+      }
+    });
   }
 
   void _addUser() {
     _userDataSource.addUser(newUser).then((value) => {
-          _showToast("Add user: " + value.toString()),
-          if (value)
-            {
-              _nextScreen(addbus_route),
-            }
-        });
+      _showToast("Add user: " + value.toString()),
+      if (value)
+        {
+          _nextScreen(administrator_route),
+        }
+    });
   }
 
   void _nextScreen(String route) {
