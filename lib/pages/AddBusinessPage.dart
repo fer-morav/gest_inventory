@@ -29,19 +29,22 @@ class _AddBusinessState extends State<AddBusinessPage> {
   Business newBusiness = Business(
     id: "",
     nombreNegocio: "",
+    idDueno: "",
     nombreDueno: "",
     direccion: "",
     correo: "",
     telefono: 0,
     activo: false,
+    empleados: [],
   );
 
   late final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
   late final FirebaseBusinessDataSource _businessDataSource =
       FirebaseBusinessDataSource();
-  late final FirebaseUserDataSouce _userDataSouce = FirebaseUserDataSouce();
+  late final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
 
   User? user;
+  String? userId;
 
   TextEditingController negocioController = TextEditingController();
   TextEditingController propietarioController = TextEditingController();
@@ -146,20 +149,19 @@ class _AddBusinessState extends State<AddBusinessPage> {
   }
 
   void _addBusiness() {
-    String? userId;
-    userId = _authDataSource.getUserId();
     if (userId != null) {
-      _userDataSouce.getUser(userId).then((user) => {
+      _userDataSource.getUser(userId!).then((user) => {
             if (user != null)
               {
                 _businessDataSource
-                    .addBussines(newBusiness)
+                    .addBusiness(newBusiness)
                     .then((negocioId) => {
                           _showToast("Add bussiness: " + negocioId.toString()),
                           if (negocioId != null)
                             {
                               user.idNegocio = negocioId,
-                              _userDataSouce.updateUser(user).then(
+
+                              _userDataSource.updateUser(user).then(
                                     (value) => _nextScreen(administrator_route),
                                   )
                             }
@@ -174,6 +176,7 @@ class _AddBusinessState extends State<AddBusinessPage> {
   }
 
   void _saveDataBusiness() {
+    userId = _authDataSource.getUserId();
     if (negocioController.text.isNotEmpty &&
         propietarioController.text.isNotEmpty &&
         direccionController.text.isNotEmpty &&
@@ -181,10 +184,12 @@ class _AddBusinessState extends State<AddBusinessPage> {
         emailController.text.isNotEmpty) {
       newBusiness.nombreNegocio = negocioController.text;
       newBusiness.nombreDueno = propietarioController.text;
+      newBusiness.idDueno = userId!;
       newBusiness.direccion = direccionController.text;
       newBusiness.telefono = int.parse(telefonoController.text);
       newBusiness.correo = emailController.text;
       newBusiness.activo = true;
+      newBusiness.empleados.add(userId!);
       _addBusiness();
     } else {
       _showToast("Informacion Incompleta");

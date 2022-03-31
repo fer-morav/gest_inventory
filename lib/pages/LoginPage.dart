@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/TextFieldMain.dart';
+import 'package:gest_inventory/utils/resources.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import 'package:gest_inventory/data/models/User.dart';
@@ -45,6 +46,14 @@ class _LoginPageState extends State<LoginPage> {
   bool showPassword = true;
 
   @override
+  void initState(){
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp){
+      _checkLogin();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => exit(0),
@@ -57,6 +66,10 @@ class _LoginPageState extends State<LoginPage> {
         ),
         body: ListView(
           children: [
+            Container(
+              padding: _padding,
+              child: Image.asset(image_logo_azul_png),
+            ),
             Container(
               padding: _padding,
               height: 80,
@@ -190,6 +203,22 @@ class _LoginPageState extends State<LoginPage> {
                 }
             });
     return _userId;
+  }
+
+  void _checkLogin() async {
+    String? userId;
+    userId = _authDataSource.getUserId();
+
+    if(userId != null) {
+      User? user = await _userDataSource.getUser(userId);
+      if (user != null) {
+        if(user.cargo == "[Empleado]"){
+          _nextScreen(employees_route);
+        }else{
+          _nextScreen(administrator_route);
+        }
+      }
+    }
   }
 
   void _nextScreen(String route) {

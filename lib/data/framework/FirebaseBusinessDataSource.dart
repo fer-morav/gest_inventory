@@ -1,16 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gest_inventory/data/framework/FirebaseUserDataSource.dart';
+import 'package:gest_inventory/data/models/User.dart';
 
 import '../models/Business.dart';
+import '../models/Product.dart';
 
 class FirebaseBusinessDataSource {
-  static const BUSSINESS_COLLECTION = "bussiness";
+  static const BUSINESS_COLLECTION = "business";
+  static const BUSINESS_PRODUCT_COLLECTION = "products";
 
   final FirebaseFirestore _database = FirebaseFirestore.instance;
 
   Future<Business?> getBusiness(String id) async {
     try {
       final response =
-          await _database.collection(BUSSINESS_COLLECTION).doc(id).get();
+          await _database.collection(BUSINESS_COLLECTION).doc(id).get();
 
       if (response.exists && response.data() != null) {
         return Business.fromMap(response.data()!);
@@ -22,9 +26,9 @@ class FirebaseBusinessDataSource {
     }
   }
 
-  Future<String?> addBussines(Business business) async {
+  Future<String?> addBusiness(Business business) async {
     try {
-      final _reference = _database.collection(BUSSINESS_COLLECTION);
+      final _reference = _database.collection(BUSINESS_COLLECTION);
       final _businessId = _reference.doc().id;
 
       business.id = _businessId;
@@ -34,6 +38,156 @@ class FirebaseBusinessDataSource {
       return _businessId;
     } catch (error) {
       return null;
+    }
+  }
+
+  Future<bool> updateBusiness(Business business) async {
+    try {
+      await _database
+          .collection(BUSINESS_COLLECTION)
+          .doc(business.id)
+          .update(business.toMap());
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteBusiness(String id) async {
+    try {
+      await _database.collection(BUSINESS_COLLECTION).doc(id).delete();
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  Stream<List<User>> getEmployees(String businessId) async* {
+    try {
+      if (businessId.isEmpty) {
+        throw Exception("user id must not be empty");
+      }
+
+      final snapshots =
+          _database.collection(BUSINESS_COLLECTION).doc(businessId).snapshots();
+
+      await for (final snapshot in snapshots) {
+        if (!snapshot.exists) {
+          yield [];
+        }
+
+        final business = Business.fromMap(snapshot.data()!);
+
+        FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
+
+        List<User> users = [];
+
+        List<Future<User?>> futures = [];
+
+        for (var userId in business.empleados) {
+          Future<User?> future = _userDataSource.getUser(userId);
+          futures.add(future);
+        }
+
+        List<User?> results = await Future.wait(futures);
+
+        for (var user in results) {
+          if (user != null) {
+            users.add(user);
+          }
+        }
+
+        yield users;
+      }
+    } catch (error) {
+      yield [];
+    }
+  }
+
+  Future<Product?> getProduct(String businessId, String productId) async {
+    try {
+      final response = await _database
+          .collection(BUSINESS_COLLECTION)
+          .doc(businessId)
+          .collection(BUSINESS_PRODUCT_COLLECTION)
+          .doc(productId)
+          .get();
+
+      if (response.exists && response.data() != null) {
+        return Product.fromMap(response.data()!);
+      } else {
+        return null;
+      }
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<bool> addProduct(String businessId, Product product) async {
+    try {
+      await _database
+          .collection(BUSINESS_COLLECTION)
+          .doc(product.idNegocio)
+          .collection(BUSINESS_PRODUCT_COLLECTION)
+          .doc(product.id)
+          .set(product.toMap());
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  Future<bool> updateProduct(Product product) async {
+    try {
+      await _database
+          .collection(BUSINESS_COLLECTION)
+          .doc(product.idNegocio)
+          .collection(BUSINESS_PRODUCT_COLLECTION)
+          .doc(product.id)
+          .update(product.toMap());
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteProduct(Product product) async {
+    try {
+      await _database
+          .collection(BUSINESS_COLLECTION)
+          .doc(product.idNegocio)
+          .collection(BUSINESS_PRODUCT_COLLECTION)
+          .doc(product.id)
+          .delete();
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  Future<List<Product>> getProducts(String businessId) async {
+    try {
+      final snapshots = await _database
+          .collection(BUSINESS_COLLECTION)
+          .doc(businessId)
+          .collection(BUSINESS_PRODUCT_COLLECTION)
+          .get();
+
+      List<Product> products = [];
+
+      for (var document in snapshots.docs) {
+        final product = Product.fromMap(document.data());
+        products.add(product);
+      }
+
+      return products;
+    } catch (error) {
+      return [];
     }
   }
 }

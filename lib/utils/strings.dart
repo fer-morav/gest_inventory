@@ -41,6 +41,7 @@ const button_restock = "Reabastecer Stock";
 const button_administrator_stock = "Existencias";
 const button_records = "Ver Registros";
 const button_add_business = "Añadir Negocio";
+const button_logout = "Cerrar Sesión";
 
 ////////////////TextFields////////////////////////////////////
 const textfield_label_email = "Correo Electronico";
