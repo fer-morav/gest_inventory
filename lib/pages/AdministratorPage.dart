@@ -52,6 +52,15 @@ class _Administrator extends State<AdministratorPage> {
               padding: _padding,
               height: 80,
               child: ButtonMain(
+                onPressed: () => _nextScreen(modify_profile_route),
+                text: button_modify_profile,
+                isDisabled: true,
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 80,
+              child: ButtonMain(
                 onPressed: () {},
                 text: button_employees_list,
                 isDisabled: true,

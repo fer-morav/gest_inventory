@@ -8,6 +8,7 @@ import '../models/Product.dart';
 class FirebaseBusinessDataSource {
   static const BUSINESS_COLLECTION = "business";
   static const BUSINESS_PRODUCT_COLLECTION = "products";
+  static const USERS_COLLECTION = "users";
 
   final FirebaseFirestore _database = FirebaseFirestore.instance;
 
@@ -64,45 +65,22 @@ class FirebaseBusinessDataSource {
     }
   }
 
-  Stream<List<User>> getEmployees(String businessId) async* {
+  Future<List<User>> getEmployees(String businessId) async {
     try {
-      if (businessId.isEmpty) {
-        throw Exception("user id must not be empty");
+      final snapshots = await _database.collection(USERS_COLLECTION).get();
+
+      List<User> users = [];
+
+      for (var document in snapshots.docs) {
+        final user = User.fromMap(document.data());
+        if(user.idNegocio == businessId){
+          users.add(user);
+        }
       }
 
-      final snapshots =
-          _database.collection(BUSINESS_COLLECTION).doc(businessId).snapshots();
-
-      await for (final snapshot in snapshots) {
-        if (!snapshot.exists) {
-          yield [];
-        }
-
-        final business = Business.fromMap(snapshot.data()!);
-
-        FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
-
-        List<User> users = [];
-
-        List<Future<User?>> futures = [];
-
-        for (var userId in business.empleados) {
-          Future<User?> future = _userDataSource.getUser(userId);
-          futures.add(future);
-        }
-
-        List<User?> results = await Future.wait(futures);
-
-        for (var user in results) {
-          if (user != null) {
-            users.add(user);
-          }
-        }
-
-        yield users;
-      }
+      return users;
     } catch (error) {
-      yield [];
+      return [];
     }
   }
 

@@ -8,6 +8,8 @@ import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/utils/strings.dart';
 
+import '../utils/routes.dart';
+
 class EmployeesPage extends StatefulWidget {
   const EmployeesPage({Key? key}) : super(key: key);
 
@@ -53,6 +55,15 @@ class _Employees extends State<EmployeesPage> {
               child: ButtonMain(
                 onPressed: () {},
                 text: button_stock,
+                isDisabled: true,
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 80,
+              child: ButtonMain(
+                onPressed: () => _nextScreen(modify_profile_route),
+                text: button_modify_profile,
                 isDisabled: true,
               ),
             ),

@@ -8,7 +8,8 @@ const title_employees = "Empleado";
 const title_roles = "Roles";
 const title_report = "Registros";
 const title_statistics = " Estadisticas";
-const title_add_bussines = "Añadir Negocio";
+const title_add_business = "Añadir Negocio";
+const title_modify_profile = "Modificar Perfil";
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";
@@ -43,11 +44,13 @@ const button_administrator_stock = "Existencias";
 const button_records = "Ver Registros";
 const button_add_business = "Añadir Negocio";
 const button_logout = "Cerrar Sesión";
+const button_modify_profile = "Modificar Perfil";
+const button_see_profile = "Ver Perfil";
 
 ////////////////TextFields////////////////////////////////////
 const textfield_label_email = "Correo Electronico";
 const textfield_label_password = "Contraseña";
-const textfield_label_id_bussiness = "ID Negocio";
+const textfield_label_id_business = "ID Negocio";
 const textfield_label_name = "Nombre";
 const textfield_label_last_name = "Apellidos";
 const textfield_label_cargo = "Cargo";

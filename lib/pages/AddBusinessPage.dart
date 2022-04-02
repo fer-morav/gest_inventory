@@ -66,7 +66,7 @@ class _AddBusinessState extends State<AddBusinessPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        textAppBar: title_add_bussines,
+        textAppBar: title_add_business,
         onPressed: () {
           Navigator.of(context).pop();
         },

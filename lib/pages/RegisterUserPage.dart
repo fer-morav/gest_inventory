@@ -189,7 +189,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           _showToast("Add user: " + value.toString()),
           if (value)
             {
-              _nextScreen(addbus_route),
+              _nextScreen(add_business_route),
             }
         });
   }

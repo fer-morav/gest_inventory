@@ -44,10 +44,11 @@ class _LoginPageState extends State<LoginPage> {
   late final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
 
   bool showPassword = true;
+  bool isLoading = true;
 
   @override
-  void initState(){
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp){
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _checkLogin();
     });
     super.initState();
@@ -64,78 +65,80 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.of(context).pop();
           },
         ),
-        body: ListView(
-          children: [
-            Container(
-              padding: _padding,
-              child: Image.asset(image_logo_azul_png),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: TextFieldMain(
-                hintText: textfield_hint_email,
-                labelText: textfield_label_email,
-                textEditingController: emailController,
-                isPassword: false,
-                isPasswordTextStatus: false,
-                onTap: () {},
-              ),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: TextFieldMain(
-                hintText: textfield_hint_password,
-                labelText: textfield_label_password,
-                textEditingController: passwordController,
-                isPassword: true,
-                isPasswordTextStatus: showPassword,
-                onTap: _showPassword,
-              ),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: ButtonMain(
-                onPressed: _loginUser,
-                text: button_login,
-                isDisabled: true,
-              ),
-            ),
-            Container(
-              padding:
-              const EdgeInsets.only(left: 30, top: 0, right: 30, bottom: 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    text_havent_business,
-                    style: TextStyle(
-                      fontSize: 15,
+        body: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : ListView(
+                children: [
+                  Container(
+                    padding: _padding,
+                    child: Image.asset(image_logo_azul_png),
+                  ),
+                  Container(
+                    padding: _padding,
+                    height: 80,
+                    child: TextFieldMain(
+                      hintText: textfield_hint_email,
+                      labelText: textfield_label_email,
+                      textEditingController: emailController,
+                      isPassword: false,
+                      isPasswordTextStatus: false,
+                      onTap: () {},
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      _nextScreen(register_user_route);
-                    },
-                    child: const Text(
-                      button_registry,
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontSize: 15,
-                      ),
+                  Container(
+                    padding: _padding,
+                    height: 80,
+                    child: TextFieldMain(
+                      hintText: textfield_hint_password,
+                      labelText: textfield_label_password,
+                      textEditingController: passwordController,
+                      isPassword: true,
+                      isPasswordTextStatus: showPassword,
+                      onTap: _showPassword,
                     ),
-                    style: ButtonStyle(
-                      foregroundColor:
-                      MaterialStateProperty.all<Color>(primaryColor),
+                  ),
+                  Container(
+                    padding: _padding,
+                    height: 80,
+                    child: ButtonMain(
+                      onPressed: _loginUser,
+                      text: button_login,
+                      isDisabled: true,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        left: 30, top: 0, right: 30, bottom: 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text(
+                          text_havent_business,
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            _nextScreen(register_user_route);
+                          },
+                          child: const Text(
+                            button_registry,
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 15,
+                            ),
+                          ),
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(primaryColor),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -174,7 +177,8 @@ class _LoginPageState extends State<LoginPage> {
   String? _signIn() {
     String? _userId;
     _authDataSource
-        .signInWithEmail(emailController.text.split(" ").first, passwordController.text.split(" ").first)
+        .signInWithEmail(emailController.text.split(" ").first,
+            passwordController.text.split(" ").first)
         .then((id) async => {
               _userId = id,
               if (_userId == null)
@@ -196,9 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                   else
                     {
                       if (newUser.cargo == "[Administrador]")
-                        {
-                          _nextScreen(administrator_route)
-                        }
+                        {_nextScreen(administrator_route)}
                     }
                 }
             });
@@ -209,15 +211,19 @@ class _LoginPageState extends State<LoginPage> {
     String? userId;
     userId = _authDataSource.getUserId();
 
-    if(userId != null) {
+    if (userId != null) {
       User? user = await _userDataSource.getUser(userId);
       if (user != null) {
-        if(user.cargo == "[Empleado]"){
+        if (user.cargo == "[Empleado]") {
           _nextScreen(employees_route);
-        }else{
+        } else {
           _nextScreen(administrator_route);
         }
       }
+    } else {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
