@@ -13,16 +13,11 @@ class FirebaseBusinessDataSource {
   final FirebaseFirestore _database = FirebaseFirestore.instance;
 
   Future<Business?> getBusiness(String id) async {
-    try {
-      final response =
-          await _database.collection(BUSINESS_COLLECTION).doc(id).get();
+    final response = await _database.collection(BUSINESS_COLLECTION).doc(id).get();
 
-      if (response.exists && response.data() != null) {
-        return Business.fromMap(response.data()!);
-      } else {
-        return null;
-      }
-    } catch (error) {
+    if (response.exists && response.data() != null) {
+      return Business.fromMap(response.data()!);
+    } else {
       return null;
     }
   }

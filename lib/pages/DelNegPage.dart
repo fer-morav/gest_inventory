@@ -47,7 +47,6 @@ class _DelNegPageState extends State<DelNegPage> {
     correo: "",
     telefono: 0,
     activo: true, 
-    empleados: [], 
     idDueno: '',
   );
 

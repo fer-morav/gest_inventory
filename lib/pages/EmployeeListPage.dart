@@ -28,8 +28,8 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
-      //_listUserStream = _userDataSource.getUsers(businessId!).asStream();
-      _listUsers();
+      _listUserStream = _userDataSource.getUsers(businessId!).asStream();
+      //_listUsers();
     });
     super.initState();
   }
@@ -48,7 +48,7 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
       body: isLoading
           ? waitingConnection()
           : StreamBuilder<List<User>>(
-              stream: _listUsers(),
+              stream: _listUserStream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return hasError("Error de Conexion");
@@ -97,10 +97,6 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
   void _nextScreenArgs(String route, User user) {
     final args = {"args": user};
     Navigator.pushNamed(context, route, arguments: args);
-  }
-
-  Stream<List<User>>? _listUsers() {
-    return _userDataSource.getUsers(businessId!).asStream();
   }
 
   Widget _component(List<User> users) {

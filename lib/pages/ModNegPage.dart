@@ -47,7 +47,6 @@ class _ModNegPageState extends State<ModNegPage> {
     correo: "",
     telefono: 0,
     activo: true,
-    empleados: [], 
     idDueno: '',
   );
 

@@ -46,8 +46,7 @@ class _InfoNegPageState extends State<InfoNegPage> {
     direccion: "####",
     correo: "####",
     telefono: 0,
-    activo: false,
-    empleados: [], 
+    activo: false, 
     idDueno: '',
   );
 

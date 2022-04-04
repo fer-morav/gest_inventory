@@ -28,7 +28,7 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
   String? _telefonoError;
   String? _salarioError;
   String? _cargoError;
-  late String nombre, apellidos, cargo, salario, telefono, idnegocio, negocio="";
+  late String nombre, apellidos, cargo, salario, telefono, idnegocio, negocio;
 
   final _padding = const EdgeInsets.only(
     left: 15,
@@ -70,6 +70,20 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
           : ListView(
               children: [
                 Container(
+                  height: 100,
+                  margin: const EdgeInsets.only(
+                    left: 100, top: 10, right: 100, bottom: 10,
+                  ),
+                  child: Transform.scale(
+                    scale: 5,
+                    child: Icon(
+                      Icons.account_circle,
+                      color: cargo == "[Administrador]" ? Colors.redAccent : Colors.greenAccent,
+                    ),
+                  alignment: Alignment.center,
+                  ),
+                ),
+                Container(
                   height: 50,
                   margin: const EdgeInsets.only(
                     left: 100, top: 10, right: 100, bottom: 10,
@@ -90,7 +104,7 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 ),
                 Container(
                   padding: _padding,
-                  height: 80,
+                  height: 60,
                   child: Text(
                     "Nombre: ",
                     textAlign: TextAlign.left,
@@ -104,12 +118,12 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 ),
                 Container(
                   padding: _padding,
-                  height: 80,
+                  height: 60,
                   child: Text(
                     nombre+" "+apellidos,
-                    textAlign: TextAlign.left,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: cargo == "[Administrador]" ? Colors.redAccent : Colors.green,
+                      color: Color.fromARGB(1000, 0, 68, 106),
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -118,7 +132,35 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 ),
                 Container(
                   padding: _padding,
-                  height: 80,
+                  height: 60,
+                  child: Text(
+                    "Negocio: ",
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      color: Color.fromARGB(1000, 0, 68, 106),
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  height: 60,
+                  child: Text(
+                    negocio,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Color.fromARGB(1000, 0, 68, 106),
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  height: 60,
                   child: Text(
                     "Teléfono: ",
                     textAlign: TextAlign.left,
@@ -132,12 +174,12 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 ),
                 Container(
                   padding: _padding,
-                  height: 80,
+                  height: 60,
                   child: Text(
                     telefono,
-                    textAlign: TextAlign.left,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: cargo == "[Administrador]" ? Colors.redAccent : Colors.green,
+                      color: Color.fromARGB(1000, 0, 68, 106),
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -146,7 +188,7 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 ),
                 Container(
                   padding: _padding,
-                  height: 80,
+                  height: 60,
                   child: Text(
                     "Salario:",
                     textAlign: TextAlign.left,
@@ -160,12 +202,12 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 ),
                 Container(
                   padding: _padding,
-                  height: 80,
+                  height: 60,
                   child: Text(
                     "\$ "+salario,
-                    textAlign: TextAlign.left,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: cargo == "[Administrador]" ? Colors.redAccent : Colors.green,
+                      color: Color.fromARGB(1000, 0, 68, 106),
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -177,7 +219,7 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
         floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
         onPressed: () => _nextScreenArgs(modify_profile_route,_user!),
-        child: Icon(Icons.edit_outlined,color: cargo == "[Administrador]" ? Colors.redAccent : Colors.green,),
+        child: Icon(Icons.edit_outlined),
       ),
     );
   }
@@ -202,9 +244,20 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
     cargo = _user!.cargo;
     telefono = _user!.telefono.toString();
     salario = _user!.salario.toString();
-    setState(() {
-      _isLoading = false;
-    });
+    idnegocio = _user!.idNegocio.toString();
+
+    _businessDataSource.getBusiness(idnegocio).then((business) => {
+          if (business != null)
+            {
+              setState(() {
+                _business = business;
+                negocio = _business!.nombreNegocio.toString();
+                _isLoading = false;
+              }),
+            }else{
+            print(business?.id)
+          }
+        });
   }
 
   void _showToast(String content) {
