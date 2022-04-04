@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
-import 'package:gest_inventory/utils/colors.dart';
+import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/utils/strings.dart';
-
 import '../components/AppBarComponent.dart';
 import '../components/ButtonMain.dart';
 import '../components/TextFieldMain.dart';
@@ -11,22 +10,20 @@ import '../data/framework/FirebaseAuthDataSource.dart';
 import '../data/framework/FirebaseUserDataSource.dart';
 import '../data/models/User.dart';
 
-class ModifyProfilePage extends StatefulWidget {
-  const ModifyProfilePage({Key? key}) : super(key: key);
+class EditUserProfilePage extends StatefulWidget {
+  const EditUserProfilePage({Key? key}) : super(key: key);
 
   @override
-  State<ModifyProfilePage> createState() => _ModifyProfilePageState();
+  State<EditUserProfilePage> createState() => _EditUserProfilePageState();
 }
 
-class _ModifyProfilePageState extends State<ModifyProfilePage> {
-  TextEditingController idNegocioController = TextEditingController();
+class _EditUserProfilePageState extends State<EditUserProfilePage> {
   TextEditingController cargoController = TextEditingController();
   TextEditingController nombreController = TextEditingController();
   TextEditingController apellidosController = TextEditingController();
   TextEditingController telefonoController = TextEditingController();
   TextEditingController salarioController = TextEditingController();
 
-  String? _idNegocioError;
   String? _nombreError;
   String? _apellidosError;
   String? _telefonoError;
@@ -51,7 +48,8 @@ class _ModifyProfilePageState extends State<ModifyProfilePage> {
     super.initState();
 
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      _getUser();
+      _getArguments();
+      //_getUser();
     });
   }
 
@@ -68,18 +66,6 @@ class _ModifyProfilePageState extends State<ModifyProfilePage> {
           ? Center(child: CircularProgressIndicator())
           : ListView(
               children: [
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: textfield_label_id_business,
-                    labelText: textfield_label_id_business,
-                    textEditingController: idNegocioController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    errorText: _idNegocioError,
-                  ),
-                ),
                 Container(
                   padding: _padding,
                   child: TextFieldMain(
@@ -157,16 +143,36 @@ class _ModifyProfilePageState extends State<ModifyProfilePage> {
                 Container(
                   padding: _padding,
                   height: 80,
-                  child: ButtonMain(
+                  child: ButtonSecond(
                     onPressed: _saveData,
                     text: button_save,
-                    isDisabled: true,
                   ),
                 ),
               ],
             ),
     );
   }
+
+  void _getArguments() {
+    final args = ModalRoute.of(context)?.settings.arguments as Map;
+    if (args.isEmpty) {
+      Navigator.pop(context);
+      return;
+    }
+
+    _user = args["args"];
+
+    nombreController.text = _user!.nombre;
+    apellidosController.text = _user!.apellidos;
+    cargoController.text = _user!.cargo;
+    telefonoController.text = _user!.telefono.toString();
+    salarioController.text = _user!.salario.toString();
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
 
   void _getUser() async {
     String? userId = _authDataSource.getUserId();
@@ -185,7 +191,6 @@ class _ModifyProfilePageState extends State<ModifyProfilePage> {
 
     _user = user;
 
-    idNegocioController.text = user.idNegocio;
     nombreController.text = user.nombre;
     apellidosController.text = user.apellidos;
     cargoController.text = user.cargo;
@@ -197,21 +202,12 @@ class _ModifyProfilePageState extends State<ModifyProfilePage> {
     });
   }
 
-  Future<void> _saveData() async {
-    _idNegocioError = null;
+  void _saveData() async {
     _nombreError = null;
     _apellidosError = null;
     _telefonoError = null;
     _salarioError = null;
     _cargoError = null;
-
-    if (idNegocioController.text.isEmpty) {
-      setState(() {
-        _idNegocioError = "El ID del negocio no puede quedar vacío";
-      });
-
-      return;
-    }
 
     if (nombreController.text.isEmpty) {
       setState(() {
@@ -257,7 +253,6 @@ class _ModifyProfilePageState extends State<ModifyProfilePage> {
       _isLoading = true;
     });
 
-    _user?.idNegocio = idNegocioController.text;
     _user?.nombre = nombreController.text;
     _user?.apellidos = apellidosController.text;
     _user?.telefono = int.parse(telefonoController.text);
@@ -270,7 +265,6 @@ class _ModifyProfilePageState extends State<ModifyProfilePage> {
     } else {
       _showToast("Error al actualizar los datos");
     }
-
   }
 
   void _showToast(String content) {

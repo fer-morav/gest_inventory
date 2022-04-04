@@ -43,14 +43,23 @@ class FirebaseUserDataSouce {
     }
   }
 
-  Future<List<User>> getUsers() async {
+  Future<List<User>> getUsers(String businessId) async {
     try {
       final snapshots = await _database.collection(USERS_COLLECTION).get();
       List<User> users = [];
 
       for (var document in snapshots.docs) {
         final user = User.fromMap(document.data());
-        users.add(user);
+        if(user.idNegocio == businessId && user.cargo == "[Administrador]"){
+          users.add(user);
+        }
+      }
+
+      for (var document in snapshots.docs) {
+        final user = User.fromMap(document.data());
+        if(user.idNegocio == businessId && user.cargo == "[Empleado]"){
+          users.add(user);
+        }
       }
 
       return users;

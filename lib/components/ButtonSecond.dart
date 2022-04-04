@@ -22,6 +22,7 @@ class ButtonSecond extends StatelessWidget {
         size * sizeReference / MediaQuery.of(context).size.longestSide;
 
     return FloatingActionButton(
+      heroTag: null,
       onPressed: onPressed,
       foregroundColor: Colors.white,
       backgroundColor: primaryColor,

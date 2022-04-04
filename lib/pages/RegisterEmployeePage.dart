@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
+import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/components/TextFieldMain.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Business.dart';
@@ -181,10 +182,9 @@ class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
           Container(
             padding: _padding,
             height: 80,
-            child: ButtonMain(
+            child: ButtonSecond(
               onPressed: _registerUser,
               text: button_register_user,
-              isDisabled: true,
             ),
           ),
         ],

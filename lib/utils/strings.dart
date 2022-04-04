@@ -10,17 +10,20 @@ const title_report = "Registros";
 const title_statistics = " Estadisticas";
 const title_add_business = "Añadir Negocio";
 const title_modify_profile = "Modificar Perfil";
+const title_list_employee = "Lista de Empleados";
+const title_reset_password = "Restablecer Contraseña";
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";
 const button_register_user = "Registrar";
 const button_registry = "Registrar";
 const button_login_help = "Empleado";
-const button_recover_password = "Recuperar Contraseña";
+const button_recover_password = "Restablecer Contraseña";
 const button_accept = "Aceptar";
 const button_cancel = "Cancelar";
 const button_save = "Guardar";
 const button_reset = "Reiniciar";
+const button_delete = "Eliminar";
 const button_report = "Registros";
 const button_compras = "Entradas/Compras";
 const button_ventas = "Salidas/Ventas";
@@ -73,3 +76,12 @@ const textfield_hint_id_business = "Ingrese el ID del negocio";
 ////////////////Labels////////////////////////////////////////
 
 const text_havent_business = "¿Aún no Registras tu Negocio?";
+const text_forget_password = "¿Olvidaste tu Contraseña?";
+
+////////////////Alert////////////////////////////////////////
+const alert_title_send_email = "Enlace enviado para restablecer contraseña";
+const alert_title_error_not_registered = "Usuario no registrado";
+const alert_content_imcomplete = "Informacion incompleta";
+const alert_content_not_valid_data = "Correo electrónico o Contraseña invalidos";
+const alert_content_email = "Ingrese dirección de correo electrónico valido";
+const alert_content_password = "Ingrese una contraseña valida";

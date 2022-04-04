@@ -9,6 +9,8 @@ import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 
+import '../data/models/User.dart';
+
 class AdministratorPage extends StatefulWidget {
   const AdministratorPage({Key? key}) : super(key: key);
 
@@ -25,6 +27,17 @@ class _Administrator extends State<AdministratorPage> {
   );
 
   FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
+
+  User? user;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      _getArguments();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,26 +65,10 @@ class _Administrator extends State<AdministratorPage> {
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                onPressed: () => _nextScreen(modify_profile_route),
-                text: button_modify_profile,
-                isDisabled: true,
-              ),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: ButtonMain(
-                onPressed: () {},
+                onPressed: () {
+                  _nextScreenArgs(list_employees_route, user!.idNegocio);
+                },
                 text: button_employees_list,
-                isDisabled: true,
-              ),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: ButtonMain(
-                onPressed: () => _nextScreen(register_employees_route),
-                text: button_add_employees,
                 isDisabled: true,
               ),
             ),
@@ -134,12 +131,26 @@ class _Administrator extends State<AdministratorPage> {
     );
   }
 
+  void _getArguments() {
+    final args = ModalRoute.of(context)?.settings.arguments as Map;
+    if (args.isEmpty) {
+      Navigator.pop(context);
+      return;
+    }
+    user = args["args"];
+  }
+
   void _nextScreen(String route) {
     Navigator.pushNamed(context, route);
   }
 
-  void _signOut () async {
-    if(await _authDataSource.signOut()){
+  void _nextScreenArgs(String route, String businessId) {
+    final args = {"args": businessId};
+    Navigator.pushNamed(context, route, arguments: args);
+  }
+
+  void _signOut() async {
+    if (await _authDataSource.signOut()) {
       Phoenix.rebirth(context);
     }
   }
