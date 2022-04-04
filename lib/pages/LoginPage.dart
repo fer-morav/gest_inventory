@@ -14,7 +14,6 @@ import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:gest_inventory/data/models/User.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/data/framework/FirebaseUserDataSource.dart';
-
 import '../utils/colors.dart';
 
 class LoginPage extends StatefulWidget {
@@ -49,10 +48,11 @@ class _LoginPageState extends State<LoginPage> {
   late final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
 
   bool showPassword = true;
+  bool isLoading = true;
 
   @override
-  void initState(){
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp){
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _checkLogin();
     });
     super.initState();
@@ -69,100 +69,115 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.of(context).pop();
           },
         ),
-        body: ListView(
-          children: [
-            Container(
-              padding: _padding,
-              child: Image.asset(image_logo_azul_png),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: TextFieldMain(
-                hintText: textfield_hint_email,
-                labelText: textfield_label_email,
-                textEditingController: emailController,
-                isPassword: false,
-                isPasswordTextStatus: false,
-                onTap: () {},
-              ),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: TextFieldMain(
-                hintText: textfield_hint_password,
-                labelText: textfield_label_password,
-                textEditingController: passwordController,
-                isPassword: true,
-                isPasswordTextStatus: showPassword,
-                onTap: _showPassword,
-              ),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: ButtonMain(
-                onPressed: _loginUser,
-                text: button_login,
-                isDisabled: true,
-              ),
-            ),
-            Container(
-              padding:
-              const EdgeInsets.only(left: 30, top: 0, right: 30, bottom: 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    text_havent_account,
-                    style: TextStyle(
-                      fontSize: 15,
+        body: isLoading
+            ? waitingConnection()
+            : ListView(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(
+                      left: 30,
+                      top: 10,
+                      right: 30,
+                      bottom: 10,
+                    ),
+                    child: Image.asset(image_logo_azul_png),
+                  ),
+                  Container(
+                    padding: _padding,
+                    height: 80,
+                    child: TextFieldMain(
+                      hintText: textfield_hint_email,
+                      labelText: textfield_label_email,
+                      textEditingController: emailController,
+                      isPassword: false,
+                      isPasswordTextStatus: false,
+                      onTap: () {},
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      _nextScreen(register_user_route);
-                    },
-                    child: const Text(
-                      button_registry,
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontSize: 15,
+                  Container(
+                    padding: _padding,
+                    height: 80,
+                    child: TextFieldMain(
+                      hintText: textfield_hint_password,
+                      labelText: textfield_label_password,
+                      textEditingController: passwordController,
+                      isPassword: true,
+                      isPasswordTextStatus: showPassword,
+                      onTap: _showPassword,
+                    ),
+                  ),
+                  Container(
+                    padding: _padding,
+                    height: 80,
+                    child: ButtonMain(
+                      onPressed: _loginUser,
+                      text: button_login,
+                      isDisabled: true,
+                    ),
+                  ),
+                  Container(
+                    padding: _padding,
+                    child: TextButton(
+                      onPressed: () {
+                        _showDialogResetPassword(context);
+                      },
+                      child: Text(
+                        text_forget_password,
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
                       ),
                     ),
-                    style: ButtonStyle(
-                      foregroundColor:
-                      MaterialStateProperty.all<Color>(primaryColor),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        left: 30, top: 0, right: 30, bottom: 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text(
+                          text_havent_business,
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, register_user_route);
+                          },
+                          child: const Text(
+                            button_registry,
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 15,
+                            ),
+                          ),
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(primaryColor),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
 
   void _loginUser() {
-    String email = emailController.text;
-    String password = passwordController.text;
+    String email = emailController.text.split(" ").first;
+    String password = passwordController.text.split(" ").first;
 
     if (email.isEmpty && password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Ingrese correo y contraseña válidos"),
-      ));
+      _showToast(alert_content_imcomplete);
     } else {
       if (email.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Ingrese un correo electrónico válido"),
-        ));
+        _showToast(alert_content_email);
       } else {
         if (password.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Ingrese una contraseña válida"),
-          ));
+          _showToast(alert_content_password);
         } else {
           _signIn();
         }
@@ -179,12 +194,13 @@ class _LoginPageState extends State<LoginPage> {
   String? _signIn() {
     String? _userId;
     _authDataSource
-        .signInWithEmail(emailController.text, passwordController.text)
+        .signInWithEmail(emailController.text.split(" ").first,
+            passwordController.text.split(" ").first)
         .then((id) async => {
               _userId = id,
               if (_userId == null)
                 {
-                  _showToast("Correo o contraseña invalidos"),
+                  _showToast(alert_content_not_valid_data),
                 }
               else
                 {
@@ -196,38 +212,117 @@ class _LoginPageState extends State<LoginPage> {
                   if (newUser.cargo == "[Empleado]")
                     {
                       //Ingresar interfaz de empleado
-                      _nextScreen(employees_route)
+                      _nextScreen(employees_route, newUser)
                     }
                   else
                     {
                       if (newUser.cargo == "[Administrador]")
-                        {
-                          _nextScreen(administrator_route)
-                        }
+                        {_nextScreen(administrator_route, newUser)}
                     }
                 }
             });
     return _userId;
   }
 
+  void _showDialogResetPassword(BuildContext context) {
+    TextEditingController emailController = new TextEditingController();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: Text(
+            title_reset_password,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+          ),
+          content: TextFieldMain(
+            hintText: textfield_hint_email,
+            labelText: textfield_label_email,
+            textEditingController: emailController,
+            isPassword: false,
+            isPasswordTextStatus: false,
+            onTap: () {},
+          ),
+          actions: <Widget>[
+            Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      button_cancel,
+                      style: TextStyle(
+                        color: primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      _sendEmailResetPassword(emailController);
+                    },
+                    child: Text(
+                      button_recover_password,
+                      style: TextStyle(
+                        color: primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _sendEmailResetPassword(TextEditingController emailController) {
+    if (emailController.text.isNotEmpty) {
+      _authDataSource.sendPasswordResetEmail(emailController.text).then(
+          (value) => value
+              ? _showToast(alert_title_send_email)
+              : _showToast(alert_title_error_not_registered));
+    } else {
+      _showToast(alert_content_email);
+    }
+  }
+
   void _checkLogin() async {
     String? userId;
     userId = _authDataSource.getUserId();
 
-    if(userId != null) {
+    if (userId != null) {
       User? user = await _userDataSource.getUser(userId);
       if (user != null) {
-        if(user.cargo == "[Empleado]"){
-          _nextScreen(employees_route);
-        }else{
-          _nextScreen(administrator_route);
+        if (user.cargo == "[Empleado]") {
+          _nextScreen(employees_route, user);
+        } else {
+          _nextScreen(administrator_route, user);
         }
       }
+    } else {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
-  void _nextScreen(String route) {
-    Navigator.pushNamed(context, route);
+  void _nextScreen(String route, User user) {
+    final args = {"args": user};
+    Navigator.pushNamed(context, route, arguments: args);
   }
 
   void _showToast(String content) {
@@ -242,5 +337,17 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Center waitingConnection() {
+    return Center(
+      child: SizedBox(
+        child: CircularProgressIndicator(
+          strokeWidth: 5,
+        ),
+        width: 75,
+        height: 75,
+      ),
+    );
   }
 }

@@ -8,6 +8,9 @@ import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/utils/strings.dart';
 
+import '../data/models/User.dart';
+import '../utils/routes.dart';
+
 class EmployeesPage extends StatefulWidget {
   const EmployeesPage({Key? key}) : super(key: key);
 
@@ -24,6 +27,17 @@ class _Employees extends State<EmployeesPage> {
   );
 
   FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
+
+  User? user;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      _getArguments();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +100,15 @@ class _Employees extends State<EmployeesPage> {
         ),
       ),
     );
+  }
+
+  void _getArguments() {
+    final args = ModalRoute.of(context)?.settings.arguments as Map;
+    if (args.isEmpty) {
+      Navigator.pop(context);
+      return;
+    }
+    user = args["args"];
   }
 
   void _signOut () async {

@@ -44,7 +44,7 @@ class _TextFieldMainState extends State<TextFieldMain> {
       keyboardType: widget.isNumber != null ? TextInputType.number : TextInputType.text,
       controller: widget.textEditingController,
       autofocus: false,
-      autocorrect: true,
+      autocorrect: false,
       textAlign: TextAlign.left,
       obscureText: widget.isPasswordTextStatus,
       style: const TextStyle(
