@@ -47,6 +47,8 @@ class _ModNegPageState extends State<ModNegPage> {
     correo: "",
     telefono: 0,
     activo: true,
+    empleados: [], 
+    idDueno: '',
   );
 
 
@@ -92,7 +94,7 @@ class _ModNegPageState extends State<ModNegPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBarComponent(
-          textAppBar: title_admin,//cambiar por el titulo de pantalla NegUser.nombreNegocio.toString()
+          textAppBar: "ADMINISTRADOR",//cambiar por el titulo de pantalla NegUser.nombreNegocio.toString()
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -104,7 +106,7 @@ class _ModNegPageState extends State<ModNegPage> {
               height: 80,
               child: const Text.rich(
                 TextSpan(
-                  text: subTitle_ModNego,
+                  text: "Modificar Información",
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,

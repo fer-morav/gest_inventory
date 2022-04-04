@@ -46,7 +46,9 @@ class _DelNegPageState extends State<DelNegPage> {
     direccion: "",
     correo: "",
     telefono: 0,
-    activo: true,
+    activo: true, 
+    empleados: [], 
+    idDueno: '',
   );
 
 
@@ -92,7 +94,7 @@ class _DelNegPageState extends State<DelNegPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBarComponent(
-          textAppBar: title_admin,//cambiar por el titulo de pantalla NegUser.nombreNegocio.toString()
+          textAppBar: "ADMINISTRADOR",//cambiar por el titulo de pantalla NegUser.nombreNegocio.toString()
           onPressed: () {
             Navigator.of(context).pop();
           },

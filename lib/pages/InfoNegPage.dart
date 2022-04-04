@@ -47,6 +47,8 @@ class _InfoNegPageState extends State<InfoNegPage> {
     correo: "####",
     telefono: 0,
     activo: false,
+    empleados: [], 
+    idDueno: '',
   );
 
 
@@ -86,7 +88,7 @@ class _InfoNegPageState extends State<InfoNegPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBarComponent(
-          textAppBar: title_admin,//cambiar por el titulo de pantalla NegUser.nombreNegocio.toString()
+          textAppBar: "Administrador",//cambiar por el titulo de pantalla NegUser.nombreNegocio.toString()
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -98,7 +100,7 @@ class _InfoNegPageState extends State<InfoNegPage> {
               height: 80,
               child: const Text.rich(
                 TextSpan(
-                  text: subTitle_InfoNego,
+                  text: "Información del Negocio",
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,
@@ -126,7 +128,7 @@ class _InfoNegPageState extends State<InfoNegPage> {
               padding: _padding,
               height: 45,
               child: Text(
-                "Propeitario: "+NegUser.nombreDueno.toString(),
+                "Propietario: "+NegUser.nombreDueno.toString(),
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   color: Color.fromARGB(1000, 0, 68, 106),
@@ -153,9 +155,9 @@ class _InfoNegPageState extends State<InfoNegPage> {
                   ),
                 ),
                   ButtonMain(
-                    text: button_verEmpleados,
+                    text: "Ver Empleados",
                     isDisabled: true, 
-                    onPressed: () => _nextScreen(mod_neg_route),
+                    onPressed: () => _nextScreen(""),
                   ),
                 ],
               ),
@@ -221,7 +223,7 @@ class _InfoNegPageState extends State<InfoNegPage> {
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                text: button_ModInfo,
+                text: "Modificar Información",
                 isDisabled: true, 
                 onPressed: () => _nextScreen(mod_neg_route),
               ),
@@ -230,7 +232,7 @@ class _InfoNegPageState extends State<InfoNegPage> {
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                text: button_CambContra,
+                text: "Cambiar Contraseña",
                 isDisabled: true, 
                 onPressed: () {  },
               ),
@@ -239,7 +241,7 @@ class _InfoNegPageState extends State<InfoNegPage> {
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                text: button_EliminarNeg,
+                text: "Eliminar Negocio",
                 isDisabled: true, 
                 onPressed: () => _nextScreen(del_neg_route),
               ),

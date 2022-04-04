@@ -137,33 +137,6 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           ),
           Container(
             padding: _padding,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-            child: MultiSelect(
-                cancelButtonText: button_cancel,
-                saveButtonText: button_save,
-                clearButtonText: button_reset,
-                titleText: title_roles,
-                checkBoxColor: Colors.blue,
-                selectedOptionsInfoText: "",
-                hintText: textfield_label_cargo,
-                maxLength: 1,
-                maxLengthText: textfield_hint_one_option,
-                dataSource: const [
-                  {"cargo": title_employees, "code": title_employees},
-                  {"cargo": title_administrator, "code": title_administrator},
-                ],
-                textField: "cargo",
-                valueField: "code",
-                hintTextColor: primaryColor,
-                enabledBorderColor: primaryColor,
-                filterable: true,
-                required: true,
-                onSaved: (value) {
-                  cargoController.text = value.toString();
-                }),
-          ),
-          Container(
-            padding: _padding,
             height: 80,
             child: ButtonMain(
               onPressed: _registerUser,
@@ -182,13 +155,12 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
         nombreController.text.isNotEmpty &&
         apellidosController.text.isNotEmpty &&
         salarioController.text.isNotEmpty &&
-        telefonoController.text.isNotEmpty &&
-        cargoController.text.isNotEmpty) {
+        telefonoController.text.isNotEmpty) {
       newUser.nombre = nombreController.text;
       newUser.apellidos = apellidosController.text;
       newUser.salario = double.parse(salarioController.text);
       newUser.telefono = int.parse(telefonoController.text);
-      newUser.cargo = cargoController.text;
+      newUser.cargo = "[Administrador]";
       _signUp(emailController.text, passwordController.text);
     } else {
       _showToast("Informacion Incompleta");
@@ -217,7 +189,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           _showToast("Add user: " + value.toString()),
           if (value)
             {
-              _nextScreen(login_route),
+              _nextScreen(add_business_route),
             }
         });
   }
