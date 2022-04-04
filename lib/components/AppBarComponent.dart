@@ -14,8 +14,7 @@ class AppBarComponent extends AppBar {
     double? textSize,
   }) : super(
     elevation: 0,
-    title: Padding(
-      padding: const EdgeInsets.only(left: 5),
+    title: FittedBox(
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(

@@ -9,7 +9,6 @@ class Business {
   String correo = "";
   int telefono = 0;
   bool activo = false;
-  List<String> empleados;
 
   Business({
     required this.id,
@@ -20,7 +19,6 @@ class Business {
     required this.correo,
     required this.telefono,
     required this.activo,
-    required this.empleados,
   });
 
   Business copyWith({
@@ -32,7 +30,6 @@ class Business {
     String? correo,
     int? telefono,
     bool? activo,
-    List<String>? empleados,
   }) {
     return Business(
       id: id ?? this.id,
@@ -43,7 +40,6 @@ class Business {
       correo: correo ?? this.correo,
       telefono: telefono ?? this.telefono,
       activo: activo ?? this.activo,
-      empleados: empleados ?? this.empleados,
     );
   }
 
@@ -57,7 +53,6 @@ class Business {
       'correo': correo,
       'telefono': telefono,
       'activo': activo,
-      'empleados': empleados,
     };
   }
 
@@ -71,7 +66,6 @@ class Business {
       correo: map['correo'],
       telefono: map['telefono'],
       activo: map['activo'],
-      empleados: map['empleados']
     );
   }
 
@@ -81,6 +75,6 @@ class Business {
 
   @override
   String toString() {
-    return 'User( id: $id, nombreNegocio: $nombreNegocio, nombreDueño: $nombreDueno, idDueño: $idDueno, direccion: $direccion, correo: $correo, telefono: $telefono, activo: $activo, empleados: $empleados)';
+    return 'User( id: $id, nombreNegocio: $nombreNegocio, nombreDueño: $nombreDueno, idDueño: $idDueno, direccion: $direccion, correo: $correo, telefono: $telefono, activo: $activo)';
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/pages/AddBusinessPage.dart';
 import 'package:gest_inventory/pages/EditUserProfilePage.dart';
 import 'package:gest_inventory/pages/EmployeeListPage.dart';
+import 'package:gest_inventory/pages/InfoBusinessPage.dart';
 import 'package:gest_inventory/pages/RecordDatePage.dart';
 import 'package:gest_inventory/pages/RegisterEmployeePage.dart';
 import 'package:gest_inventory/pages/StatisticsPage.dart';
@@ -24,6 +25,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     register_employees_route: (BuildContext context) => const RegisterEmployeePage(),
     modify_profile_route: (BuildContext context) => const EditUserProfilePage(),
     list_employees_route: (BuildContext context) => const EmployeeListPage(),
+    info_business_route: (BuildContext context) => const InfoBusinessPage(),
   };
 }
 
@@ -39,3 +41,4 @@ const employees_route = "employees";
 const administrator_route = "administrator";
 const modify_profile_route = "modify_profile";
 const list_employees_route = "list_employees";
+const info_business_route = "info_business";

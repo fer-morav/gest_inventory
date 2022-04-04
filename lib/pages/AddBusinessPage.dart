@@ -35,7 +35,6 @@ class _AddBusinessState extends State<AddBusinessPage> {
     correo: "",
     telefono: 0,
     activo: false,
-    empleados: [],
   );
 
   late final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
@@ -189,7 +188,6 @@ class _AddBusinessState extends State<AddBusinessPage> {
       newBusiness.telefono = int.parse(telefonoController.text);
       newBusiness.correo = emailController.text;
       newBusiness.activo = true;
-      newBusiness.empleados.add(userId!);
       _addBusiness();
     } else {
       _showToast("Informacion Incompleta");

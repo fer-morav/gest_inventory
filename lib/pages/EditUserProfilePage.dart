@@ -63,7 +63,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
         },
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? waitingConnection()
           : ListView(
               children: [
                 Container(
@@ -279,5 +279,17 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
       ),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Center waitingConnection() {
+    return Center(
+      child: SizedBox(
+        child: CircularProgressIndicator(
+          strokeWidth: 5,
+        ),
+        width: 75,
+        height: 75,
+      ),
+    );
   }
 }

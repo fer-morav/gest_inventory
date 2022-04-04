@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
           },
         ),
         body: isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? waitingConnection()
             : ListView(
                 children: [
                   Container(
@@ -332,5 +332,17 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Center waitingConnection() {
+    return Center(
+      child: SizedBox(
+        child: CircularProgressIndicator(
+          strokeWidth: 5,
+        ),
+        width: 75,
+        height: 75,
+      ),
+    );
   }
 }

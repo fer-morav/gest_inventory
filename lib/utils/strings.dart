@@ -12,6 +12,7 @@ const title_add_business = "Añadir Negocio";
 const title_modify_profile = "Modificar Perfil";
 const title_list_employee = "Lista de Empleados";
 const title_reset_password = "Restablecer Contraseña";
+const title_info_business = "Información del Negocio";
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";
@@ -37,6 +38,7 @@ const button_menosvendidos = "Menos Vendidos";
 const button_sales = "Venta";
 const button_stock = "Existencias";
 const button_employees_list = "Ver Lista de Empleados";
+const button_see_employees = "Ver Empleados";
 const button_add_employees = "Añadir Empleado";
 const button_see_info_business = "Ver Informacion del Negocio";
 const button_see_info_product = "Ver Informacion de Productos";
