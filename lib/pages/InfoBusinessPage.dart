@@ -25,7 +25,6 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
 
   late final FirebaseBusinessDataSource _businessDataSource =
       FirebaseBusinessDataSource();
-  late String _active = "NO";
 
   String? businessId;
   Business? _business;
@@ -60,7 +59,7 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
                     style: const TextStyle(
                       color: primaryColor,
                       fontWeight: FontWeight.bold,
-                      fontSize: 40,
+                      fontSize: 35,
                     ),
                   ),
                 ),

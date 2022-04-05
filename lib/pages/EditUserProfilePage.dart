@@ -238,36 +238,6 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
     });
   }
 
-
-  void _getUser() async {
-    String? userId = _authDataSource.getUserId();
-
-    if (userId == null) {
-      Navigator.pop(context);
-      return;
-    }
-
-    User? user = await _userDataSource.getUser(userId);
-
-    if (user == null) {
-      Navigator.pop(context);
-      return;
-    }
-
-    _user = user;
-
-    idController.text = user.id;
-    nombreController.text = user.nombre;
-    apellidosController.text = user.apellidos;
-    cargoController.text = user.cargo;
-    telefonoController.text = user.telefono.toString();
-    salarioController.text = user.salario.toString();
-
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
   void _saveData() async {
     _nombreError = null;
     _apellidosError = null;
