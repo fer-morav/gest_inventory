@@ -50,14 +50,14 @@ class FirebaseUserDataSouce {
 
       for (var document in snapshots.docs) {
         final user = User.fromMap(document.data());
-        if(user.idNegocio == businessId && user.cargo == "[Administrador]"){
+        if (user.idNegocio == businessId && user.cargo == "[Administrador]") {
           users.add(user);
         }
       }
 
       for (var document in snapshots.docs) {
         final user = User.fromMap(document.data());
-        if(user.idNegocio == businessId && user.cargo == "[Empleado]"){
+        if (user.idNegocio == businessId && user.cargo == "[Empleado]") {
           users.add(user);
         }
       }
@@ -65,6 +65,16 @@ class FirebaseUserDataSouce {
       return users;
     } catch (error) {
       return [];
+    }
+  }
+
+  Future<bool> deleteUser(String id) async {
+    try {
+      await _database.collection(USERS_COLLECTION).doc(id).delete();
+
+      return true;
+    } catch (error) {
+      return false;
     }
   }
 }
