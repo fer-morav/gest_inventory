@@ -67,4 +67,16 @@ class FirebaseUserDataSouce {
       return [];
     }
   }
+
+  Future<bool> deleteUser(String id) async {
+    try {
+      await _database
+          .collection(USERS_COLLECTION)
+          .doc(id).delete();
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }

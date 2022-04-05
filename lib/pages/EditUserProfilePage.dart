@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
+import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/ButtonMain.dart';
@@ -9,6 +10,7 @@ import '../components/TextFieldMain.dart';
 import '../data/framework/FirebaseAuthDataSource.dart';
 import '../data/framework/FirebaseUserDataSource.dart';
 import '../data/models/User.dart';
+import '../utils/colors.dart';
 
 class EditUserProfilePage extends StatefulWidget {
   const EditUserProfilePage({Key? key}) : super(key: key);
@@ -18,12 +20,14 @@ class EditUserProfilePage extends StatefulWidget {
 }
 
 class _EditUserProfilePageState extends State<EditUserProfilePage> {
+  TextEditingController idController = TextEditingController();
   TextEditingController cargoController = TextEditingController();
   TextEditingController nombreController = TextEditingController();
   TextEditingController apellidosController = TextEditingController();
   TextEditingController telefonoController = TextEditingController();
   TextEditingController salarioController = TextEditingController();
 
+  String? _idError;
   String? _nombreError;
   String? _apellidosError;
   String? _telefonoError;
@@ -150,6 +154,66 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                 ),
               ],
             ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor,
+        onPressed: () =>
+          _showAlertDialog(context),
+        child: Icon(Icons.person_remove),
+      ),
+    );
+  }
+
+  _showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text("Aceptar"),
+      onPressed:  () {
+        Navigator.of(context).pop();
+        _showDialog(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Cancelar"),
+      onPressed:  () {
+        Navigator.of(context).pop();
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text("ALERTA"),
+      content: Text("¿Desea eliminar al usuario?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  _showDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text("Aceptar"),
+      onPressed:  () {
+        Navigator.of(context).pop();
+        _userDataSource.deleteUser(_user!.id.toString());
+        _nextScreen(administrator_route, _user!);
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text("ELIMINACION EXITOSA"),
+      content: Text("Empleado eliminado"),
+      actions: [
+        continueButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 
@@ -162,6 +226,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
 
     _user = args["args"];
 
+    idController.text = _user!.id;
     nombreController.text = _user!.nombre;
     apellidosController.text = _user!.apellidos;
     cargoController.text = _user!.cargo;
@@ -191,6 +256,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
 
     _user = user;
 
+    idController.text = user.id;
     nombreController.text = user.nombre;
     apellidosController.text = user.apellidos;
     cargoController.text = user.cargo;
@@ -279,6 +345,11 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
       ),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _nextScreen(String route, User user) {
+    final args = {"args": user};
+    Navigator.pushNamed(context, route, arguments: args);
   }
 
   Center waitingConnection() {
