@@ -11,9 +11,6 @@ import '../pages/AdministratorPage.dart';
 import '../pages/EmployeesPage.dart';
 import '../pages/LoginPage.dart';
 import '../pages/RegisterUserPage.dart';
-import '../pages/InfoNegPage.dart';
-import '../pages/ModNegPage.dart';
-import '../pages/DelNegPage.dart';
 import '../pages/SeeInfoUserPage.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
@@ -26,9 +23,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     add_business_route: (BuildContext context) => const AddBusinessPage(),
     statistics_route: (BuildContext context) => const StatisticsPage(),
     records_date_route: (BuildContext context) => const RecordDatePage(),
-    info_neg_route: (BuildContext context) => const InfoNegPage(),
-    mod_neg_route: (BuildContext context) => const ModNegPage(),
-    del_neg_route: (BuildContext context) => const DelNegPage(),
     register_employees_route: (BuildContext context) => const RegisterEmployeePage(),
     modify_profile_route: (BuildContext context) => const EditUserProfilePage(),
     list_employees_route: (BuildContext context) => const EmployeeListPage(),
@@ -47,9 +41,6 @@ const register_user_route = 'register';
 const register_employees_route = 'register_employee';
 const employees_route = "employees";
 const administrator_route = "administrator";
-const info_neg_route = "informacion negocio";
-const mod_neg_route = "modificar negocio";
-const del_neg_route = "eliminar negocio";
 const modify_profile_route = "modify_profile";
 const list_employees_route = "list_employees";
 const see_profile_route = "see_profile";

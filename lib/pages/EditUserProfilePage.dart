@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
+import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/ButtonMain.dart';
@@ -261,10 +262,15 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
 
     if(_user != null && await _userDataSource.updateUser(_user!)) {
       _showToast("Datos actualizados");
-      Navigator.pop(context);Navigator.pop(context);Navigator.pop(context);
+      _nextScreenArgs(info_business_route, _user!.idNegocio);
     } else {
       _showToast("Error al actualizar los datos");
     }
+  }
+
+  void _nextScreenArgs(String route, String businessId) {
+    final args = {"args": businessId};
+    Navigator.pushNamed(context, route, arguments: args);
   }
 
   void _showToast(String content) {

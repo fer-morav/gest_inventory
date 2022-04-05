@@ -13,6 +13,7 @@ const title_modify_profile = "Modificar Perfil";
 const title_list_employee = "Lista de Empleados";
 const title_reset_password = "Restablecer Contraseña";
 const title_info_business = "Información del Negocio";
+const title_info_user = "Información del Usuario";
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";

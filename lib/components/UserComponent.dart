@@ -46,7 +46,7 @@ class UserComponent extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              user.apellidos + ", " + user.nombre,
+              user.nombre + " " + user.apellidos,
               style: TextStyle(
                   color: primaryColor,
                   //fontWeight: FontWeight.w900,
