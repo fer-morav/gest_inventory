@@ -21,7 +21,7 @@ class UserComponent extends StatelessWidget {
       heroTag: null,
       onPressed: () {
         final args = {"args": user};
-        Navigator.pushNamed(context, modify_profile_route, arguments: args);
+        Navigator.pushNamed(context, see_profile_route, arguments: args);
       },
       backgroundColor: Colors.white,
       elevation: 8,
@@ -46,7 +46,7 @@ class UserComponent extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              user.apellidos + ", " + user.nombre,
+              user.nombre + " " + user.apellidos,
               style: TextStyle(
                   color: primaryColor,
                   //fontWeight: FontWeight.w900,
