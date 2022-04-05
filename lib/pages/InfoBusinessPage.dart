@@ -17,9 +17,9 @@ class InfoBusinessPage extends StatefulWidget {
 
 class _InfoBusinessPageState extends State<InfoBusinessPage> {
   final _padding = const EdgeInsets.only(
-    left: 30,
+    left: 15,
     top: 10,
-    right: 30,
+    right: 15,
     bottom: 10,
   );
 
@@ -54,14 +54,13 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
               children: [
                 Container(
                   padding: _padding,
-                  height: 60,
-                  child: Text(_business!.nombreNegocio,
+                  child: Text(
+                    _business!.nombreNegocio,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: primaryColor,
-                      fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
-                      fontSize: 32,
+                      fontSize: 40,
                     ),
                   ),
                 ),
@@ -93,32 +92,26 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
                 ),
                 Container(
                   padding: _padding,
-                  height: 45,
                   child: _labelText("Dirección: ", false),
                 ),
                 Container(
                   padding: _padding,
-                  height: 45,
                   child: _labelText(_business!.direccion.toString(), true),
                 ),
                 Container(
                   padding: _padding,
-                  height: 45,
                   child: _labelText("Teléfono: ", false),
                 ),
                 Container(
                   padding: _padding,
-                  height: 45,
                   child: _labelText(_business!.telefono.toString(), true),
                 ),
                 Container(
                   padding: _padding,
-                  height: 45,
                   child: _labelText("Correo: ", false),
                 ),
                 Container(
                   padding: _padding,
-                  height: 45,
                   child: _labelText(_business!.correo, true),
                 ),
                 Container(
@@ -131,8 +124,7 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
                         "Empleados: ",
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: Color.fromARGB(1000, 0, 68, 106),
-                          fontStyle: FontStyle.italic,
+                          color: primaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
                         ),
@@ -176,9 +168,7 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
                 _business = business;
                 _isLoading = false;
               }),
-            }else{
-            print(business?.id)
-          }
+            }
         });
   }
 
@@ -191,16 +181,15 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
     Navigator.pushNamed(context, route, arguments: args);
   }
 
-  Text _labelText(String text, bool center){
-    return Text(text,
-      textAlign: center ? TextAlign.right : TextAlign.left,
-      style: const TextStyle(
-        color: primaryColor,
-        fontStyle: FontStyle.italic,
+  Text _labelText(String text, bool right) {
+    return Text(
+      text,
+      textAlign: right ? TextAlign.right : TextAlign.left,
+      style: TextStyle(
+        color: right ? Colors.black87 : primaryColor,
         fontWeight: FontWeight.bold,
         fontSize: 22,
       ),
     );
-
   }
 }
