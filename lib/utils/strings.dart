@@ -15,6 +15,10 @@ const title_reset_password = "Restablecer Contraseña";
 const title_info_business = "Información del Negocio";
 const title_info_user = "Información del Usuario";
 const title_add_product = "Añadir Producto";
+const title_opList_product = "Listas de Productos";
+const title_allList_product = "Lista Completa de Productos";
+const title_info_product = "Información del Producto";
+
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";
@@ -54,6 +58,10 @@ const button_logout = "Cerrar Sesión";
 const button_modify_profile = "Modificar Perfil";
 const button_see_profile = "Ver Perfil";
 const button_add_product = "Añadir Producto";
+const button_list_product = "Ver Listas de Productos";
+const button_allList_product = "Ver Todos Los Productos";
+const button_nameList_product = "Buscar Producto Por Nombre";
+const button_codeList_product = "Buscar Producto Por Código";
 
 ////////////////TextFields////////////////////////////////////
 const textfield_label_email = "Correo Electronico";
