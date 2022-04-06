@@ -59,7 +59,7 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
                     style: const TextStyle(
                       color: primaryColor,
                       fontWeight: FontWeight.bold,
-                      fontSize: 35,
+                      fontSize: 30,
                     ),
                   ),
                 ),

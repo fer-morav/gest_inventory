@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/pages/AddBusinessPage.dart';
+import 'package:gest_inventory/pages/AddProductPage.dart';
 import 'package:gest_inventory/pages/EditUserProfilePage.dart';
 import 'package:gest_inventory/pages/EmployeeListPage.dart';
 import 'package:gest_inventory/pages/InfoBusinessPage.dart';
@@ -28,6 +29,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     list_employees_route: (BuildContext context) => const EmployeeListPage(),
     see_profile_route: (BuildContext context) => const SeeInfoUserPage(),
     info_business_route: (BuildContext context) => const InfoBusinessPage(),
+    add_product_page: (BuildContext context) => const AddProductPage(),
   };
 }
 
@@ -45,3 +47,4 @@ const modify_profile_route = "modify_profile";
 const list_employees_route = "list_employees";
 const see_profile_route = "see_profile";
 const info_business_route = "info_business";
+const add_product_page = "add_product";
