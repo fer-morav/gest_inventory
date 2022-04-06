@@ -67,7 +67,7 @@ class _Administrator extends State<AdministratorPage> {
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                onPressed: () {},
+                onPressed: () => _nextScreen(view_products_route),
                 text: button_see_info_product,
                 isDisabled: true,
               ),

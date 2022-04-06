@@ -85,7 +85,7 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
                 ),
                 Container(
                   padding: _padding,
-                  child: _labelText("Propeitario: ", false),
+                  child: _labelText("Propietario: ", false),
                 ),
                 Container(
                   padding: _padding,
@@ -150,7 +150,9 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
               ],
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _nextScreenArgsBusiness(modify_business_route, _business!);
+        },
         backgroundColor: primaryColor,
         child: Icon(Icons.edit),
       ),
@@ -188,6 +190,11 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
 
   void _nextScreenArgs(String route, String businessId) {
     final args = {"args": businessId};
+    Navigator.pushNamed(context, route, arguments: args);
+  }
+
+  void _nextScreenArgsBusiness(String route, Business business) {
+    final args = {"args": business};
     Navigator.pushNamed(context, route, arguments: args);
   }
 
