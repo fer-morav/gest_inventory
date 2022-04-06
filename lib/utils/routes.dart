@@ -13,6 +13,10 @@ import '../pages/EmployeesPage.dart';
 import '../pages/LoginPage.dart';
 import '../pages/RegisterUserPage.dart';
 import '../pages/SeeInfoUserPage.dart';
+import '../pages/OptionsListProductsPage.dart';
+import '../pages/AllListProductsPage.dart';
+import '../pages/SeeProductInfoPage.dart';
+
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
@@ -30,6 +34,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     see_profile_route: (BuildContext context) => const SeeInfoUserPage(),
     info_business_route: (BuildContext context) => const InfoBusinessPage(),
     add_product_page: (BuildContext context) => const AddProductPage(),
+    optionsList_product_page: (BuildContext context) => const OptionsListProductsPage(),
+    allList_product_page: (BuildContext context) => const AllListProductsPage(),
+    see_product_info_route: (BuildContext context) => const SeeInfoProductPage(),
   };
 }
 
@@ -48,3 +55,6 @@ const list_employees_route = "list_employees";
 const see_profile_route = "see_profile";
 const info_business_route = "info_business";
 const add_product_page = "add_product";
+const optionsList_product_page = "opList_product";
+const allList_product_page = "allList_products";
+const see_product_info_route = "see_info_products";

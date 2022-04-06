@@ -68,9 +68,10 @@ class _Administrator extends State<AdministratorPage> {
               height: 80,
               child: ButtonMain(
                 onPressed: () {
-                  _nextScreenArgs(add_product_page, user!.idNegocio.toString());
+                  //_nextScreenArgs(add_product_page, user!.idNegocio.toString());
+                  _nextScreenArgs(optionsList_product_page, user!.idNegocio.toString());
                 },
-                text: button_add_product,
+                text: button_list_product,
                 isDisabled: true,
               ),
             ),
