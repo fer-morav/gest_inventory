@@ -141,7 +141,9 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
               ],
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _nextScreenArgsBusiness(edit_business_route, _business!);
+        },
         backgroundColor: primaryColor,
         child: Icon(Icons.edit),
       ),
@@ -171,8 +173,9 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
         });
   }
 
-  void _nextScreen(String route) {
-    Navigator.pushNamed(context, route);
+  void _nextScreenArgsBusiness(String route, Business business) {
+    final args = {"args": business};
+    Navigator.pushNamed(context, route, arguments: args);
   }
 
   void _nextScreenArgs(String route, String businessId) {

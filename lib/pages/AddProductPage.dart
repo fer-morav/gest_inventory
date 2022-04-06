@@ -4,6 +4,7 @@ import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/colors.dart';
+import 'package:gest_inventory/utils/scan_util.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/ButtonMain.dart';
 import '../components/TextFieldMain.dart';
@@ -49,7 +50,7 @@ class _AddProductPageState extends State<AddProductPage> {
 
   FirebaseBusinessDataSource _businessDataSource = FirebaseBusinessDataSource();
   String? businessId;
-  String _scanBarcode = 'Unknown';
+  ScanUtil _scanUtil = ScanUtil();
 
   @override
   void initState() {
@@ -254,44 +255,16 @@ class _AddProductPageState extends State<AddProductPage> {
             });
   }
 
-  void startBarcodeScanStream() async {
-    FlutterBarcodeScanner.getBarcodeStreamReceiver(
-            '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
-        .listen((barcode) => print(barcode));
-  }
-
   void scanQR() async {
-    String barcodeScanRes;
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.QR);
-      print(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
-
     if (!mounted) return;
 
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
+    idController.text = await _scanUtil.scanQR();
   }
 
   void scanBarcodeNormal() async {
-    String barcodeScanRes;
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      print(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
-
     if (!mounted) return;
 
-    setState(() {
-      idController.text = barcodeScanRes;
-    });
+    idController.text = await _scanUtil.scanBarcodeNormal();
   }
 
   void _showToast(String content) {
