@@ -14,6 +14,7 @@ const title_list_employee = "Lista de Empleados";
 const title_reset_password = "Restablecer Contraseña";
 const title_info_business = "Información del Negocio";
 const title_info_user = "Información del Usuario";
+const title_add_product = "Añadir Producto";
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";
@@ -52,6 +53,7 @@ const button_add_business = "Añadir Negocio";
 const button_logout = "Cerrar Sesión";
 const button_modify_profile = "Modificar Perfil";
 const button_see_profile = "Ver Perfil";
+const button_add_product = "Añadir Producto";
 
 ////////////////TextFields////////////////////////////////////
 const textfield_label_email = "Correo Electronico";
@@ -64,6 +66,10 @@ const textfield_label_number_phone = "Telefono";
 const textfield_label_salary = "Salario";
 const textfield_label_address = "Direccion";
 const textfield_label_owner = "Dueño";
+const textfield_label_id = "Codigo de Producto";
+const textfield_label_unit_price = "Precio";
+const textfield_label_wholesale = "Precio Mayoreo";
+const textfield_label_stock = "Existencias";
 
 const textfield_hint_one_option = "Seleccione solo una opción";
 const textfield_hint_name = "Ingrese el nombre";
@@ -76,6 +82,10 @@ const textfield_hint_last_name = "Ingrese los apellidos";
 const textfield_hint_cargo = "Seleccione el cargo";
 const textfield_hint_salary = "Ingrese el salario";
 const textfield_hint_id_business = "Ingrese el ID del negocio";
+const textfield_hint_id = "Ingrese el codigo del producto";
+const textfield_hint_unit_price = "Ingrese el precio";
+const textfield_hint_wholesale = "Ingrese el precio por mayoreo";
+const textfield_hint_stock = "Ingrese el numero de existencias";
 ////////////////Labels////////////////////////////////////////
 
 const text_havent_business = "¿Aún no Registras tu Negocio?";

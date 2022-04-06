@@ -45,6 +45,7 @@ dependencies:
   flutter_native_splash: ^2.1.2+1
 
   flutter_svg: ^0.22.0
+  flutter_barcode_scanner: ^2.0.0
 
 dev_dependencies:
   flutter_test:
