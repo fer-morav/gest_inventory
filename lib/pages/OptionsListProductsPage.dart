@@ -24,7 +24,7 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
   );
 
   late final FirebaseBusinessDataSource _businessDataSource =
-      FirebaseBusinessDataSource();
+  FirebaseBusinessDataSource();
 
   String? businessId;
   Business? _business;
@@ -50,42 +50,43 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView(
-              children: [
-                Container(
-                  padding: _padding,
-                  height: 80,
-                  child: ButtonMain(
-                    onPressed: () {
-                      _nextScreenArgs(allList_product_page, _business!.id.toString());
-                    },
-                    text: button_allList_product,
-                    isDisabled: true,
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  height: 80,
-                  child: ButtonMain(
-                    onPressed: () {
-                      //_nextScreenArgs(info_business_route, user!.idNegocio.toString());
-                    },
-                    text: button_nameList_product,
-                    isDisabled: true,
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  height: 80,
-                  child: ButtonMain(
-                    onPressed: () {
-                      //_nextScreenArgs(info_business_route, user!.idNegocio.toString());
-                    },
-                    text: button_codeList_product,
-                    isDisabled: true,
-                  ),
-                ),
-              ],
+        children: [
+          Container(
+            padding: _padding,
+            height: 80,
+            child: ButtonMain(
+              onPressed: () {
+                _nextScreenArgs(allList_product_page, businessId!);
+                print(businessId);
+              },
+              text: button_allList_product,
+              isDisabled: true,
             ),
+          ),
+          Container(
+            padding: _padding,
+            height: 80,
+            child: ButtonMain(
+              onPressed: () {
+                //_nextScreenArgs(info_business_route, user!.idNegocio.toString());
+              },
+              text: button_nameList_product,
+              isDisabled: true,
+            ),
+          ),
+          Container(
+            padding: _padding,
+            height: 80,
+            child: ButtonMain(
+              onPressed: () {
+                //_nextScreenArgs(info_business_route, user!.idNegocio.toString());
+              },
+              text: button_codeList_product,
+              isDisabled: true,
+            ),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: primaryColor,
@@ -95,7 +96,10 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
   }
 
   void _getArguments() {
-    final args = ModalRoute.of(context)?.settings.arguments as Map;
+    final args = ModalRoute
+        .of(context)
+        ?.settings
+        .arguments as Map;
     if (args.isEmpty) {
       Navigator.pop(context);
       return;
@@ -106,15 +110,16 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
   }
 
   void _getBusiness(String id) async {
-    _businessDataSource.getBusiness(id).then((business) => {
-          if (business != null)
-            {
-              setState(() {
-                _business = business;
-                _isLoading = false;
-              }),
-            }
-        });
+    _businessDataSource.getBusiness(id).then((business) =>
+    {
+      if (business != null)
+        {
+          setState(() {
+            _business = business;
+            _isLoading = false;
+          }),
+        }
+    });
   }
 
   void _nextScreen(String route) {
@@ -124,17 +129,5 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
   void _nextScreenArgs(String route, String businessId) {
     final args = {"args": businessId};
     Navigator.pushNamed(context, route, arguments: args);
-  }
-
-  Text _labelText(String text, bool right) {
-    return Text(
-      text,
-      textAlign: right ? TextAlign.right : TextAlign.left,
-      style: TextStyle(
-        color: right ? Colors.black87 : primaryColor,
-        fontWeight: FontWeight.bold,
-        fontSize: 22,
-      ),
-    );
   }
 }

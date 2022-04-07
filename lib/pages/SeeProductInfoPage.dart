@@ -49,7 +49,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
       appBar: AppBarComponent(
         textAppBar: title_info_product,
         onPressed: () {
-          Navigator.of(context).pop();
+          Navigator.pop(context);
         },
       ),
       body: _isLoading
@@ -272,7 +272,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
             ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
-        onPressed: () => _nextScreenArgs(modify_profile_route, _product!),//Cambiar por edicion de informacion
+        onPressed: () {},//Cambiar por edicion de informacion
         child: Icon(Icons.edit_outlined),
       ),
     );

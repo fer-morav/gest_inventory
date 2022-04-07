@@ -161,7 +161,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
       newUser.salario = double.parse(salarioController.text);
       newUser.telefono = int.parse(telefonoController.text);
       newUser.cargo = "[Administrador]";
-      _signUp(emailController.text, passwordController.text);
+      _signUp(emailController.text.split(" ").first, passwordController.text.split(" ").first);
     } else {
       _showToast("Informacion Incompleta");
     }
