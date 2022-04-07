@@ -161,7 +161,7 @@ class _AddBusinessState extends State<AddBusinessPage> {
                               user.idNegocio = negocioId,
 
                               _userDataSource.updateUser(user).then(
-                                    (value) => _nextScreen(administrator_route),
+                                    (value) => _nextScreenArgs(administrator_route, negocioId),
                                   )
                             }
                         }),
@@ -170,8 +170,9 @@ class _AddBusinessState extends State<AddBusinessPage> {
     }
   }
 
-  void _nextScreen(String route) {
-    Navigator.pushNamed(context, route);
+  void _nextScreenArgs(String route, String businessId) {
+    final args = {"args": businessId};
+    Navigator.pushNamed(context, route, arguments: args);
   }
 
   void _saveDataBusiness() {

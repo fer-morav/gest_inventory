@@ -24,7 +24,7 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
   );
 
   late final FirebaseBusinessDataSource _businessDataSource =
-      FirebaseBusinessDataSource();
+  FirebaseBusinessDataSource();
 
   String? businessId;
   Business? _business;

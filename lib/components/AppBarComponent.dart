@@ -28,6 +28,14 @@ class AppBarComponent extends AppBar {
       ),
     ),
     backgroundColor:  appBarColor,
-    leading:const Icon(Icons.arrow_back_sharp) ,
+    leading:  Align(
+      alignment: Alignment.topLeft,
+      child: Container(
+        padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+        child: BackButton(
+          onPressed: onPressed,
+        ),
+      ),
+    ),
   );
 }

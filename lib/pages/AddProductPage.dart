@@ -4,6 +4,7 @@ import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/colors.dart';
+import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/scan_util.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/ButtonMain.dart';
@@ -245,7 +246,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       businessId!, _product))
                     {
                       _showToast("Registro de Producto Exitoso"),
-                      Navigator.pop(context),
+                      _nextScreenArgs(optionsList_product_page, businessId!),
                     }
                   else
                     {
@@ -279,5 +280,10 @@ class _AddProductPageState extends State<AddProductPage> {
       ),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _nextScreenArgs(String route, String businessId) {
+    final args = {"args": businessId};
+    Navigator.pushNamed(context, route, arguments: args);
   }
 }
