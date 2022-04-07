@@ -15,6 +15,7 @@ import '../pages/AdministratorPage.dart';
 import '../pages/EmployeesPage.dart';
 import '../pages/LoginPage.dart';
 import '../pages/RegisterUserPage.dart';
+import '../pages/SearchProductCodePage.dart';
 import '../pages/SeeInfoUserPage.dart';
 import '../pages/OptionsListProductsPage.dart';
 import '../pages/AllListProductsPage.dart';
@@ -43,6 +44,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     edit_business_route: (BuildContext context) => const EditBusinessProfilePage(),
     search_product_route: (BuildContext context) => const SearchProductPage(),
     modify_product_route: (BuildContext context) => const EditProductPage(),
+    search_product_code_route: (BuildContext context) => const SearchProductCodePage(),
   };
 }
 
@@ -67,4 +69,4 @@ const see_product_info_route = "see_info_products";
 const edit_business_route = "edit_business";
 const search_product_route = "search_product";
 const modify_product_route = "modify_product";
-
+const search_product_code_route = "search_product_code";
