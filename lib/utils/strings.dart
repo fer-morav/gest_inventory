@@ -18,7 +18,7 @@ const title_add_product = "Añadir Producto";
 const title_opList_product = "Listas de Productos";
 const title_allList_product = "Lista Completa de Productos";
 const title_info_product = "Información del Producto";
-
+const title_opSearch_product = "Busqueda de Productos";
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";
@@ -62,6 +62,9 @@ const button_list_product = "Ver Listas de Productos";
 const button_allList_product = "Ver Todos Los Productos";
 const button_nameList_product = "Buscar Producto Por Nombre";
 const button_codeList_product = "Buscar Producto Por Código";
+const button_getCode_product = "Ingresar Código";
+const button_scanCode_product = "Escanear Código";
+const button_search_product = "Buscar producto";
 
 ////////////////TextFields////////////////////////////////////
 const textfield_label_email = "Correo Electronico";
@@ -78,6 +81,7 @@ const textfield_label_id = "Codigo de Producto";
 const textfield_label_unit_price = "Precio";
 const textfield_label_wholesale = "Precio Mayoreo";
 const textfield_label_stock = "Existencias";
+const textfield_label_product = "Código de producto";
 
 const textfield_hint_one_option = "Seleccione solo una opción";
 const textfield_hint_name = "Ingrese el nombre";
@@ -94,6 +98,7 @@ const textfield_hint_id = "Ingrese el codigo del producto";
 const textfield_hint_unit_price = "Ingrese el precio";
 const textfield_hint_wholesale = "Ingrese el precio por mayoreo";
 const textfield_hint_stock = "Ingrese el numero de existencias";
+const textfield_hint_product = "Ingrese el código del producto";
 ////////////////Labels////////////////////////////////////////
 
 const text_havent_business = "¿Aún no Registras tu Negocio?";
