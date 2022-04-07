@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/TextFieldMain.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/resources.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
@@ -316,7 +317,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _nextScreen(String route, User user) {
-    final args = {"args": user};
+    final args = {user_args: user};
     Navigator.pushNamed(context, route, arguments: args);
   }
 

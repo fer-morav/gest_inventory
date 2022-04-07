@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Business.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/TextFieldMain.dart';
@@ -146,7 +147,7 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
       return;
     }
 
-    _business = args["args"];
+    _business = args[business_args];
 
     nombreNegocioController.text = _business!.nombreNegocio;
     nombreDuenoController.text = _business!.nombreDueno;

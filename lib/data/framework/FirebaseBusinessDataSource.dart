@@ -98,6 +98,32 @@ class FirebaseBusinessDataSource {
     }
   }
 
+  Future<Product?> getProductForName(String businessId, String productName) async {
+    try {
+      final response = await _database
+          .collection(BUSINESS_COLLECTION)
+          .doc(businessId)
+          .collection(BUSINESS_PRODUCT_COLLECTION)
+          .get();
+
+      if(productName.isEmpty) {
+        return null;
+      }
+
+      Product? product;
+
+      for(var document in response.docs) {
+        final temp = Product.fromMap(document.data());
+        if(temp.nombre.contains(productName)){
+          product = temp;
+        }
+      }
+      return product;
+    } catch (error) {
+      return null;
+    }
+  }
+
   Future<bool> addProduct(String businessId, Product product) async {
     try {
       await _database

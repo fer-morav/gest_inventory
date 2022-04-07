@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/pages/AddBusinessPage.dart';
 import 'package:gest_inventory/pages/AddProductPage.dart';
 import 'package:gest_inventory/pages/EditBusinessProfilePage.dart';
+import 'package:gest_inventory/pages/EditProductPage.dart';
 import 'package:gest_inventory/pages/EditUserProfilePage.dart';
 import 'package:gest_inventory/pages/EmployeeListPage.dart';
 import 'package:gest_inventory/pages/InfoBusinessPage.dart';
 import 'package:gest_inventory/pages/RecordDatePage.dart';
 import 'package:gest_inventory/pages/RegisterEmployeePage.dart';
+import 'package:gest_inventory/pages/SearchProductPage.dart';
 import 'package:gest_inventory/pages/StatisticsPage.dart';
 import 'package:gest_inventory/pages/ViewRecordsPage.dart';
 import '../pages/AdministratorPage.dart';
@@ -39,6 +41,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     allList_product_page: (BuildContext context) => const AllListProductsPage(),
     see_product_info_route: (BuildContext context) => const SeeInfoProductPage(),
     edit_business_route: (BuildContext context) => const EditBusinessProfilePage(),
+    search_product_route: (BuildContext context) => const SearchProductPage(),
+    modify_product_route: (BuildContext context) => const EditProductPage(),
   };
 }
 
@@ -61,3 +65,6 @@ const optionsList_product_page = "opList_product";
 const allList_product_page = "allList_products";
 const see_product_info_route = "see_info_products";
 const edit_business_route = "edit_business";
+const search_product_route = "search_product";
+const modify_product_route = "modify_product";
+

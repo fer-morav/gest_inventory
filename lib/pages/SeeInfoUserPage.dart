@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/data/models/Business.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
@@ -207,7 +208,7 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
   }
 
   void _nextScreenArgs(String route, User user) {
-    final args = {"args": user};
+    final args = {user_args: user};
     Navigator.pushNamed(context, route, arguments: args);
   }
 
@@ -218,7 +219,7 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
       return;
     }
 
-    _user = args["args"];
+    _user = args[user_args];
 
     nombre = _user!.nombre;
     apellidos = _user!.apellidos;

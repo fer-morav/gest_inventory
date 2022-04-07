@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/UserComponent.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 
 import '../data/framework/FirebaseAuthDataSource.dart';
@@ -18,7 +19,6 @@ class EmployeeListPage extends StatefulWidget {
 }
 
 class _EmployeeListPageState extends State<EmployeeListPage> {
-  final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
   final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
 
   String? businessId;
@@ -28,8 +28,7 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
-      _listUserStream = _userDataSource.getUsers(businessId!).asStream();
-      //_listUsers();
+      _listUserStream = _userDataSource.getUsers(businessId!).asStream();;
     });
     super.initState();
   }
@@ -84,7 +83,7 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
       Navigator.pop(context);
       return;
     }
-    businessId = args["args"];
+    businessId = args[business_id_args];
     setState(() {
       isLoading = false;
     });
@@ -92,11 +91,6 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
 
   void _nextScreen(String route) {
     Navigator.pushNamed(context, route);
-  }
-
-  void _nextScreenArgs(String route, User user) {
-    final args = {"args": user};
-    Navigator.pushNamed(context, route, arguments: args);
   }
 
   Widget _component(List<User> users) {
