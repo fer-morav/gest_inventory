@@ -78,7 +78,8 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
                   height: 80,
                   child: ButtonMain(
                     onPressed: () {
-                      _nextScreenArgs(optionsSearch_product_route, _business!.id.toString());
+                     // _nextScreenArgs(optionsSearch_product_route, _business!.id.toString());
+                      _nextScreenArgs(search_product_code_route, _business!.id.toString());
                     },
                     text: button_codeList_product,
                     isDisabled: true,

@@ -4,7 +4,6 @@ import 'package:gest_inventory/pages/AddProductPage.dart';
 import 'package:gest_inventory/pages/EditUserProfilePage.dart';
 import 'package:gest_inventory/pages/EmployeeListPage.dart';
 import 'package:gest_inventory/pages/InfoBusinessPage.dart';
-import 'package:gest_inventory/pages/OptionsSearchProductsPage.dart';
 import 'package:gest_inventory/pages/RecordDatePage.dart';
 import 'package:gest_inventory/pages/RegisterEmployeePage.dart';
 import 'package:gest_inventory/pages/SearchProductCodePage.dart';
@@ -39,7 +38,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     optionsList_product_page: (BuildContext context) => const OptionsListProductsPage(),
     allList_product_page: (BuildContext context) => const AllListProductsPage(),
     see_product_info_route: (BuildContext context) => const SeeInfoProductPage(),
-    optionsSearch_product_route: (BuildContext context) => const OptionsSearchProductsPage(),
     search_product_code_route: (BuildContext context) => const SearchProductCodePage(),
   };
 }
@@ -62,5 +60,4 @@ const add_product_page = "add_product";
 const optionsList_product_page = "opList_product";
 const allList_product_page = "allList_products";
 const see_product_info_route = "see_info_products";
-const optionsSearch_product_route = "opSearch_product";
 const search_product_code_route = "search_product_code";

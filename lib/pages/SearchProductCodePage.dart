@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
@@ -81,7 +83,49 @@ class _SearchProductCodePageState extends State<SearchProductCodePage> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.qr_code_scanner,
+          color: primaryColor,
+        ),
+        backgroundColor: Colors.white,
+        onPressed: () {
+          _scanProductSearch();
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
+  }
+
+  Future<void> _scanProductSearch() async {
+    TextEditingController idController = TextEditingController();
+    scanBarcodeNormal(idController);
+  }
+
+  void scanBarcodeNormal( TextEditingController idController) async {
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+    if (!mounted) return;
+    setState(() {
+      idController.text = barcodeScanRes;
+    });
+    if( (await _businessDataSource.getProduct(_business!.id.toString(), idController.text)) != null ){
+      final _product = await _businessDataSource.getProduct(_business!.id.toString(), idController.text);
+      _nextScreenArgsProduct(see_product_info_route, _product!);
+    }else{
+      _showToast("Producto no registrado");
+    }
+  }
+
+  void _nextScreenArgsProduct(String route, Product product) {
+    final args = {"args": product};
+    Navigator.pushNamed(context, route, arguments: args);
   }
 
   Future<void> _searchProduct() async {
