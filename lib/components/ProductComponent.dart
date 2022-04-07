@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/data/models/Product.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 
@@ -20,7 +21,7 @@ class ProductComponent extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () {
-        final args = {"args": product};
+        final args = {product_args: product};
         Navigator.pushNamed(context, see_product_info_route, arguments: args);
       },
       backgroundColor: Colors.white,

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
@@ -41,7 +42,6 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
     bottom: 10,
   );
 
-  late final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
   late final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
 
   bool _isLoading = true;
@@ -224,7 +224,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
       return;
     }
 
-    _user = args["args"];
+    _user = args[user_args];
 
     idController.text = _user!.id;
     nombreController.text = _user!.nombre;
@@ -304,7 +304,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
   }
 
   void _nextScreenArgs(String route, String businessId) {
-    final args = {"args": businessId};
+    final args = {business_id_args: businessId};
     Navigator.pushNamed(context, route, arguments: args);
   }
 
@@ -323,7 +323,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
   }
 
   void _nextScreen(String route, User user) {
-    final args = {"args": user};
+    final args = {user_args: user};
     Navigator.pushNamed(context, route, arguments: args);
   }
 

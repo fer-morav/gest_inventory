@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
@@ -102,7 +103,7 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
       return;
     }
 
-    businessId = args["args"];
+    businessId = args[business_id_args];
     _getBusiness(businessId!);
   }
 
@@ -118,17 +119,13 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
         });
   }
 
-  void _nextScreen(String route) {
-    Navigator.pushNamed(context, route);
-  }
-
   void _nextScreenArgs(String route, String businessId) {
-    final args = {"args": businessId};
+    final args = {business_id_args: businessId};
     Navigator.pushNamed(context, route, arguments: args);
   }
 
   void _nextScreenArgsSearch(String route, Business business) {
-    final args = {"args": business};
+    final args = {business_args: business};
     Navigator.pushNamed(context, route, arguments: args);
   }
 

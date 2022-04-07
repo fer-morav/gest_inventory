@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Product.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/scan_util.dart';
@@ -179,7 +180,7 @@ class _AddProductPageState extends State<AddProductPage> {
       return;
     }
 
-    businessId = args["args"];
+    businessId = args[business_id_args];
   }
 
   void _addProduct() async {
@@ -283,7 +284,7 @@ class _AddProductPageState extends State<AddProductPage> {
   }
 
   void _nextScreenArgs(String route, String businessId) {
-    final args = {"args": businessId};
+    final args = {business_id_args: businessId};
     Navigator.pushNamed(context, route, arguments: args);
   }
 }

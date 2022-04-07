@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/data/models/User.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 
@@ -20,7 +21,7 @@ class UserComponent extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () {
-        final args = {"args": user};
+        final args = {user_args: user};
         Navigator.pushNamed(context, see_profile_route, arguments: args);
       },
       backgroundColor: Colors.white,

@@ -19,7 +19,7 @@ const title_opList_product = "Listas de Productos";
 const title_allList_product = "Lista Completa de Productos";
 const title_info_product = "Información del Producto";
 const title_edit_business = "Modificar Negocio";
-
+const title_search_product = "Buscar Producto";
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";
@@ -63,6 +63,7 @@ const button_list_product = "Ver Listas de Productos";
 const button_allList_product = "Ver Todos Los Productos";
 const button_nameList_product = "Buscar Producto Por Nombre";
 const button_codeList_product = "Buscar Producto Por Código";
+const button_search = "Buscar";
 
 ////////////////TextFields////////////////////////////////////
 const textfield_label_email = "Correo Electronico";
@@ -96,6 +97,7 @@ const textfield_hint_id = "Ingrese el codigo del producto";
 const textfield_hint_unit_price = "Ingrese el precio";
 const textfield_hint_wholesale = "Ingrese el precio por mayoreo";
 const textfield_hint_stock = "Ingrese el numero de existencias";
+const textfield_hint_name_product = "Ingrese el nombre del producto";
 
 ////////////////Labels////////////////////////////////////////
 

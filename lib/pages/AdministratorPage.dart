@@ -6,6 +6,7 @@ import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 
@@ -131,7 +132,7 @@ class _Administrator extends State<AdministratorPage> {
       Navigator.pop(context);
       return;
     }
-    user = args["args"];
+    user = args[user_args];
   }
 
   void _nextScreen(String route) {
@@ -139,7 +140,7 @@ class _Administrator extends State<AdministratorPage> {
   }
 
   void _nextScreenArgs(String route, String businessId) {
-    final args = {"args": businessId};
+    final args = {business_id_args: businessId};
     Navigator.pushNamed(context, route, arguments: args);
   }
 

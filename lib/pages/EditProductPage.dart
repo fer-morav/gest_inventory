@@ -5,6 +5,7 @@ import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/data/models/Product.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/TextFieldMain.dart';
@@ -167,7 +168,7 @@ class _EditProductState extends State<EditProductPage> {
       return;
     }
 
-    _product = args["args"];
+    _product = args[product_args];
 
     nombreController.text = _product!.nombre;
     precioMayoreoController.text = _product!.precioMayoreo.toString();

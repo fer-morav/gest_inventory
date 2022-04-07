@@ -3,6 +3,7 @@ import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/ProductComponent.dart';
 import 'package:gest_inventory/data/models/Product.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 
 import '../data/framework/FirebaseAuthDataSource.dart';
@@ -87,18 +88,14 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
       Navigator.pop(context);
       return;
     }
-    businessId = args["args"];
+    businessId = args[business_id_args];
     setState(() {
       isLoading = false;
     });
   }
 
-  void _nextScreen(String route) {
-    Navigator.pushNamed(context, route);
-  }
-
-  void _nextScreenArgs(String route, String user) {
-    final args = {"args": user};
+  void _nextScreenArgs(String route, String businessId) {
+    final args = {businessId: businessId};
     Navigator.pushNamed(context, route, arguments: args);
   }
 

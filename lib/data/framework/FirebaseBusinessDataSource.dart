@@ -79,13 +79,13 @@ class FirebaseBusinessDataSource {
     }
   }
 
-  Future<Product?> getProduct(String businessId, String productName) async {
+  Future<Product?> getProduct(String businessId, String productId) async {
     try {
       final response = await _database
           .collection(BUSINESS_COLLECTION)
           .doc(businessId)
           .collection(BUSINESS_PRODUCT_COLLECTION)
-          .doc(productName)
+          .doc(productId)
           .get();
 
       if (response.exists && response.data() != null) {
@@ -93,6 +93,32 @@ class FirebaseBusinessDataSource {
       } else {
         return null;
       }
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<Product?> getProductForName(String businessId, String productName) async {
+    try {
+      final response = await _database
+          .collection(BUSINESS_COLLECTION)
+          .doc(businessId)
+          .collection(BUSINESS_PRODUCT_COLLECTION)
+          .get();
+
+      if(productName.isEmpty) {
+        return null;
+      }
+
+      Product? product;
+
+      for(var document in response.docs) {
+        final temp = Product.fromMap(document.data());
+        if(temp.nombre.contains(productName)){
+          product = temp;
+        }
+      }
+      return product;
     } catch (error) {
       return null;
     }

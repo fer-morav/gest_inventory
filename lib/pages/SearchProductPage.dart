@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
-import 'package:gest_inventory/components/ButtonMain.dart';
-import 'package:gest_inventory/components/ProductComponent.dart';
 import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/data/models/Product.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
-
 import '../components/ButtonSecond.dart';
 import '../components/TextFieldMain.dart';
-import '../data/framework/FirebaseAuthDataSource.dart';
-import '../data/framework/FirebaseUserDataSource.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
-import '../data/models/User.dart';
-import '../utils/colors.dart';
 import '../utils/routes.dart';
 
 class SearchProductPage extends StatefulWidget {
@@ -23,16 +17,14 @@ class SearchProductPage extends StatefulWidget {
 }
 
 class _SearchProductPageState extends State<SearchProductPage> {
-  final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
-  final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
-  late final FirebaseBusinessDataSource _businessDataSource = FirebaseBusinessDataSource();
+  late final FirebaseBusinessDataSource _businessDataSource =
+      FirebaseBusinessDataSource();
   final _padding = const EdgeInsets.only(
     left: 15,
     top: 10,
     right: 15,
     bottom: 10,
   );
-
 
   TextEditingController nombreController = TextEditingController();
   String? _nombreError;
@@ -41,15 +33,12 @@ class _SearchProductPageState extends State<SearchProductPage> {
   Product? _product;
   late String product;
   Business? business;
-  late Stream<List<Product>> _listProductStream;
 
   @override
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
       nombreController.text = "";
-      _listProductStream = _businessDataSource.getProducts(business!.id).asStream();
-      //_listUsers();
     });
     super.initState();
   }
@@ -57,13 +46,18 @@ class _SearchProductPageState extends State<SearchProductPage> {
   bool isLoading = true;
 
   @override
+  void dispose() {
+    nombreController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var _isSearching;
     return Scaffold(
       appBar: AppBarComponent(
-        textAppBar: "Busqueda",
+        textAppBar: title_search_product,
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.of(context).pop();
         },
       ),
       body: isLoading
@@ -73,13 +67,12 @@ class _SearchProductPageState extends State<SearchProductPage> {
                 Container(
                   padding: _padding,
                   child: TextFieldMain(
-                    hintText: "Ingrese el nombre del producto",
-                    labelText: "Ingrese el nombre del producto",
+                    hintText: textfield_hint_name_product,
+                    labelText: textfield_label_name,
                     textEditingController: nombreController,
                     isPassword: false,
                     isPasswordTextStatus: false,
-                    onTap: () {
-                    },
+                    onTap: () {},
                     errorText: _nombreError,
                   ),
                 ),
@@ -87,14 +80,13 @@ class _SearchProductPageState extends State<SearchProductPage> {
                   padding: _padding,
                   height: 80,
                   child: ButtonSecond(
-                    onPressed:
-                    _saveData,
+                    onPressed: _saveData,
                     //_nextScreenArgs(see_product_info_route, product),
-                    text: "Buscar",
+                    text: button_search,
                   ),
                 ),
               ],
-          ),
+            ),
     );
   }
 
@@ -104,50 +96,34 @@ class _SearchProductPageState extends State<SearchProductPage> {
       Navigator.pop(context);
       return;
     }
-    business= args["args"];
+    business = args[business_args];
     setState(() {
       isLoading = false;
     });
   }
 
-   _saveData() async {
-     _businessDataSource.getProduct(business!.id,nombreController.text).then((product) => {
-       if (product != null)
-         {
-           setState(() {
-             _product = product;
-             isLoading = false;
-           }),
-         }
-       else
-         {print(product?.id)}
-     });
-     _product.toString();
-     nombreController.text = "";
-     _nextScreenArgs(see_product_info_route, _product!);
-  }
-
-  void _nextScreen(String route) {
-    Navigator.pushNamed(context, route);
+  _saveData() async {
+    _businessDataSource
+        .getProductForName(business!.id, nombreController.text)
+        .then((product) => {
+              if (product != null)
+                {
+                  setState(() {
+                    _product = product;
+                    isLoading = false;
+                    _nextScreenArgs(see_product_info_route, _product!);
+                  }),
+                }
+              else
+                {
+                  _showToast("No se encontro el producto"),
+                }
+            });
   }
 
   void _nextScreenArgs(String route, Product product) {
-    final args = {"args": product};
+    final args = {product_args: product};
     Navigator.pushNamed(context, route, arguments: args);
-  }
-
-  Widget _component(List<Product> products) {
-    return ListView.builder(
-      itemCount: products.length,
-      itemBuilder: (contex, index) {
-        return Padding(
-          padding: const EdgeInsets.all(10),
-          child: ProductComponent(
-            product: products[index],
-          ),
-        );
-      },
-    );
   }
 
   Center waitingConnection() {
@@ -162,17 +138,17 @@ class _SearchProductPageState extends State<SearchProductPage> {
     );
   }
 
-  Center hasError(String text) {
-    return Center(
-      child: Text(
-        text,
-        style: TextStyle(
-          color: primaryColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
-        ),
+  void _showToast(String content) {
+    final snackBar = SnackBar(
+      content: Text(
+        content,
         textAlign: TextAlign.center,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 15,
+        ),
       ),
     );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

@@ -6,6 +6,7 @@ import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 
 import '../data/models/User.dart';
@@ -108,7 +109,7 @@ class _Employees extends State<EmployeesPage> {
       Navigator.pop(context);
       return;
     }
-    user = args["args"];
+    user = args[user_args];
   }
 
   void _signOut () async {

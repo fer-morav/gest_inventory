@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/data/models/Product.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
@@ -279,7 +280,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
   }
 
   void _nextScreenArgs(String route, Product product) {
-    final args = {"args": product};
+    final args = {product_args: product};
     Navigator.pushNamed(context, route, arguments: args);
   }
 
@@ -290,7 +291,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
       return;
     }
 
-    _product = args["args"];
+    _product = args[product_args];
 
     nombre = _product!.nombre;
     precioMayoreo = _product!.precioMayoreo.toString();
