@@ -67,7 +67,8 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
                   height: 80,
                   child: ButtonMain(
                     onPressed: () {
-                      //_nextScreenArgs(info_business_route, user!.idNegocio.toString());
+                      //_nextScreenArgs(search_product_route, _business!.id.toString());
+                      _nextScreenArgsSearch(search_product_route, _business!);
                     },
                     text: button_nameList_product,
                     isDisabled: true,
@@ -123,6 +124,11 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
 
   void _nextScreenArgs(String route, String businessId) {
     final args = {"args": businessId};
+    Navigator.pushNamed(context, route, arguments: args);
+  }
+
+  void _nextScreenArgsSearch(String route, Business business) {
+    final args = {"args": business};
     Navigator.pushNamed(context, route, arguments: args);
   }
 

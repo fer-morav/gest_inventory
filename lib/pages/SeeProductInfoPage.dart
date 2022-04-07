@@ -272,7 +272,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
             ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
-        onPressed: () => _nextScreenArgs(modify_profile_route, _product!),//Cambiar por edicion de informacion
+        onPressed: () => _nextScreenArgs(modify_product_route, _product!),//Cambiar por edicion de informacion
         child: Icon(Icons.edit_outlined),
       ),
     );

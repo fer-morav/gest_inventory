@@ -79,13 +79,13 @@ class FirebaseBusinessDataSource {
     }
   }
 
-  Future<Product?> getProduct(String businessId, String productId) async {
+  Future<Product?> getProduct(String businessId, String productName) async {
     try {
       final response = await _database
           .collection(BUSINESS_COLLECTION)
           .doc(businessId)
           .collection(BUSINESS_PRODUCT_COLLECTION)
-          .doc(productId)
+          .doc(productName)
           .get();
 
       if (response.exists && response.data() != null) {
