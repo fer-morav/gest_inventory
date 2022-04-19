@@ -21,6 +21,7 @@ const title_info_product = "Información del Producto";
 const title_edit_business = "Modificar Negocio";
 const title_search_product = "Buscar Producto";
 const title_opSearch_product = "Busqueda de Productos";
+const title_make_sale = "Realizar Venta";
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";
@@ -68,6 +69,9 @@ const button_search = "Buscar";
 const button_getCode_product = "Ingresar Código";
 const button_scanCode_product = "Escanear Código";
 const button_search_product = "Buscar producto";
+const button_addProduct_toCart = "Agregar al Carrito";
+const button_removeProduct_fromCart = "Eliminar del Carrito";
+const button_paying_products = "Pagar Productos";
 
 ////////////////TextFields////////////////////////////////////
 const textfield_label_email = "Correo Electronico";
@@ -86,6 +90,7 @@ const textfield_label_product = "Código de producto";
 const textfield_label_wholesale = "Precio Mayoreo";
 const textfield_label_stock = "Existencias";
 const textfield_label_name_business = "Nombre del Negocio";
+const textfield_label_name_product = "Nombre del Producto";
 
 const textfield_hint_one_option = "Seleccione solo una opción";
 const textfield_hint_name = "Ingrese el nombre";
@@ -119,6 +124,15 @@ const text_available_in = "Disponible en:";
 const text_sale_day = "Ventas de hoy:";
 const text_sale_week = "Ventas de esta semana:";
 const text_sale_month = "Ventas de este mes:";
+const text_in_cart = "EN EL CARRITO:";
+const text_empty_cart = "CARRITO VACÍO";
+const text_removed_product = "Producto Eliminado del Carrito";
+const text_added_product = "Producto Agregado al Carrito";
+const text_product_not_avilable = "Producto No Disponible, Sin Existencias";
+const text_unregistered_product = "Producto No Registrado";
+const text_search_by_name = "Busqueda por Nombre";
+const text_product_not_found = "Producto No Encontrado";
+
 ////////////////Alert////////////////////////////////////////
 const alert_title_send_email = "Enlace enviado para restablecer contraseña";
 const alert_title_error_not_registered = "Usuario no registrado";
