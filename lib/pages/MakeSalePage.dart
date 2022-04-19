@@ -68,45 +68,6 @@ class _MakeSalePageState extends State<MakeSalePage> {
       ),
       body: ListView(
         children: [
-          /*Container(
-            padding: _padding,
-            child: TextFieldMain(
-              hintText: textfield_hint_id,
-              labelText: textfield_label_id,
-              textEditingController: idController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
-              errorText: _idError,
-            ),
-          ),*/
-          /*Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: _padding,
-                height: 80,
-                child: ButtonMain(
-                  onPressed: () {
-                    _addProduct();
-                  },
-                  text: button_addProduct_toCart,
-                  isDisabled: false,
-                ),
-              ),
-              Container(
-                padding: _padding,
-                height: 80,
-                child: ButtonMain(
-                  onPressed: () {
-                    _removeProduct();
-                  },
-                  text: button_removeProduct_fromCart,
-                  isDisabled: false,
-                ),
-              ),
-            ],
-          ),*/
           Container(
             padding: _padding,
             height: 80,
@@ -133,7 +94,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
             ),
             child: FittedBox(
               child: Text(
-                litems.length > 0 ? "En Carrito:" : "Carrito Vacío...",
+                litems.length > 0 ? text_in_cart : text_empty_cart,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w800,
@@ -152,7 +113,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
                   onDismissed: (_) {
                     litems.removeAt(Index);
                     listProduct.removeAt(Index);
-                    _showToast("Producto Eliminado del Carrito");
+                    _showToast(text_removed_product);
                     setState(() {});
                   },
                   movementDuration: Duration(milliseconds: 100),
@@ -177,7 +138,6 @@ class _MakeSalePageState extends State<MakeSalePage> {
                             listProduct[Index].nombre,
                             style: TextStyle(
                               color: primaryColor,
-                              //fontWeight: FontWeight.w900,
                               fontSize: getResponsiveText(17)
                             ),
                             textAlign: TextAlign.left,
@@ -188,7 +148,6 @@ class _MakeSalePageState extends State<MakeSalePage> {
                             "\$ "+listProduct[Index].precioUnitario.toString(),
                             style: TextStyle(
                               color: primaryColor,
-                              //fontWeight: FontWeight.w900,
                               fontSize: getResponsiveText(17)
                             ),
                             textAlign: TextAlign.left,
@@ -199,7 +158,6 @@ class _MakeSalePageState extends State<MakeSalePage> {
                             "Stock: "+listProduct[Index].stock.toString(),
                             style: TextStyle(
                               color: primaryColor,
-                              //fontWeight: FontWeight.w900,
                               fontSize: getResponsiveText(17)
                             ),
                             textAlign: TextAlign.left,
@@ -256,9 +214,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
       Navigator.pop(context);
       return;
     }
-
     businessId = args[business_id_args];
-    //_showToast("ID DE NEGOCIO: "+businessId.toString());
     setState(() {});
   }
 
@@ -266,7 +222,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
     litems.add(idController.text);
     idController.clear();
     setState(() {});
-    _showToast("Producto Añadido al Carrito");
+    _showToast(text_added_product);
   }
 
   void scanQR() async {
@@ -283,12 +239,10 @@ class _MakeSalePageState extends State<MakeSalePage> {
         listProduct.add(_product);
         _addProduct();
       }else{
-        _showToast("Producto no disponible, sin existencias"); 
+        _showToast(text_product_not_avilable); 
       }
-      
-      //_showToast("ID: "+listProduct[1]!.id);
     }else{
-      _showToast("Producto no registrado");
+      _showToast(text_unregistered_product);
     }
     if (!mounted) return;
   }
@@ -298,7 +252,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
       context: context,
       builder: (buildcontext){
         return AlertDialog(
-          title: Text("Busqueda por Nombre"),
+          title: Text(text_search_by_name),
           content: Container(
             padding: _padding,
             child: TextFieldMain(
@@ -317,7 +271,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
                 Navigator.of(context).pop();
                 searchByName();
               },
-              text: "Buscar",
+              text: button_search,
               isDisabled: false,
             ),
           ],
@@ -336,12 +290,12 @@ class _MakeSalePageState extends State<MakeSalePage> {
                     listProduct.add(product),
                     _addProduct(),
                   }else{
-                    _showToast("Producto no disponible, sin existencias"),
+                    _showToast(text_product_not_avilable),
                   }
                 }
               else
                 {
-                  _showToast("No se encontro el producto"),
+                  _showToast(text_product_not_found),
                 }
           });
   }

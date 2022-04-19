@@ -124,6 +124,15 @@ const text_available_in = "Disponible en:";
 const text_sale_day = "Ventas de hoy:";
 const text_sale_week = "Ventas de esta semana:";
 const text_sale_month = "Ventas de este mes:";
+const text_in_cart = "EN EL CARRITO:";
+const text_empty_cart = "CARRITO VACÍO";
+const text_removed_product = "Producto Eliminado del Carrito";
+const text_added_product = "Producto Agregado al Carrito";
+const text_product_not_avilable = "Producto No Disponible, Sin Existencias";
+const text_unregistered_product = "Producto No Registrado";
+const text_search_by_name = "Busqueda por Nombre";
+const text_product_not_found = "Producto No Encontrado";
+
 ////////////////Alert////////////////////////////////////////
 const alert_title_send_email = "Enlace enviado para restablecer contraseña";
 const alert_title_error_not_registered = "Usuario no registrado";
