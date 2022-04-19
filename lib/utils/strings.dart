@@ -109,7 +109,16 @@ const textfield_hint_name_product = "Ingrese el nombre del producto";
 
 const text_havent_business = "¿Aún no Registras tu Negocio?";
 const text_forget_password = "¿Olvidaste tu Contraseña?";
-
+const text_available = "Disponible";
+const text_not_available = "No Disponible";
+const text_product = "Producto:";
+const text_unit_price = "Precio Unitario:";
+const text_price = "Precio Mayoreo";
+const text_stock = "Stock:";
+const text_available_in = "Disponible en:";
+const text_sale_day = "Ventas de hoy:";
+const text_sale_week = "Ventas de esta semana:";
+const text_sale_month = "Ventas de este mes:";
 ////////////////Alert////////////////////////////////////////
 const alert_title_send_email = "Enlace enviado para restablecer contraseña";
 const alert_title_error_not_registered = "Usuario no registrado";

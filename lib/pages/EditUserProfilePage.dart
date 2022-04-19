@@ -42,7 +42,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
     bottom: 10,
   );
 
-  late final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
+  late final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
 
   bool _isLoading = true;
   User? _user;

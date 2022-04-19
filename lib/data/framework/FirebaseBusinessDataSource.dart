@@ -4,11 +4,9 @@ import 'package:gest_inventory/data/models/User.dart';
 
 import '../models/Business.dart';
 import '../models/Product.dart';
+import 'FirebaseConstants.dart';
 
 class FirebaseBusinessDataSource {
-  static const BUSINESS_COLLECTION = "business";
-  static const BUSINESS_PRODUCT_COLLECTION = "products";
-  static const USERS_COLLECTION = "users";
 
   final FirebaseFirestore _database = FirebaseFirestore.instance;
 

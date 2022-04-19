@@ -18,7 +18,14 @@ class SeeInfoProductPage extends StatefulWidget {
 }
 
 class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
-  late String nombre, precioMayoreo, precioUnitario, stock, ventaMes, ventaSemana, idNegocio, negocio;
+  late String nombre,
+      precioMayoreo,
+      precioUnitario,
+      stock,
+      ventaMes,
+      ventaSemana,
+      idNegocio,
+      negocio;
 
   final _padding = const EdgeInsets.only(
     left: 15,
@@ -88,7 +95,9 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
                   ),
                   child: FittedBox(
                     child: Text(
-                      stock.toString() == "0.0" ? "No Disponible" : "Disponible",
+                      stock.toString() == "0.0"
+                          ? text_not_available
+                          : text_available,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w800,
@@ -124,7 +133,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    "Precio Unitario: ",
+                    text_unit_price,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Color.fromARGB(1000, 0, 68, 106),
@@ -136,7 +145,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    "\$ "+_product!.precioUnitario.toString(),
+                    "\$ " + _product!.precioUnitario.toString(),
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       color: Colors.black87,
@@ -148,7 +157,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    "Precio Mayoreo: ",
+                    text_price,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Color.fromARGB(1000, 0, 68, 106),
@@ -160,7 +169,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    "\$ "+_product!.precioMayoreo.toString(),
+                    "\$ " + _product!.precioMayoreo.toString(),
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       color: Colors.black87,
@@ -172,7 +181,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    "Stock: ",
+                    text_stock,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Color.fromARGB(1000, 0, 68, 106),
@@ -184,7 +193,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    _product!.stock.toString()+" Unidades",
+                    _product!.stock.toString() + " Unidades",
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       color: Colors.black87,
@@ -196,7 +205,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    "Disponible en: ",
+                    text_available_in,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Color.fromARGB(1000, 0, 68, 106),
@@ -219,61 +228,57 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
                 ),
                 Container(
                   padding: _padding,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Ventas esta semana: ",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                        ),
-                      ),
-                      Text(
-                        _product!.ventaSemana.toString(),
-                        textAlign: TextAlign.right,
-                        style: const TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    text_sale_week,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      color: primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
                   ),
                 ),
                 Container(
                   padding: _padding,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Ventas este mes: ",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                        ),
-                      ),
-                      Text(
-                        _product!.ventaMes.toString(),
-                        textAlign: TextAlign.right,
-                        style: const TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    _product!.ventaSemana.toString(),
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  child: Text(
+                    text_sale_month,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  child: Text(
+                    _product!.ventaMes.toString(),
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
                   ),
                 ),
               ],
             ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
-        onPressed: () => _nextScreenArgs(modify_product_route, _product!),//Cambiar por edicion de informacion
+        onPressed: () => _nextScreenArgs(modify_product_route, _product!),
         child: Icon(Icons.edit_outlined),
       ),
     );
