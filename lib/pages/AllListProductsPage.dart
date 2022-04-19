@@ -22,7 +22,7 @@ class AllListProductsPage extends StatefulWidget {
 
 class _AllListProductsPageState extends State<AllListProductsPage> {
   final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
-  final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
+  final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
   late final FirebaseBusinessDataSource _businessDataSource = FirebaseBusinessDataSource();
 
   String? businessId;

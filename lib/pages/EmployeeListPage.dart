@@ -19,7 +19,7 @@ class EmployeeListPage extends StatefulWidget {
 }
 
 class _EmployeeListPageState extends State<EmployeeListPage> {
-  final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
+  final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
 
   String? businessId;
   late Stream<List<User>> _listUserStream;

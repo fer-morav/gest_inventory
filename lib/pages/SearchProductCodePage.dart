@@ -20,7 +20,6 @@ class SearchProductCodePage extends StatefulWidget {
 }
 
 class _SearchProductCodePageState extends State<SearchProductCodePage> {
-
   TextEditingController idProductController = TextEditingController();
 
   final _padding = const EdgeInsets.only(
@@ -31,7 +30,7 @@ class _SearchProductCodePageState extends State<SearchProductCodePage> {
   );
 
   late final FirebaseBusinessDataSource _businessDataSource =
-  FirebaseBusinessDataSource();
+      FirebaseBusinessDataSource();
 
   String? businessId;
   Business? _business;
@@ -59,31 +58,31 @@ class _SearchProductCodePageState extends State<SearchProductCodePage> {
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView(
-        children: [
-          Container(
-            padding: _padding,
-            height: 80,
-            child: TextFieldMain(
-              hintText: textfield_hint_product,
-              labelText: textfield_label_product,
-              textEditingController: idProductController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
+              children: [
+                Container(
+                  padding: _padding,
+                  height: 80,
+                  child: TextFieldMain(
+                    hintText: textfield_hint_product,
+                    labelText: textfield_label_product,
+                    textEditingController: idProductController,
+                    isPassword: false,
+                    isPasswordTextStatus: false,
+                    onTap: () {},
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  height: 80,
+                  child: ButtonSecond(
+                    onPressed: () {
+                      _searchProduct();
+                    },
+                    text: button_search_product,
+                  ),
+                ),
+              ],
             ),
-          ),
-          Container(
-            padding: _padding,
-            height: 80,
-            child: ButtonSecond(
-              onPressed: () {
-                _searchProduct();
-              },
-              text: button_search_product,
-            ),
-          ),
-        ],
-      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.qr_code_scanner,
@@ -100,10 +99,13 @@ class _SearchProductCodePageState extends State<SearchProductCodePage> {
 
   void _scanProductSearch() async {
     idProductController.text = await _scanUtil.scanBarcodeNormal();
-    if( (await _businessDataSource.getProduct(_business!.id.toString(), idProductController.text)) != null ){
-      final _product = await _businessDataSource.getProduct(_business!.id.toString(), idProductController.text);
+    if ((await _businessDataSource.getProduct(
+            _business!.id.toString(), idProductController.text)) !=
+        null) {
+      final _product = await _businessDataSource.getProduct(
+          _business!.id.toString(), idProductController.text);
       _nextScreenArgsProduct(see_product_info_route, _product!);
-    }else{
+    } else {
       _showToast("Producto no registrado");
     }
   }
@@ -116,14 +118,17 @@ class _SearchProductCodePageState extends State<SearchProductCodePage> {
   Future<void> _searchProduct() async {
     String idproduct = idProductController.text.split(" ").first;
 
-    if (idproduct.isEmpty ) {
+    if (idproduct.isEmpty) {
       _showToast(alert_content_imcomplete);
     } else {
-      if( (await _businessDataSource.getProduct(_business!.id.toString(), idproduct )) != null ){
-        final _product = await _businessDataSource.getProduct(_business!.id.toString(), idproduct );
+      if ((await _businessDataSource.getProduct(
+              _business!.id.toString(), idproduct)) !=
+          null) {
+        final _product = await _businessDataSource.getProduct(
+            _business!.id.toString(), idproduct);
         _nextScreenArgsProduct(see_product_info_route, _product!);
-      }else{
-       _showToast("Código invalido");
+      } else {
+        _showToast("Código invalido");
       }
     }
   }
@@ -141,14 +146,14 @@ class _SearchProductCodePageState extends State<SearchProductCodePage> {
 
   void _getBusiness(String id) async {
     _businessDataSource.getBusiness(id).then((business) => {
-      if (business != null)
-        {
-          setState(() {
-            _business = business;
-            _isLoading = false;
-          }),
-        }
-    });
+          if (business != null)
+            {
+              setState(() {
+                _business = business;
+                _isLoading = false;
+              }),
+            }
+        });
   }
 
   void _showToast(String content) {

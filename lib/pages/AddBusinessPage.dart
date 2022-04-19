@@ -41,7 +41,7 @@ class _AddBusinessState extends State<AddBusinessPage> {
   late final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
   late final FirebaseBusinessDataSource _businessDataSource =
       FirebaseBusinessDataSource();
-  late final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
+  late final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
 
   User? user;
   String? userId;

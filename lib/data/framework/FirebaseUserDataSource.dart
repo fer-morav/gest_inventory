@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/User.dart';
+import 'FirebaseConstants.dart';
 
-class FirebaseUserDataSouce {
-  static const USERS_COLLECTION = "users";
-
+class FirebaseUserDataSource {
   final FirebaseFirestore _database = FirebaseFirestore.instance;
 
   Future<User?> getUser(String id) async {
