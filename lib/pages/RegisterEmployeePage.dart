@@ -53,7 +53,7 @@ class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
   Business? business;
 
   late final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
-  late final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
+  late final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
   late final FirebaseBusinessDataSource _businessDataSource =
       FirebaseBusinessDataSource();
 
