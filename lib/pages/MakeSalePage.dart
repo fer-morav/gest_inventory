@@ -250,7 +250,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
   void DialogSearchByName(){
     showDialog(
       context: context,
-      builder: (buildcontext){
+      builder: (buildContext){
         return AlertDialog(
           title: Text(text_search_by_name),
           content: Container(
@@ -332,6 +332,6 @@ class _MakeSalePageState extends State<MakeSalePage> {
   }
 
   double getResponsiveText(double size) =>
-        size * sizeReference / MediaQuery.of(context).size.longestSide;
+      size * sizeReference / MediaQuery.of(context).size.longestSide;
   
 }

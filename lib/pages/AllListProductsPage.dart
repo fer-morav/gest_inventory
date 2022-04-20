@@ -95,7 +95,7 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
   }
 
   void _nextScreenArgs(String route, String businessId) {
-    final args = {businessId: businessId};
+    final args = {business_id_args: businessId};
     Navigator.pushNamed(context, route, arguments: args);
   }
 
