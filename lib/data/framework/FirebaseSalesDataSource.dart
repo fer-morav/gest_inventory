@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/Sales.dart';
 import 'FirebaseConstants.dart';
 
-class FirebaseSaleDataSource {
+class FirebaseSalesDataSource {
 
   final FirebaseFirestore _database = FirebaseFirestore.instance;
 
