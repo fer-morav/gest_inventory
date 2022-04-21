@@ -8,6 +8,7 @@ import 'package:gest_inventory/pages/EmployeeListPage.dart';
 import 'package:gest_inventory/pages/InfoBusinessPage.dart';
 import 'package:gest_inventory/pages/RecordDatePage.dart';
 import 'package:gest_inventory/pages/RegisterEmployeePage.dart';
+import 'package:gest_inventory/pages/RestockPage.dart';
 import 'package:gest_inventory/pages/SearchProductPage.dart';
 import 'package:gest_inventory/pages/StatisticsPage.dart';
 import 'package:gest_inventory/pages/ViewRecordsPage.dart';
@@ -45,6 +46,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     search_product_route: (BuildContext context) => const SearchProductPage(),
     modify_product_route: (BuildContext context) => const EditProductPage(),
     search_product_code_route: (BuildContext context) => const SearchProductCodePage(),
+    restock_route: (BuildContext context) => const RestockPage(),
   };
 }
 
@@ -70,3 +72,4 @@ const edit_business_route = "edit_business";
 const search_product_route = "search_product";
 const modify_product_route = "modify_product";
 const search_product_code_route = "search_product_code";
+const restock_route = "restock";
