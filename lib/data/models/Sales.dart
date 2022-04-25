@@ -10,15 +10,19 @@ class Sales {
   int ventasMayoreo = 0;
   double total = 0.0;
 
+  static const VENTAS_UNITARIO = "ventasUnitario";
+  static const VENTAS_MAYOREO = "ventasMayoreo";
+  static const TOTAL = "total";
+
   Sales({
-    required this.id,
-    required this.idNegocio,
-    required this.nombreProducto,
-    required this.precioUnitario,
-    required this.precioMayoreo,
-    required this.ventasUnitario,
-    required this.ventasMayoreo,
-    required this.total,
+    this.id = "",
+    this.idNegocio = "",
+    this.nombreProducto = "",
+    this.precioUnitario = 0.0,
+    this.precioMayoreo = 0.0,
+    this.ventasUnitario = 0,
+    this.ventasMayoreo = 0,
+    this.total = 0,
   });
 
   Sales copyWith({
