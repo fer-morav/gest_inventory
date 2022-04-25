@@ -77,8 +77,9 @@ class _MakeSalePageState extends State<MakeSalePage> {
                   height: 80,
                   child: ButtonMain(
                     onPressed: () {
+                      isLoading = true;
                       _payProduct();
-                      Navigator.of(context).pop();
+                      Navigator.pop(context);
                     },
                     text: button_paying_products,
                     isDisabled: false,
@@ -221,8 +222,10 @@ class _MakeSalePageState extends State<MakeSalePage> {
       return;
     }
     businessId = args[business_id_args];
-    isLoading = false;
-    setState(() {});
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   bool inStock(Product product) {
@@ -356,38 +359,52 @@ class _MakeSalePageState extends State<MakeSalePage> {
   }
 
   _payProduct() {
-    isLoading = true;
-    int contProduct = 0;
-    List<String> paid = [];
-    listProduct.forEach((product) {
-      listProduct.forEach((element) {
-        if (element.id == product.id && !paid.contains(element.id)) {
-          contProduct++;
-        }
-      });
-      _payPrice(product, contProduct);
-      paid.add(product.id);
-      contProduct = 0;
+    setState(() {
+      isLoading = true;
     });
+    List<String> paid = [];
+    listProduct.forEach((product) async {
+      if(!paid.contains(product.id)){
+        await _payPrice(product,  quantityProduct(product.id));
+        paid.add(product.id);
+      }
+    });
+  }
+
+  int quantityProduct(String id) {
+    int cont = 0;
+    listItems.forEach((element) {
+      if(element == id) {
+        cont++;
+      }
+    });
+    return cont;
   }
 
   _payPrice(Product product, int quantity) async {
     Sales? sale = await _salesDataSource.getSale(businessId!, product.id);
     if (sale != null) {
+      Map<String, num> changes;
+
       if (quantity >= 10) {
-        sale.ventasMayoreo += quantity;
-        sale.total += sale.precioMayoreo * quantity;
+        changes = {
+          Sales.VENTAS_MAYOREO: sale.ventasMayoreo + quantity,
+          Sales.TOTAL: sale.total + (sale.precioMayoreo * quantity)
+        };
       } else {
-        sale.ventasUnitario += quantity;
-        sale.total += sale.precioUnitario * quantity;
+        changes = {
+          Sales.VENTAS_UNITARIO: sale.ventasUnitario + quantity,
+          Sales.TOTAL: sale.total + (sale.precioUnitario * quantity)
+        };
       }
-      if (!await _salesDataSource.updateSale(sale)) {
-        _showToast("No se realizo la venta del producto ${product.nombre}");
-      } else {
+
+      if (await _salesDataSource.updateSale(businessId!, sale.id, changes)) {
         product.stock -= quantity;
-        _businessDataSource.updateProduct(product);
+        await _businessDataSource.updateProduct(product);
       }
+
     } else {
+
       final sale = Sales(
         id: product.id,
         idNegocio: product.idNegocio,
@@ -400,11 +417,9 @@ class _MakeSalePageState extends State<MakeSalePage> {
             ? product.precioUnitario * quantity
             : product.precioMayoreo * quantity,
       );
-      if (!await _salesDataSource.addSale(sale)) {
-        _showToast("No se realizo la venta del producto ${product.nombre}");
-      } else {
+      if (await _salesDataSource.addSale(sale)) {
         product.stock -= quantity;
-        _businessDataSource.updateProduct(product);
+        await _businessDataSource.updateProduct(product);
       }
     }
   }
