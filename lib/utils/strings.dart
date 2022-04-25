@@ -21,6 +21,7 @@ const title_info_product = "Información del Producto";
 const title_edit_business = "Modificar Negocio";
 const title_search_product = "Buscar Producto";
 const title_opSearch_product = "Busqueda de Productos";
+const title_make_sale = "Realizar Venta";
 const title_restock_product = "Entrada de Productos";
 
 ////////////////Buttons///////////////////////////////////////
@@ -70,6 +71,9 @@ const button_search = "Buscar";
 const button_getCode_product = "Ingresar Código";
 const button_scanCode_product = "Escanear Código";
 const button_search_product = "Buscar producto";
+const button_addProduct_toCart = "Agregar al Carrito";
+const button_removeProduct_fromCart = "Eliminar del Carrito";
+const button_paying_products = "Pagar Productos";
 const button_restock_product = "Registrar Entrada";
 
 ////////////////TextFields////////////////////////////////////
@@ -90,6 +94,7 @@ const textfield_label_newStock_product = "Cantidad de productos";
 const textfield_label_wholesale = "Precio Mayoreo";
 const textfield_label_stock = "Existencias";
 const textfield_label_name_business = "Nombre del Negocio";
+const textfield_label_name_product = "Nombre del Producto";
 
 const textfield_hint_one_option = "Seleccione solo una opción";
 const textfield_hint_name = "Ingrese el nombre";
@@ -114,6 +119,24 @@ const textfield_hint_name_product = "Ingrese el nombre del producto";
 
 const text_havent_business = "¿Aún no Registras tu Negocio?";
 const text_forget_password = "¿Olvidaste tu Contraseña?";
+const text_available = "Disponible";
+const text_not_available = "No Disponible";
+const text_product = "Producto:";
+const text_unit_price = "Precio Unitario:";
+const text_price = "Precio Mayoreo";
+const text_stock = "Stock:";
+const text_available_in = "Disponible en:";
+const text_sale_day = "Ventas de hoy:";
+const text_sale_week = "Ventas de esta semana:";
+const text_sale_month = "Ventas de este mes:";
+const text_in_cart = "EN EL CARRITO:";
+const text_empty_cart = "CARRITO VACÍO";
+const text_removed_product = "Producto Eliminado del Carrito";
+const text_added_product = "Producto Agregado al Carrito";
+const text_product_not_avilable = "Producto No Disponible, Sin Existencias";
+const text_unregistered_product = "Producto No Registrado";
+const text_search_by_name = "Busqueda por Nombre";
+const text_product_not_found = "Producto No Encontrado";
 
 ////////////////Alert////////////////////////////////////////
 const alert_title_send_email = "Enlace enviado para restablecer contraseña";

@@ -263,7 +263,7 @@ class _EditProductState extends State<EditProductPage> {
     if (_product != null &&
         await _businessDataSource.updateProduct(_product!)) {
       _showToast("Datos actualizados");
-      Navigator.pop(context);
+      Navigator.pop(context);Navigator.pop(context);Navigator.pop(context);
     } else {
       _showToast("Error al actualizar los datos");
     }

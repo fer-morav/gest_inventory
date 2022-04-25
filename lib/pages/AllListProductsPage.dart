@@ -22,7 +22,7 @@ class AllListProductsPage extends StatefulWidget {
 
 class _AllListProductsPageState extends State<AllListProductsPage> {
   final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
-  final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
+  final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
   late final FirebaseBusinessDataSource _businessDataSource = FirebaseBusinessDataSource();
 
   String? businessId;
@@ -95,7 +95,7 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
   }
 
   void _nextScreenArgs(String route, String businessId) {
-    final args = {businessId: businessId};
+    final args = {business_id_args: businessId};
     Navigator.pushNamed(context, route, arguments: args);
   }
 

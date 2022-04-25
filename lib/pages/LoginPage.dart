@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
   );
 
   late final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
-  late final FirebaseUserDataSouce _userDataSource = FirebaseUserDataSouce();
+  late final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
 
   bool showPassword = true;
   bool isLoading = true;
