@@ -91,6 +91,17 @@ class _Administrator extends State<AdministratorPage> {
               padding: _padding,
               height: 80,
               child: ButtonMain(
+                onPressed: () {
+                  _nextScreenArgs(restock_route, user!.idNegocio.toString());
+                },
+                text: button_make_restock,
+                isDisabled: true,
+              ),
+            ),
+            Container(
+              padding: _padding,
+              height: 80,
+              child: ButtonMain(
                 onPressed: () => _nextScreen(records_route),
                 text: button_records,
                 isDisabled: true,

@@ -22,6 +22,7 @@ const title_edit_business = "Modificar Negocio";
 const title_search_product = "Buscar Producto";
 const title_opSearch_product = "Busqueda de Productos";
 const title_make_sale = "Realizar Venta";
+const title_restock_product = "Entrada de Productos";
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";
@@ -72,6 +73,8 @@ const button_search_product = "Buscar producto";
 const button_addProduct_toCart = "Agregar al Carrito";
 const button_removeProduct_fromCart = "Eliminar del Carrito";
 const button_paying_products = "Pagar Productos";
+const button_restock_product = "Registrar Entrada";
+const button_make_restock = "Realizar Entrada";
 
 ////////////////TextFields////////////////////////////////////
 const textfield_label_email = "Correo Electronico";
@@ -91,6 +94,7 @@ const textfield_label_wholesale = "Precio Mayoreo";
 const textfield_label_stock = "Existencias";
 const textfield_label_name_business = "Nombre del Negocio";
 const textfield_label_name_product = "Nombre del Producto";
+const textfield_label_newStock_product = "Cantidad de productos";
 
 const textfield_hint_one_option = "Seleccione solo una opción";
 const textfield_hint_name = "Ingrese el nombre";
@@ -109,6 +113,7 @@ const textfield_hint_unit_price = "Ingrese el precio";
 const textfield_hint_wholesale = "Ingrese el precio por mayoreo";
 const textfield_hint_stock = "Ingrese el numero de existencias";
 const textfield_hint_name_product = "Ingrese el nombre del producto";
+const textfield_hint_newStock_product = "Ingrese la cantidad del productos";
 
 ////////////////Labels////////////////////////////////////////
 
