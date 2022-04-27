@@ -136,11 +136,6 @@ class _RestockPageState extends State<RestockPage> {
     }
   }
 
-  void _nextScreenArgsProduct(String route, Product product) {
-    final args = {product_args: product};
-    Navigator.pushNamed(context, route, arguments: args);
-  }
-
   Future<void> _searchProduct() async {
     String idproduct = idProductController.text.split(" ").first;
     double newStock = 0;
