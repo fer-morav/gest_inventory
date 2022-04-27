@@ -41,8 +41,9 @@ class SalesComponent extends StatelessWidget {
               scale: 1.6,
               child: Icon(
                 Icons.monetization_on_outlined,
-                color:
-                    sales.nombreProducto.toString() == "0.0" ? Colors.redAccent : Colors.greenAccent,
+                color: sales.nombreProducto.toString() == "0.0"
+                    ? Colors.redAccent
+                    : Colors.greenAccent,
               ),
               alignment: Alignment.center,
             ),
@@ -53,37 +54,37 @@ class SalesComponent extends StatelessWidget {
               style: TextStyle(
                   color: primaryColor,
                   //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(17)),
+                  fontSize: getResponsiveText(15)),
               textAlign: TextAlign.left,
             ),
           ),
           Expanded(
             child: Text(
-              "Mayoreo: "+sales.ventasMayoreo.toString(),
+              "Mayoreo: " + sales.ventasMayoreo.toString(),
               style: TextStyle(
                   color: primaryColor,
                   //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(17)),
+                  fontSize: getResponsiveText(15)),
               textAlign: TextAlign.left,
             ),
           ),
           Expanded(
             child: Text(
-              "Unitario: "+sales.ventasUnitario.toString(),
+              "Unitario: " + sales.ventasUnitario.toString(),
               style: TextStyle(
                   color: primaryColor,
                   //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(17)),
+                  fontSize: getResponsiveText(15)),
               textAlign: TextAlign.left,
             ),
           ),
           Expanded(
             child: Text(
-              "Total: \$"+sales.total.toString(),
+              "Total: \$" + sales.total.toString(),
               style: TextStyle(
                   color: primaryColor,
                   //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(17)),
+                  fontSize: getResponsiveText(15)),
               textAlign: TextAlign.left,
             ),
           ),
