@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/Sales.dart';
 import 'FirebaseConstants.dart';
 
-class FirebaseSaleDataSource {
+class FirebaseSalesDataSource {
 
   final FirebaseFirestore _database = FirebaseFirestore.instance;
 
@@ -40,14 +40,14 @@ class FirebaseSaleDataSource {
     }
   }
 
-  Future<bool> updateSale(Sales sale) async {
+  Future<bool> updateSale(String businessId, String saleId, Map<String, num> changes) async {
     try {
       await _database
           .collection(BUSINESS_COLLECTION)
-          .doc(sale.idNegocio)
+          .doc(businessId)
           .collection(BUSINESS_SALES_COLLECTION)
-          .doc(sale.id)
-          .update(sale.toMap());
+          .doc(saleId)
+          .update(changes);
 
       return true;
     } catch (error) {

@@ -6,6 +6,7 @@ import 'package:gest_inventory/pages/EditProductPage.dart';
 import 'package:gest_inventory/pages/EditUserProfilePage.dart';
 import 'package:gest_inventory/pages/EmployeeListPage.dart';
 import 'package:gest_inventory/pages/InfoBusinessPage.dart';
+import 'package:gest_inventory/pages/MakeSalePage.dart';
 import 'package:gest_inventory/pages/RecordDatePage.dart';
 import 'package:gest_inventory/pages/RegisterEmployeePage.dart';
 import 'package:gest_inventory/pages/RestockPage.dart';
@@ -21,8 +22,6 @@ import '../pages/SeeInfoUserPage.dart';
 import '../pages/OptionsListProductsPage.dart';
 import '../pages/AllListProductsPage.dart';
 import '../pages/SeeProductInfoPage.dart';
-import '../pages/MakeSalePage.dart';
-
 
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
