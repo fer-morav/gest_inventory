@@ -22,19 +22,17 @@ class RestockPage extends StatefulWidget {
 }
 
 class _RestockPageState extends State<RestockPage> {
-
   Incomings _incoming = Incomings(
-      id: "",
-      idNegocio: "",
-      nombreProducto: "",
-      precioUnitario: 0.0,
-      precioMayoreo: 0.0,
-      unidadesCompradas: 0.0,
+    id: "",
+    idNegocio: "",
+    nombreProducto: "",
+    precioUnitario: 0.0,
+    precioMayoreo: 0.0,
+    unidadesCompradas: 0.0,
   );
 
   TextEditingController idProductController = TextEditingController();
   TextEditingController newStockController = TextEditingController();
-
 
   final _padding = const EdgeInsets.only(
     left: 15,
@@ -44,10 +42,10 @@ class _RestockPageState extends State<RestockPage> {
   );
 
   late final FirebaseBusinessDataSource _businessDataSource =
-  FirebaseBusinessDataSource();
+      FirebaseBusinessDataSource();
 
   late final FirebaseIncomingsDataSource _incomingsDataSource =
-  FirebaseIncomingsDataSource();
+      FirebaseIncomingsDataSource();
 
   String? businessId;
   Business? _business;
@@ -75,45 +73,43 @@ class _RestockPageState extends State<RestockPage> {
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView(
-        children: [
-          Container(
-            padding: _padding,
-            height: 80,
-            child: TextFieldMain(
-              hintText: textfield_hint_product,
-              labelText: textfield_label_product,
-              textEditingController: idProductController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
+              children: [
+                Container(
+                  padding: _padding,
+                  height: 80,
+                  child: TextFieldMain(
+                    hintText: textfield_hint_product,
+                    labelText: textfield_label_product,
+                    textEditingController: idProductController,
+                    isPassword: false,
+                    isPasswordTextStatus: false,
+                    onTap: () {},
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  height: 80,
+                  child: TextFieldMain(
+                    hintText: textfield_hint_newStock_product,
+                    labelText: textfield_label_newStock_product,
+                    textEditingController: newStockController,
+                    isPassword: false,
+                    isPasswordTextStatus: false,
+                    onTap: () {},
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  height: 80,
+                  child: ButtonSecond(
+                    onPressed: () {
+                      _searchProduct();
+                    },
+                    text: button_restock_product,
+                  ),
+                ),
+              ],
             ),
-          ),
-
-          Container(
-            padding: _padding,
-            height: 80,
-            child: TextFieldMain(
-              hintText: textfield_hint_newStock_product,
-              labelText: textfield_label_newStock_product,
-              textEditingController: newStockController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
-            ),
-          ),
-
-          Container(
-            padding: _padding,
-            height: 80,
-            child: ButtonSecond(
-              onPressed: () {
-                _searchProduct();
-              },
-              text: button_restock_product,
-            ),
-          ),
-        ],
-      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.qr_code_scanner,
@@ -130,9 +126,12 @@ class _RestockPageState extends State<RestockPage> {
 
   void _scanProductSearch() async {
     idProductController.text = await _scanUtil.scanBarcodeNormal();
-    if( (await _businessDataSource.getProduct(_business!.id.toString(), idProductController.text)) != null ){
-      final _product = await _businessDataSource.getProduct(_business!.id.toString(), idProductController.text);
-    }else{
+    if ((await _businessDataSource.getProduct(
+            _business!.id.toString(), idProductController.text)) !=
+        null) {
+      final _product = await _businessDataSource.getProduct(
+          _business!.id.toString(), idProductController.text);
+    } else {
       _showToast("Producto no registrado");
     }
   }
@@ -150,31 +149,37 @@ class _RestockPageState extends State<RestockPage> {
     if (idproduct.isEmpty || newStockController.text.isEmpty) {
       _showToast(alert_content_imcomplete);
     } else {
-      newStock =  double.parse(newStockController.text);
-      if(newStock < 1){
+      newStock = double.parse(newStockController.text);
+      if (newStock < 1) {
         _showToast("Cantidad invalida");
-      }else{
-        if( (await _businessDataSource.getProduct(_business!.id.toString(), idproduct )) != null ){
-          final _product = await _businessDataSource.getProduct(_business!.id.toString(), idproduct );
-          stock =  _product!.stock;
+      } else {
+        if ((await _businessDataSource.getProduct(
+                _business!.id.toString(), idproduct)) !=
+            null) {
+          final _product = await _businessDataSource.getProduct(
+              _business!.id.toString(), idproduct);
+          stock = _product!.stock;
           _product.stock = newStock + stock;
           if (_product != null &&
               await _businessDataSource.updateProduct(_product)) {
-
             _incoming.id = _product.id;
             _incoming.idNegocio = _product.idNegocio;
             _incoming.nombreProducto = _product.nombre;
             _incoming.precioUnitario = _product.precioUnitario;
             _incoming.precioMayoreo = _product.precioMayoreo;
 
-            if(await _incomingsDataSource.getIncoming(_product.idNegocio, _product.id) == null){
-              _incoming.unidadesCompradas = newStock ;
+            if (await _incomingsDataSource.getIncoming(
+                    _product.idNegocio, _product.id) ==
+                null) {
+              _incoming.unidadesCompradas = newStock;
 
               _incomingsDataSource.addIncoming(_incoming);
-            }else{
-              final _incomingRecovered = await _incomingsDataSource.getIncoming(_product.idNegocio, _product.id);
+            } else {
+              final _incomingRecovered = await _incomingsDataSource.getIncoming(
+                  _product.idNegocio, _product.id);
 
-              _incoming.unidadesCompradas = _incomingRecovered!.unidadesCompradas + newStock;
+              _incoming.unidadesCompradas =
+                  _incomingRecovered!.unidadesCompradas + newStock;
               _incomingsDataSource.addIncoming(_incoming);
             }
 
@@ -183,7 +188,7 @@ class _RestockPageState extends State<RestockPage> {
           } else {
             _showToast("Error al actualizar los datos");
           }
-        }else{
+        } else {
           _showToast("Código invalido");
         }
       }
@@ -203,14 +208,14 @@ class _RestockPageState extends State<RestockPage> {
 
   void _getBusiness(String id) async {
     _businessDataSource.getBusiness(id).then((business) => {
-      if (business != null)
-        {
-          setState(() {
-            _business = business;
-            _isLoading = false;
-          }),
-        }
-    });
+          if (business != null)
+            {
+              setState(() {
+                _business = business;
+                _isLoading = false;
+              }),
+            }
+        });
   }
 
   void _showToast(String content) {

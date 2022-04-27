@@ -58,7 +58,8 @@ class _Administrator extends State<AdministratorPage> {
               height: 80,
               child: ButtonMain(
                 onPressed: () {
-                  _nextScreenArgs(info_business_route, user!.idNegocio.toString());
+                  _nextScreenArgs(
+                      info_business_route, user!.idNegocio.toString());
                 },
                 text: button_see_info_business,
                 isDisabled: true,
@@ -69,8 +70,8 @@ class _Administrator extends State<AdministratorPage> {
               height: 80,
               child: ButtonMain(
                 onPressed: () {
-                  //_nextScreenArgs(add_product_page, user!.idNegocio.toString());
-                  _nextScreenArgs(optionsList_product_page, user!.idNegocio.toString());
+                  _nextScreenArgs(
+                      optionsList_product_page, user!.idNegocio.toString());
                 },
                 text: button_list_product,
                 isDisabled: true,
@@ -87,19 +88,6 @@ class _Administrator extends State<AdministratorPage> {
                 isDisabled: true,
               ),
             ),
-
-            Container(
-              padding: _padding,
-              height: 80,
-              child: ButtonMain(
-                onPressed: () {
-                  _nextScreenArgs(restock_route, user!.idNegocio.toString());
-                },
-                text: button_make_restock,
-                isDisabled: true,
-              ),
-            ),
-
             Container(
               padding: _padding,
               height: 80,
