@@ -285,6 +285,6 @@ class _AddProductPageState extends State<AddProductPage> {
 
   void _nextScreenArgs(String route, String businessId) {
     final args = {business_id_args: businessId};
-    Navigator.pushNamed(context, route, arguments: args);
+    Navigator.popAndPushNamed(context, route, arguments: args);
   }
 }

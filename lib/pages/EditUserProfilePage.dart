@@ -324,7 +324,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
 
   void _nextScreen(String route, User user) {
     final args = {user_args: user};
-    Navigator.pushNamed(context, route, arguments: args);
+    Navigator.popAndPushNamed(context, route, arguments: args);
   }
 
   Center waitingConnection() {

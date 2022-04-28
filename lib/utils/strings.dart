@@ -137,6 +137,13 @@ const text_product_not_avilable = "Producto No Disponible, Sin Existencias";
 const text_unregistered_product = "Producto No Registrado";
 const text_search_by_name = "Busqueda por Nombre";
 const text_product_not_found = "Producto No Encontrado";
+const text_total_sales = "Total de Ventas";
+const text_total_units = "Total de Unidades";
+const text_connection_error = "Error de Conexion";
+const text_empty_list = "Lista Vacia";
+const text_sort_by = "Ordenado por: ";
+const text_more_sold = "Mas Vendidos";
+const text_less_sold = "Menos Vendidos";
 
 ////////////////Alert////////////////////////////////////////
 const alert_title_send_email = "Enlace enviado para restablecer contraseña";

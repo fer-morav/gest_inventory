@@ -3,7 +3,6 @@ import '../models/Sales.dart';
 import 'FirebaseConstants.dart';
 
 class FirebaseSalesDataSource {
-
   final FirebaseFirestore _database = FirebaseFirestore.instance;
 
   Future<Sales?> getSale(String businessId, String saleId) async {
@@ -40,7 +39,8 @@ class FirebaseSalesDataSource {
     }
   }
 
-  Future<bool> updateSale(String businessId, String saleId, Map<String, num> changes) async {
+  Future<bool> updateSale(
+      String businessId, String saleId, Map<String, num> changes) async {
     try {
       await _database
           .collection(BUSINESS_COLLECTION)
@@ -85,6 +85,44 @@ class FirebaseSalesDataSource {
         sales.add(sale);
       }
 
+      return sales;
+    } catch (error) {
+      return [];
+    }
+  }
+
+  Future<List<Sales>> getSalesOrder(String businessId, bool Order) async {
+    try {
+      final snapshots = await _database
+          .collection(BUSINESS_COLLECTION)
+          .doc(businessId)
+          .collection(BUSINESS_SALES_COLLECTION)
+          .get();
+
+      List<Sales> temps = [];
+      List<Sales> sales = [];
+      List<int> solds = [];
+
+      for (var document in snapshots.docs) {
+        final sale = Sales.fromMap(document.data());
+        solds.add(sale.ventasUnitario + sale.ventasMayoreo);
+        temps.add(sale);
+      }
+
+      solds.sort();
+
+      for (var sold in solds) {
+        for (var temp in temps) {
+          if ((temp.ventasMayoreo + temp.ventasUnitario) == sold &&
+              !sales.contains(temp)) {
+            sales.add(temp);
+          }
+        }
+      }
+
+      if(Order) {
+        sales = List.from(sales.reversed);
+      }
       return sales;
     } catch (error) {
       return [];
