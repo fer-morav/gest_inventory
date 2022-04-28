@@ -54,7 +54,7 @@ class SalesComponent extends StatelessWidget {
               style: TextStyle(
                   color: primaryColor,
                   //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(15)),
+                  fontSize: getResponsiveText(14)),
               textAlign: TextAlign.left,
             ),
           ),
@@ -64,7 +64,7 @@ class SalesComponent extends StatelessWidget {
               style: TextStyle(
                   color: primaryColor,
                   //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(15)),
+                  fontSize: getResponsiveText(14)),
               textAlign: TextAlign.left,
             ),
           ),
@@ -74,7 +74,7 @@ class SalesComponent extends StatelessWidget {
               style: TextStyle(
                   color: primaryColor,
                   //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(15)),
+                  fontSize: getResponsiveText(14)),
               textAlign: TextAlign.left,
             ),
           ),
@@ -84,7 +84,7 @@ class SalesComponent extends StatelessWidget {
               style: TextStyle(
                   color: primaryColor,
                   //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(15)),
+                  fontSize: getResponsiveText(14)),
               textAlign: TextAlign.left,
             ),
           ),
