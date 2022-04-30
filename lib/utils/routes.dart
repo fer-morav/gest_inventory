@@ -6,11 +6,14 @@ import 'package:gest_inventory/pages/EditProductPage.dart';
 import 'package:gest_inventory/pages/EditUserProfilePage.dart';
 import 'package:gest_inventory/pages/EmployeeListPage.dart';
 import 'package:gest_inventory/pages/InfoBusinessPage.dart';
+import 'package:gest_inventory/pages/MakeSalePage.dart';
 import 'package:gest_inventory/pages/RecordDatePage.dart';
 import 'package:gest_inventory/pages/RegisterEmployeePage.dart';
+import 'package:gest_inventory/pages/RestockPage.dart';
 import 'package:gest_inventory/pages/SearchProductPage.dart';
 import 'package:gest_inventory/pages/StatisticsPage.dart';
 import 'package:gest_inventory/pages/ViewRecordsPage.dart';
+import 'package:gest_inventory/pages/AllSalesPage.dart';
 import '../pages/AdministratorPage.dart';
 import '../pages/EmployeesPage.dart';
 import '../pages/LoginPage.dart';
@@ -20,8 +23,6 @@ import '../pages/SeeInfoUserPage.dart';
 import '../pages/OptionsListProductsPage.dart';
 import '../pages/AllListProductsPage.dart';
 import '../pages/SeeProductInfoPage.dart';
-import '../pages/MakeSalePage.dart';
-
 
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
@@ -48,6 +49,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     modify_product_route: (BuildContext context) => const EditProductPage(),
     search_product_code_route: (BuildContext context) => const SearchProductCodePage(),
     make_sale_route: (BuildContext context) => const MakeSalePage(),
+    restock_route: (BuildContext context) => const RestockPage(),
+    allsales_route: (BuildContext context) => const AllSalesPage(),
   };
 }
 
@@ -74,3 +77,5 @@ const search_product_route = "search_product";
 const modify_product_route = "modify_product";
 const search_product_code_route = "search_product_code";
 const make_sale_route = "make_sale";
+const restock_route = "restock";
+const allsales_route = "all_sales";
