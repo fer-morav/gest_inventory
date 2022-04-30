@@ -88,11 +88,6 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
                 ),
               ],
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: primaryColor,
-        child: Icon(Icons.edit),
-      ),
     );
   }
 

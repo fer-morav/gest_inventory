@@ -20,6 +20,8 @@ import '../pages/SeeInfoUserPage.dart';
 import '../pages/OptionsListProductsPage.dart';
 import '../pages/AllListProductsPage.dart';
 import '../pages/SeeProductInfoPage.dart';
+import '../pages/MakeSalePage.dart';
+
 
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
@@ -45,6 +47,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     search_product_route: (BuildContext context) => const SearchProductPage(),
     modify_product_route: (BuildContext context) => const EditProductPage(),
     search_product_code_route: (BuildContext context) => const SearchProductCodePage(),
+    make_sale_route: (BuildContext context) => const MakeSalePage(),
   };
 }
 
@@ -70,3 +73,4 @@ const edit_business_route = "edit_business";
 const search_product_route = "search_product";
 const modify_product_route = "modify_product";
 const search_product_code_route = "search_product_code";
+const make_sale_route = "make_sale";
