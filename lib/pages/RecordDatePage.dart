@@ -3,9 +3,12 @@ import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
+import 'package:intl/intl.dart';
 import '../data/models/Business.dart';
 import '../utils/arguments.dart';
 import '../data/framework/FirebaseBusinessDataSource.dart';
+
+import 'package:quiver/time.dart';
 
 
 class RecordDatePage extends StatefulWidget {
@@ -23,7 +26,9 @@ class _RecordDateState extends State<RecordDatePage> {
 
   String? businessId;
   Business? _business;
-
+  late String currentDate, currentYear;
+  String yearValue = "Año", monthValue = "Mes", dayValue = "Día";
+  late List<String> years =[];
   final _padding = const EdgeInsets.only(
     left: 15,
     top: 10,
@@ -35,6 +40,11 @@ class _RecordDateState extends State<RecordDatePage> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _getArguments();
+      currentDate = DateFormat.yMMMd().format(DateTime.now());
+      currentYear = currentDate[8]+currentDate[9]+currentDate[10]+currentDate[11];
+      years.add(currentYear);
+      _showToast(years[0]);
+      //_showToast(daysInMonth(2022, 04).toString());
     });
   }
 
@@ -61,10 +71,27 @@ class _RecordDateState extends State<RecordDatePage> {
           Container(
             padding: _padding,
             height: 80,
-            child: ButtonMain(
-              onPressed: () => _nextScreenArgs(allsales_route, _business!.id),
-              text: button_semana,
-              isDisabled: true,
+            child: Row(
+              children: [
+                
+                DropdownButton(
+                  value: yearValue,
+                  // Down Arrow Icon
+                  icon: const Icon(Icons.keyboard_arrow_down),    
+                  // Array list of items
+                  items: years.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(items),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) { 
+                    setState(() {
+                      yearValue = newValue!;
+                    });
+                  },
+                ),
+              ],
             ),
           ),
           Container(
@@ -116,5 +143,18 @@ class _RecordDateState extends State<RecordDatePage> {
   void _nextScreenArgs(String route, String businessId) {
     final args = {business_id_args: businessId};
     Navigator.pushNamed(context, route, arguments: args);
+  }
+  void _showToast(String content) {
+    final snackBar = SnackBar(
+      content: Text(
+        content,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 15,
+        ),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

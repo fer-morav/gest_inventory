@@ -75,6 +75,7 @@ const button_addProduct_toCart = "Agregar al Carrito";
 const button_removeProduct_fromCart = "Eliminar del Carrito";
 const button_paying_products = "Pagar Productos";
 const button_restock_product = "Registrar Entrada";
+const button_specific_day = "Dia Específico";
 
 ////////////////TextFields////////////////////////////////////
 const textfield_label_email = "Correo Electronico";
@@ -144,6 +145,10 @@ const text_empty_list = "Lista Vacia";
 const text_sort_by = "Ordenado por: ";
 const text_more_sold = "Mas Vendidos";
 const text_less_sold = "Menos Vendidos";
+const text_paid_product = "Producto Pagado";
+const text_year = "Año";
+const text_month = "Mes";
+const text_day = "Día";
 
 ////////////////Alert////////////////////////////////////////
 const alert_title_send_email = "Enlace enviado para restablecer contraseña";
