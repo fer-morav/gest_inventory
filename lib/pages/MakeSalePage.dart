@@ -11,6 +11,7 @@ import 'package:gest_inventory/utils/strings.dart';
 import '../components/ButtonMain.dart';
 import '../components/TextFieldMain.dart';
 import '../data/models/Sales.dart';
+import 'package:intl/intl.dart';
 
 class MakeSalePage extends StatefulWidget {
   const MakeSalePage({Key? key}) : super(key: key);
@@ -37,6 +38,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
 
   String? businessId;
   String? _nombreError;
+  double total = 0.0;
 
   List<String> listItems = [];
   late List<Product> listProduct = [];
@@ -183,6 +185,32 @@ class _MakeSalePageState extends State<MakeSalePage> {
                         );
                       }),
                 ),
+
+                Container(
+                  height: 35,
+                  margin: const EdgeInsets.only(
+                    left: 80,
+                    top: 10,
+                    right: 80,
+                    bottom: 10,
+                  ),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: listItems.length > 0 ? Colors.green : Colors.red,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: FittedBox(
+                    child: Text(
+                      listItems.length > 0 ? "TOTAL: \$ "+ total.toString() : "TOTAL: \$ 0.0" ,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 25,
+                      ),
+                    ),
+                  ),
+                ),
+
               ],
             ),
       floatingActionButton: Column(
@@ -264,7 +292,11 @@ class _MakeSalePageState extends State<MakeSalePage> {
       final _product =
           await _businessDataSource.getProduct(businessId!, idController.text);
       if (_product!.stock != 0.0 && inStock(_product)) {
+
         listProduct.add(_product);
+
+        total = total + _product.precioUnitario;
+
         _addProduct(_product.id);
       } else {
         _showToast(text_product_not_avilable);
@@ -282,6 +314,9 @@ class _MakeSalePageState extends State<MakeSalePage> {
               {
                 if (product.stock != 0.0 && inStock(product))
                   {
+
+                  total = total + product.precioUnitario,
+
                     listProduct.add(product),
                     _addProduct(product.id),
                   }
@@ -364,10 +399,41 @@ class _MakeSalePageState extends State<MakeSalePage> {
     });
     List<String> paid = [];
     listProduct.forEach((product) async {
-      if(!paid.contains(product.id)){
+
+      /*if(!paid.contains(product.id)){
         await _payPrice(product,  quantityProduct(product.id));
         paid.add(product.id);
+      }*/
+
+      String currentDate = DateFormat.yMMMMd().format(DateTime.now());
+      int salesLength =  await _salesDataSource.getTableSalesLength(product.idNegocio);
+      String id;
+      if ( salesLength > 0 ) {
+        id = salesLength.toString();
+      } else{
+        id = "0";
       }
+      for(int i=0; i <= listProduct.length ; i++){
+        Product? _product = await _businessDataSource.getProduct(listProduct[i].idNegocio.toString(), listProduct[i].id.toString());
+        int quantity = quantityProduct(product.id);
+        Sales sale = Sales(
+          id: id,
+          idProducto: _product!.id.toString(),
+          idNegocio: _product.idNegocio.toString(),
+          nombreProducto: _product.nombre,
+          fecha: currentDate,
+          precioUnitario: _product.precioUnitario,
+          precioMayoreo: _product.precioMayoreo,
+          ventasUnitario: quantity < 10 ? quantity : 0,
+          ventasMayoreo: quantity >= 10 ? quantity : 0,
+          total: quantity < 10
+              ? product.precioUnitario * quantity
+              : product.precioMayoreo * quantity,
+        );
+        _salesDataSource.addSale(sale);
+        _showToast(listProduct.length.toString() +" "+ i.toString());
+      }
+
     });
   }
 
@@ -385,7 +451,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
     Sales? sale = await _salesDataSource.getSale(businessId!, product.id);
     if (sale != null) {
       Map<String, num> changes;
-
+    /*
       if (quantity >= 10) {
         changes = {
           Sales.VENTAS_MAYOREO: sale.ventasMayoreo + quantity,
@@ -402,13 +468,16 @@ class _MakeSalePageState extends State<MakeSalePage> {
         product.stock -= quantity;
         await _businessDataSource.updateProduct(product);
       }
-
+      */
     } else {
 
-      final sale = Sales(
-        id: product.id,
+
+     /* sale = Sales(
+        id: id,
+        idProducto: product.id,
         idNegocio: product.idNegocio,
         nombreProducto: product.nombre,
+        fecha: currentDate,
         precioUnitario: product.precioUnitario,
         precioMayoreo: product.precioMayoreo,
         ventasUnitario: quantity < 10 ? quantity : 0,
@@ -417,10 +486,12 @@ class _MakeSalePageState extends State<MakeSalePage> {
             ? product.precioUnitario * quantity
             : product.precioMayoreo * quantity,
       );
+
       if (await _salesDataSource.addSale(sale)) {
         product.stock -= quantity;
         await _businessDataSource.updateProduct(product);
       }
+      */
     }
   }
 

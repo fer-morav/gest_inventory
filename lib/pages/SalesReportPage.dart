@@ -17,30 +17,24 @@ import '../data/models/User.dart';
 import '../utils/colors.dart';
 import '../utils/routes.dart';
 
-class AllSalesPage extends StatefulWidget {
-  const AllSalesPage({Key? key}) : super(key: key);
+class SalesReportPage extends StatefulWidget {
+  const SalesReportPage({Key? key}) : super(key: key);
 
   @override
-  State<AllSalesPage> createState() => _AllSalesPageState();
+  State<SalesReportPage> createState() => _SalesReportPageState();
 }
 
-class _AllSalesPageState extends State<AllSalesPage> {
-  final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
-  final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
-  late final FirebaseBusinessDataSource _businessDataSource = FirebaseBusinessDataSource();
+class _SalesReportPageState extends State<SalesReportPage> {
   late final FirebaseSalesDataSource _salesDataSource = FirebaseSalesDataSource();
 
   String? businessId;
-  late Stream<List<Product>> _listProductStream;
   late Future<List<Sales>> _listSalesStream;
 
   @override
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
-      _listProductStream = _businessDataSource.getProducts(businessId!).asStream();
       _listSalesStream = _salesDataSource.getTableSales(businessId!);
-      //_listUsers();
     });
     super.initState();
   }
@@ -51,41 +45,43 @@ class _AllSalesPageState extends State<AllSalesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        textAppBar: "Historial de Ventas",
+        textAppBar: title_sales_report,
         onPressed: () {
           Navigator.pop(context);
         },
       ),
       body: isLoading
           ? waitingConnection()
-          : FutureBuilder<List<Sales>>(
-              future: _listSalesStream,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return hasError("Error de Conexión");
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return waitingConnection();
-                }
-                if (snapshot.data!.isEmpty) {
-                  return hasError("Historial Vacio");
-                }
-                if (snapshot.hasData) {
-                  return _component(snapshot.data!);
-                }
+          :FutureBuilder<List<Sales>>(
+        future: _listSalesStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return hasError("Error de Conexión");
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return waitingConnection();
+          }
+          if (snapshot.data!.isEmpty) {
+            return hasError("Historial Vacio");
+          }
+          if (snapshot.hasData) {
+            return _component(snapshot.data!);
+          }
 
-                return Container(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              },
+          return Container(
+            child: Center(
+              child: CircularProgressIndicator(),
             ),
-      /*floatingActionButton: FloatingActionButton(
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
-        onPressed: () => _nextScreenArgs(add_product_page, businessId!),//Cambiar al de registrar producto
-        child: Icon(Icons.add),
-      ),*/
+        onPressed: () {
+
+        },
+        child: Icon(Icons.archive_rounded),
+      ),
     );
   }
 

@@ -1,9 +1,13 @@
 import 'dart:convert';
 
+import 'Product.dart';
+
 class Sales {
   String id = "";
+  String idProducto = "";
   String idNegocio = "";
   String nombreProducto = "";
+  String fecha = "";
   double precioUnitario = 0.0;
   double precioMayoreo = 0.0;
   int ventasUnitario = 0;
@@ -16,8 +20,10 @@ class Sales {
 
   Sales({
     this.id = "",
+    this.idProducto = "",
     this.idNegocio = "",
     this.nombreProducto = "",
+    this.fecha = "",
     this.precioUnitario = 0.0,
     this.precioMayoreo = 0.0,
     this.ventasUnitario = 0,
@@ -27,8 +33,10 @@ class Sales {
 
   Sales copyWith({
     String? id,
+    String? idProducto,
     String? idNegocio,
     String? nombreProducto,
+    String? fecha,
     double? precioUnitario,
     double? precioMayoreo,
     int? ventasUnitario,
@@ -37,8 +45,10 @@ class Sales {
   }) {
     return Sales(
       id: id ?? this.id,
+      idProducto: idProducto?? this.idProducto,
       idNegocio: idNegocio?? this.idNegocio,
       nombreProducto: nombreProducto ?? this.nombreProducto,
+      fecha: fecha ?? this.fecha,
       precioUnitario: precioUnitario ?? this.precioUnitario,
       precioMayoreo: precioMayoreo ?? this.precioMayoreo,
       ventasUnitario: ventasUnitario ?? this.ventasUnitario,
@@ -50,8 +60,10 @@ class Sales {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'idProducto': idProducto,
       'idNegocio': idNegocio,
       'nombreProducto': nombreProducto,
+      'fecha': fecha,
       'precioUnitario': precioUnitario,
       'precioMayoreo': precioMayoreo,
       'ventasUnitario': ventasUnitario,
@@ -63,8 +75,10 @@ class Sales {
   factory Sales.fromMap(Map<String, dynamic> map) {
     return Sales(
       id: map['id'],
+      idProducto: map['idProducto'],
       idNegocio: map['idNegocio'],
       nombreProducto: map['nombreProducto'],
+      fecha: map['fecha'],
       precioMayoreo: map['precioMayoreo'],
       precioUnitario: map['precioUnitario'],
       ventasUnitario: map['ventasUnitario'],

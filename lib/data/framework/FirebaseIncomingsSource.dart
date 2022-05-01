@@ -90,4 +90,25 @@ class FirebaseIncomingsDataSource {
       return [];
     }
   }
+  Future<int> getTableIncomingsLength(String businessId) async {
+    try {
+      final snapshots = await _database
+          .collection(BUSINESS_COLLECTION)
+          .doc(businessId)
+          .collection(BUSINESS_INCOMINGS_COLLECTION)
+          .get();
+
+      List<Incomings> incomings = [];
+
+      for (var document in snapshots.docs) {
+        final incomig = Incomings.fromMap(document.data());
+        incomings.add(incomig);
+      }
+
+      return incomings.length;
+    } catch (error) {
+      return 0;
+    }
+  }
+
 }

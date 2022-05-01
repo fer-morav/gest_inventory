@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/data/framework/FirebaseIncomingsSource.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
-import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/ButtonSecond.dart';
 import '../components/TextFieldMain.dart';
 import '../data/framework/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
-import '../data/models/Product.dart';
 import '../utils/scan_util.dart';
 import 'package:gest_inventory/data/models/Incomings.dart';
+import 'package:intl/intl.dart';
 
 class RestockPage extends StatefulWidget {
   const RestockPage({Key? key}) : super(key: key);
@@ -22,13 +21,16 @@ class RestockPage extends StatefulWidget {
 }
 
 class _RestockPageState extends State<RestockPage> {
+
   Incomings _incoming = Incomings(
-    id: "",
-    idNegocio: "",
-    nombreProducto: "",
-    precioUnitario: 0.0,
-    precioMayoreo: 0.0,
-    unidadesCompradas: 0.0,
+      id: "",
+      idProducto: "",
+      idNegocio: "",
+      nombreProducto: "",
+      fecha: "",
+      precioUnitario: 0.0,
+      precioMayoreo: 0.0,
+      unidadesCompradas: 0.0
   );
 
   TextEditingController idProductController = TextEditingController();
@@ -157,25 +159,25 @@ class _RestockPageState extends State<RestockPage> {
           _product.stock = newStock + stock;
           if (_product != null &&
               await _businessDataSource.updateProduct(_product)) {
-            _incoming.id = _product.id;
+
+            String currentDate = DateFormat.yMMMMd().format(DateTime.now());
+
+            _incoming.idProducto = _product.id;
             _incoming.idNegocio = _product.idNegocio;
             _incoming.nombreProducto = _product.nombre;
+            _incoming.fecha = currentDate;
             _incoming.precioUnitario = _product.precioUnitario;
             _incoming.precioMayoreo = _product.precioMayoreo;
+            _incoming.unidadesCompradas = newStock; //ingreso de unidades
 
-            if (await _incomingsDataSource.getIncoming(
-                    _product.idNegocio, _product.id) ==
-                null) {
-              _incoming.unidadesCompradas = newStock;
+            int incomingsLength =  await _incomingsDataSource.getTableIncomingsLength(_product.idNegocio);
 
-              _incomingsDataSource.addIncoming(_incoming);
-            } else {
-              final _incomingRecovered = await _incomingsDataSource.getIncoming(
-                  _product.idNegocio, _product.id);
-
-              _incoming.unidadesCompradas =
-                  _incomingRecovered!.unidadesCompradas + newStock;
-              _incomingsDataSource.addIncoming(_incoming);
+            if ( incomingsLength > 0 ) {
+              _incoming.id = incomingsLength.toString();
+              _incomingsDataSource.addIncoming(_incoming);//adición a la base de datos
+            } else{
+              _incoming.id = "0";
+              _incomingsDataSource.addIncoming(_incoming);//adición a la base de datos
             }
 
             _showToast("Datos actualizados");

@@ -90,4 +90,24 @@ class FirebaseSalesDataSource {
       return [];
     }
   }
+  Future<int> getTableSalesLength(String businessId) async {
+    try {
+      final snapshots = await _database
+          .collection(BUSINESS_COLLECTION)
+          .doc(businessId)
+          .collection(BUSINESS_SALES_COLLECTION)
+          .get();
+
+      List<Sales> sales = [];
+
+      for (var document in snapshots.docs) {
+        final sale = Sales.fromMap(document.data());
+        sales.add(sale);
+      }
+
+      return sales.length;
+    } catch (error) {
+      return 0;
+    }
+  }
 }
