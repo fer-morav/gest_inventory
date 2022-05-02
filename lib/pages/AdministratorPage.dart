@@ -59,7 +59,7 @@ class _Administrator extends State<AdministratorPage> {
               child: ButtonMain(
                 onPressed: () {
                   _nextScreenArgs(
-                      info_business_route, user!.idNegocio.toString());
+                      info_business_route, user!.idNegocio.toString(), user!.cargo);
                 },
                 text: button_see_info_business,
                 isDisabled: true,
@@ -71,7 +71,7 @@ class _Administrator extends State<AdministratorPage> {
               child: ButtonMain(
                 onPressed: () {
                   _nextScreenArgs(
-                      optionsList_product_page, user!.idNegocio.toString());
+                      optionsList_product_page, user!.idNegocio.toString(), user!.cargo);
                 },
                 text: button_list_product,
                 isDisabled: true,
@@ -82,7 +82,7 @@ class _Administrator extends State<AdministratorPage> {
               height: 80,
               child: ButtonMain(
                 onPressed: () {
-                  _nextScreenArgs(make_sale_route, user!.idNegocio.toString());
+                  _nextScreenArgs(make_sale_route, user!.idNegocio.toString(), user!.cargo);
                 },
                 text: button_make_sale,
                 isDisabled: true,
@@ -93,7 +93,7 @@ class _Administrator extends State<AdministratorPage> {
               height: 80,
               child: ButtonMain(
                 onPressed: () {
-                  _nextScreenArgs(restock_route, user!.idNegocio.toString());
+                  _nextScreenArgs(restock_route, user!.idNegocio.toString(), user!.cargo);
                 },
                 text: button_make_restock,
                 isDisabled: true,
@@ -104,7 +104,7 @@ class _Administrator extends State<AdministratorPage> {
               height: 80,
               child: ButtonMain(
                 onPressed: () =>
-                    _nextScreenArgs(records_route, user!.idNegocio.toString()),
+                    _nextScreenArgs(records_route, user!.idNegocio.toString(), user!.cargo),
                 text: button_records,
                 isDisabled: true,
               ),
@@ -122,7 +122,7 @@ class _Administrator extends State<AdministratorPage> {
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                onPressed: () => _nextScreenArgs(statistics_route, user!.idNegocio),
+                onPressed: () => _nextScreenArgs(statistics_route, user!.idNegocio, user!.cargo),
                 text: button_statistics,
                 isDisabled: true,
               ),
@@ -154,8 +154,8 @@ class _Administrator extends State<AdministratorPage> {
     Navigator.pushNamed(context, route);
   }
 
-  void _nextScreenArgs(String route, String businessId) {
-    final args = {business_id_args: businessId};
+  void _nextScreenArgs(String route, String businessId, String userPosition) {
+    final args = {business_id_args: businessId,user_position_args:userPosition};
     Navigator.pushNamed(context, route, arguments: args);
   }
 

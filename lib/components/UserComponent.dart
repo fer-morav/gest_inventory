@@ -6,13 +6,13 @@ import 'package:gest_inventory/utils/routes.dart';
 
 class UserComponent extends StatelessWidget {
   final User user;
+  final String? userPosition;
   final sizeReference = 700.0;
 
   const UserComponent({
     Key? key,
-    required this.user,
+    required this.user, this.userPosition,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     double getResponsiveText(double size) =>
@@ -21,7 +21,7 @@ class UserComponent extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () {
-        final args = {user_args: user};
+        final args = {user_args: user,user_position_args:userPosition};
         Navigator.pushNamed(context, see_profile_route, arguments: args);
       },
       backgroundColor: Colors.white,

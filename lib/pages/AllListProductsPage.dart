@@ -26,6 +26,7 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
   late final FirebaseBusinessDataSource _businessDataSource = FirebaseBusinessDataSource();
 
   String? businessId;
+  String? userPosition;
   late Stream<List<Product>> _listProductStream;
 
   @override
@@ -64,7 +65,7 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
                   return hasError("Lista Vacia");
                 }
                 if (snapshot.hasData) {
-                  return _component(snapshot.data!);
+                  return _component(snapshot.data!,userPosition.toString());
                 }
 
                 return Container(
@@ -74,10 +75,13 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
                 );
               },
             ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: primaryColor,
-        onPressed: () => _nextScreenArgs(add_product_page, businessId!),//Cambiar al de registrar producto
-        child: Icon(Icons.add),
+      floatingActionButton: Visibility(
+        child: FloatingActionButton(
+          onPressed: () => _nextScreenArgs(add_product_page, businessId!),
+          backgroundColor: primaryColor,
+          child: Icon(Icons.add),
+        ),
+        visible: userPosition == "[Administrador]" ? true : false,
       ),
     );
   }
@@ -89,6 +93,7 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
       return;
     }
     businessId = args[business_id_args];
+    userPosition = args[user_position_args];
     setState(() {
       isLoading = false;
     });
@@ -99,7 +104,7 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
     Navigator.pushNamed(context, route, arguments: args);
   }
 
-  Widget _component(List<Product> products) {
+  Widget _component(List<Product> products, String usrPos) {
     return ListView.builder(
       itemCount: products.length,
       itemBuilder: (context, index) {

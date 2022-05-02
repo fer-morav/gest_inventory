@@ -6,11 +6,12 @@ import 'package:gest_inventory/utils/routes.dart';
 
 class ProductComponent extends StatelessWidget {
   final Product product;
+  final String? userPosition;
   final sizeReference = 700.0;
 
   const ProductComponent({
     Key? key,
-    required this.product,
+    required this.product, this.userPosition,
   }) : super(key: key);
 
   @override
@@ -21,7 +22,7 @@ class ProductComponent extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () {
-        final args = {product_args: product};
+        final args = {product_args: product,user_position_args:userPosition};
         Navigator.pushNamed(context, see_product_info_route, arguments: args);
       },
       backgroundColor: Colors.white,

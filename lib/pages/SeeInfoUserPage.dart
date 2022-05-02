@@ -18,6 +18,7 @@ class SeeInfoUserPage extends StatefulWidget {
 
 class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
   late String nombre, apellidos, cargo, salario, telefono, idNegocio, negocio;
+  String? userPosition;
 
   final _padding = const EdgeInsets.only(
     left: 15,
@@ -199,10 +200,13 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 ),
               ],
             ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: primaryColor,
-        onPressed: () => _nextScreenArgs(modify_profile_route, _user!),
-        child: Icon(Icons.edit_outlined),
+      floatingActionButton: Visibility(
+        child: FloatingActionButton(
+          onPressed: () => _nextScreenArgs(modify_profile_route, _user!),
+          backgroundColor: primaryColor,
+          child: Icon(Icons.edit_outlined),
+        ),
+        visible: userPosition == "[Administrador]" ? true : false,
       ),
     );
   }
@@ -220,6 +224,7 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
     }
 
     _user = args[user_args];
+    userPosition = args[user_position_args];
 
     nombre = _user!.nombre;
     apellidos = _user!.apellidos;

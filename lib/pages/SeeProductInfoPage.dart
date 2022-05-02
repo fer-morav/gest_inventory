@@ -40,6 +40,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
   bool _isLoading = true;
   Product? _product;
   Business? _business;
+  String? userPosition;
 
   @override
   void initState() {
@@ -276,10 +277,13 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
                 ),
               ],
             ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: primaryColor,
-        onPressed: () => _nextScreenArgs(modify_product_route, _product!),
-        child: Icon(Icons.edit_outlined),
+      floatingActionButton: Visibility(
+        child: FloatingActionButton(
+          onPressed: () => _nextScreenArgs(modify_product_route, _product!),
+          backgroundColor: primaryColor,
+          child: Icon(Icons.edit_outlined),
+        ),
+        visible: userPosition == "[Administrador]" ? true : false,
       ),
     );
   }
@@ -297,6 +301,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
     }
 
     _product = args[product_args];
+    userPosition = args[user_position_args];
 
     nombre = _product!.nombre;
     precioMayoreo = _product!.precioMayoreo.toString();
