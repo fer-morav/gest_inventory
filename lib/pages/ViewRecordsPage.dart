@@ -54,7 +54,7 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
             padding: _padding,
             height: 80,
             child: ButtonMain(
-              onPressed: () => _nextScreen(records_date_route),
+              onPressed: () => _nextScreenArgs(allincomes_route, _business!.id),
               text: button_compras,
               isDisabled: true,
             ),

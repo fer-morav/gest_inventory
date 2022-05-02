@@ -15,6 +15,7 @@ import 'package:gest_inventory/pages/StatisticsPage.dart';
 import 'package:gest_inventory/pages/ViewRecordsPage.dart';
 import 'package:gest_inventory/pages/AllSalesPage.dart';
 import '../pages/AdministratorPage.dart';
+import '../pages/AllIncomesPage.dart';
 import '../pages/EmployeesPage.dart';
 import '../pages/LoginPage.dart';
 import '../pages/RegisterUserPage.dart';
@@ -51,6 +52,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     make_sale_route: (BuildContext context) => const MakeSalePage(),
     restock_route: (BuildContext context) => const RestockPage(),
     allsales_route: (BuildContext context) => const AllSalesPage(),
+    allincomes_route: (BuildContext context) => const AllIncomesPage(),
   };
 }
 
@@ -79,3 +81,4 @@ const search_product_code_route = "search_product_code";
 const make_sale_route = "make_sale";
 const restock_route = "restock";
 const allsales_route = "all_sales";
+const allincomes_route = "all_incomes";
