@@ -24,6 +24,7 @@ const title_opSearch_product = "Busqueda de Productos";
 const title_make_sale = "Realizar Venta";
 const title_restock_product = "Entrada de Productos";
 const title_sales_report = "Reporte de Ventas";
+const title_incomings_report = "Reporte de Entradas";
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";

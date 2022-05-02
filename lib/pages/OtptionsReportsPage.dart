@@ -66,7 +66,8 @@ class _OptionsReports extends State<OptionsReportsPage> {
               height: 80,
               child: ButtonMain(
                 onPressed: () {
-
+                  _nextScreenArgs(
+                      incomingsReport_route, _business!.id.toString());
                 },
                 text: "Entradas/Compras",
                 isDisabled: true,

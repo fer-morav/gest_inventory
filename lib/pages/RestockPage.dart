@@ -24,10 +24,8 @@ class _RestockPageState extends State<RestockPage> {
 
   Incomings _incoming = Incomings(
       id: "",
-      idProducto: "",
       idNegocio: "",
       nombreProducto: "",
-      fecha: "",
       precioUnitario: 0.0,
       precioMayoreo: 0.0,
       unidadesCompradas: 0.0
@@ -160,25 +158,17 @@ class _RestockPageState extends State<RestockPage> {
           if (_product != null &&
               await _businessDataSource.updateProduct(_product)) {
 
-            String currentDate = DateFormat.yMMMMd().format(DateTime.now());
+            final _prod = await _businessDataSource.getProduct(_product.idNegocio, _product.id);
 
-            _incoming.idProducto = _product.id;
+
+            _incoming.id = _product.id;
             _incoming.idNegocio = _product.idNegocio;
             _incoming.nombreProducto = _product.nombre;
-            _incoming.fecha = currentDate;
             _incoming.precioUnitario = _product.precioUnitario;
             _incoming.precioMayoreo = _product.precioMayoreo;
             _incoming.unidadesCompradas = newStock; //ingreso de unidades
 
-            int incomingsLength =  await _incomingsDataSource.getTableIncomingsLength(_product.idNegocio);
-
-            if ( incomingsLength > 0 ) {
-              _incoming.id = incomingsLength.toString();
-              _incomingsDataSource.addIncoming(_incoming);//adición a la base de datos
-            } else{
-              _incoming.id = "0";
-              _incomingsDataSource.addIncoming(_incoming);//adición a la base de datos
-            }
+            _incomingsDataSource.addIncoming(_incoming);//adición a la base de datos
 
             _showToast("Datos actualizados");
             Navigator.pop(context);

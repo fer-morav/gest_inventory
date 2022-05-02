@@ -400,38 +400,9 @@ class _MakeSalePageState extends State<MakeSalePage> {
     List<String> paid = [];
     listProduct.forEach((product) async {
 
-      /*if(!paid.contains(product.id)){
+      if(!paid.contains(product.id)){
         await _payPrice(product,  quantityProduct(product.id));
         paid.add(product.id);
-      }*/
-
-      String currentDate = DateFormat.yMMMMd().format(DateTime.now());
-      int salesLength =  await _salesDataSource.getTableSalesLength(product.idNegocio);
-      String id;
-      if ( salesLength > 0 ) {
-        id = salesLength.toString();
-      } else{
-        id = "0";
-      }
-      for(int i=0; i <= listProduct.length ; i++){
-        Product? _product = await _businessDataSource.getProduct(listProduct[i].idNegocio.toString(), listProduct[i].id.toString());
-        int quantity = quantityProduct(product.id);
-        Sales sale = Sales(
-          id: id,
-          idProducto: _product!.id.toString(),
-          idNegocio: _product.idNegocio.toString(),
-          nombreProducto: _product.nombre,
-          fecha: currentDate,
-          precioUnitario: _product.precioUnitario,
-          precioMayoreo: _product.precioMayoreo,
-          ventasUnitario: quantity < 10 ? quantity : 0,
-          ventasMayoreo: quantity >= 10 ? quantity : 0,
-          total: quantity < 10
-              ? product.precioUnitario * quantity
-              : product.precioMayoreo * quantity,
-        );
-        _salesDataSource.addSale(sale);
-        _showToast(listProduct.length.toString() +" "+ i.toString());
       }
 
     });
@@ -451,7 +422,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
     Sales? sale = await _salesDataSource.getSale(businessId!, product.id);
     if (sale != null) {
       Map<String, num> changes;
-    /*
+
       if (quantity >= 10) {
         changes = {
           Sales.VENTAS_MAYOREO: sale.ventasMayoreo + quantity,
@@ -468,16 +439,13 @@ class _MakeSalePageState extends State<MakeSalePage> {
         product.stock -= quantity;
         await _businessDataSource.updateProduct(product);
       }
-      */
+
     } else {
 
-
-     /* sale = Sales(
-        id: id,
-        idProducto: product.id,
+      final sale = Sales(
+        id: product.id,
         idNegocio: product.idNegocio,
         nombreProducto: product.nombre,
-        fecha: currentDate,
         precioUnitario: product.precioUnitario,
         precioMayoreo: product.precioMayoreo,
         ventasUnitario: quantity < 10 ? quantity : 0,
@@ -486,12 +454,10 @@ class _MakeSalePageState extends State<MakeSalePage> {
             ? product.precioUnitario * quantity
             : product.precioMayoreo * quantity,
       );
-
       if (await _salesDataSource.addSale(sale)) {
         product.stock -= quantity;
         await _businessDataSource.updateProduct(product);
       }
-      */
     }
   }
 
