@@ -102,7 +102,7 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
   Widget _component(List<Product> products) {
     return ListView.builder(
       itemCount: products.length,
-      itemBuilder: (contex, index) {
+      itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(10),
           child: ProductComponent(
