@@ -1,16 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/data/framework/FirebaseIncomingsSource.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
-import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/ButtonSecond.dart';
 import '../components/TextFieldMain.dart';
 import '../data/framework/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
-import '../data/models/Product.dart';
 import '../utils/scan_util.dart';
 import 'package:gest_inventory/data/models/Incomings.dart';
 

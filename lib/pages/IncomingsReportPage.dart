@@ -1,33 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
-import 'package:gest_inventory/components/ProductComponent.dart';
-import 'package:gest_inventory/data/models/Product.dart';
+import 'package:gest_inventory/components/IncomingsComponent.dart';
+import 'package:gest_inventory/data/models/Incomings.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
+import '../data/framework/FirebaseIncomingsSource.dart';
 import '../utils/colors.dart';
-import '../utils/routes.dart';
 
-class AllListProductsPage extends StatefulWidget {
-  const AllListProductsPage({Key? key}) : super(key: key);
+class IncomingsReportPage extends StatefulWidget {
+  const IncomingsReportPage({Key? key}) : super(key: key);
 
   @override
-  State<AllListProductsPage> createState() => _AllListProductsPageState();
+  State<IncomingsReportPage> createState() => _IncomingsReportPageState();
 }
 
-class _AllListProductsPageState extends State<AllListProductsPage> {
-  late final FirebaseBusinessDataSource _businessDataSource = FirebaseBusinessDataSource();
+class _IncomingsReportPageState extends State<IncomingsReportPage> {
+  late final FirebaseIncomingsDataSource _incomingsDataSource =
+      FirebaseIncomingsDataSource();
 
   String? businessId;
-  String? userPosition;
-  late Stream<List<Product>> _listProductStream;
+  late Future<List<Incomings>> _listIncomingsStream;
 
   @override
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
-      _listProductStream = _businessDataSource.getProducts(businessId!).asStream();
-      //_listUsers();
+      _listIncomingsStream =
+          _incomingsDataSource.getTableIncomings(businessId!);
     });
     super.initState();
   }
@@ -38,27 +37,27 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        textAppBar: title_allList_product,
+        textAppBar: title_incomings_report,
         onPressed: () {
           Navigator.pop(context);
         },
       ),
       body: isLoading
           ? waitingConnection()
-          : StreamBuilder<List<Product>>(
-              stream: _listProductStream,
+          : FutureBuilder<List<Incomings>>(
+              future: _listIncomingsStream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return hasError("Error de Conexion");
+                  return hasError("Error de Conexión");
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return waitingConnection();
                 }
                 if (snapshot.data!.isEmpty) {
-                  return hasError("Lista Vacia");
+                  return hasError("Historial Vacio");
                 }
                 if (snapshot.hasData) {
-                  return _component(snapshot.data!,userPosition.toString());
+                  return _component(snapshot.data!);
                 }
 
                 return Container(
@@ -68,13 +67,10 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
                 );
               },
             ),
-      floatingActionButton: Visibility(
-        child: FloatingActionButton(
-          onPressed: () => _nextScreenArgs(add_product_page, businessId!),
-          backgroundColor: primaryColor,
-          child: Icon(Icons.add),
-        ),
-        visible: userPosition == "[Administrador]" ? true : false,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor,
+        onPressed: () {},
+        child: Icon(Icons.archive_rounded),
       ),
     );
   }
@@ -86,25 +82,19 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
       return;
     }
     businessId = args[business_id_args];
-    userPosition = args[user_position_args];
     setState(() {
       isLoading = false;
     });
   }
 
-  void _nextScreenArgs(String route, String businessId) {
-    final args = {business_id_args: businessId};
-    Navigator.pushNamed(context, route, arguments: args);
-  }
-
-  Widget _component(List<Product> products, String usrPos) {
+  Widget _component(List<Incomings> incomings) {
     return ListView.builder(
-      itemCount: products.length,
-      itemBuilder: (context, index) {
+      itemCount: incomings.length,
+      itemBuilder: (contex, index) {
         return Padding(
           padding: const EdgeInsets.all(10),
-          child: ProductComponent(
-            product: products[index],
+          child: IncomingsComponent(
+            incomings: incomings[index],
           ),
         );
       },
@@ -137,4 +127,3 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
     );
   }
 }
-

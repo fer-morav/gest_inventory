@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/Sales.dart';
 import 'FirebaseConstants.dart';
 
@@ -144,6 +143,7 @@ class FirebaseSalesDataSource {
         final sale = Sales.fromMap(document.data());
         sales.add(sale);
       }
+      
       return sales.length;
     } catch (error) {
       return 0;
