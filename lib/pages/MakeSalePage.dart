@@ -185,7 +185,6 @@ class _MakeSalePageState extends State<MakeSalePage> {
                         );
                       }),
                 ),
-
                 Container(
                   height: 35,
                   margin: const EdgeInsets.only(
@@ -406,6 +405,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
       }
 
     });
+    _showToast(text_paid_product);
   }
 
   int quantityProduct(String id) {

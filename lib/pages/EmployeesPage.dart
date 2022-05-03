@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
@@ -8,7 +7,6 @@ import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
-
 import '../data/models/User.dart';
 import '../utils/routes.dart';
 
@@ -57,7 +55,7 @@ class _Employees extends State<EmployeesPage> {
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                onPressed: () {},
+                onPressed: () {_nextScreenArgs(make_sale_route, user!.idNegocio.toString(), user!.cargo);},
                 text: button_make_sale,
                 isDisabled: true,
               ),
@@ -66,16 +64,8 @@ class _Employees extends State<EmployeesPage> {
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                onPressed: () {},
-                text: button_stock,
-                isDisabled: true,
-              ),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: ButtonMain(
-                onPressed: () {},
+                onPressed: () {_nextScreenArgs(
+                      optionsList_product_page, user!.idNegocio.toString(), user!.cargo);},
                 text: button_see_info_product,
                 isDisabled: true,
               ),
@@ -84,7 +74,8 @@ class _Employees extends State<EmployeesPage> {
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                onPressed: () {},
+                onPressed: () {_nextScreenArgs(
+                      info_business_route, user!.idNegocio.toString(), user!.cargo);},
                 text: button_see_info_business,
                 isDisabled: true,
               ),
@@ -111,14 +102,18 @@ class _Employees extends State<EmployeesPage> {
     }
     user = args[user_args];
   }
+  void _nextScreen(String route) {
+    Navigator.pushNamed(context, route);
+  }
+
+  void _nextScreenArgs(String route, String businessId, String userPosition) {
+    final args = {business_id_args: businessId,user_position_args:userPosition};
+    Navigator.pushNamed(context, route, arguments: args);
+  }
 
   void _signOut () async {
     if(await _authDataSource.signOut()){
       Phoenix.rebirth(context);
     }
-  }
-
-  void _nextScreen(String route) {
-    Navigator.pushNamed(context, route);
   }
 }

@@ -22,6 +22,7 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
   final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
 
   String? businessId;
+  String? userPosition;
   late Stream<List<User>> _listUserStream;
 
   @override
@@ -59,7 +60,7 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
                   return hasError("Lista Vacia");
                 }
                 if (snapshot.hasData) {
-                  return _component(snapshot.data!);
+                  return _component(snapshot.data!,userPosition.toString());
                 }
 
                 return Container(
@@ -69,10 +70,13 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
                 );
               },
             ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: primaryColor,
-        onPressed: () => _nextScreen(register_employees_route),
-        child: Icon(Icons.add),
+      floatingActionButton: Visibility(
+        child: FloatingActionButton(
+          onPressed: () => _nextScreen(register_employees_route),
+          backgroundColor: primaryColor,
+          child: Icon(Icons.add),
+        ),
+        visible: userPosition == "[Administrador]" ? true : false,
       ),
     );
   }
@@ -84,6 +88,7 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
       return;
     }
     businessId = args[business_id_args];
+    userPosition = args[user_position_args];
     setState(() {
       isLoading = false;
     });
@@ -93,13 +98,14 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
     Navigator.pushNamed(context, route);
   }
 
-  Widget _component(List<User> users) {
+  Widget _component(List<User> users,String usrPos) {
     return ListView.builder(
       itemCount: users.length,
-      itemBuilder: (contex, index) {
+      itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(10),
           child: UserComponent(
+            userPosition: userPosition,
             user: users[index],
           ),
         );

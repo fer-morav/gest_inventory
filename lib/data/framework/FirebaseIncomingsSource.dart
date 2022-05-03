@@ -111,5 +111,4 @@ class FirebaseIncomingsDataSource {
       return 0;
     }
   }
-
 }

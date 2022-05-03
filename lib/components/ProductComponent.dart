@@ -6,11 +6,12 @@ import 'package:gest_inventory/utils/routes.dart';
 
 class ProductComponent extends StatelessWidget {
   final Product product;
+  final String? userPosition;
   final sizeReference = 700.0;
 
   const ProductComponent({
     Key? key,
-    required this.product,
+    required this.product, this.userPosition,
   }) : super(key: key);
 
   @override
@@ -21,7 +22,7 @@ class ProductComponent extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () {
-        final args = {product_args: product};
+        final args = {product_args: product,user_position_args:userPosition};
         Navigator.pushNamed(context, see_product_info_route, arguments: args);
       },
       backgroundColor: Colors.white,
@@ -29,7 +30,6 @@ class ProductComponent extends StatelessWidget {
       isExtended: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        //side: BorderSide(color: user.cargo == "[Administrador]" ? Colors.redAccent : Colors.greenAccent,),
       ),
       child: Row(
         children: [
@@ -50,7 +50,6 @@ class ProductComponent extends StatelessWidget {
               product.nombre,
               style: TextStyle(
                   color: primaryColor,
-                  //fontWeight: FontWeight.w900,
                   fontSize: getResponsiveText(17)),
               textAlign: TextAlign.left,
             ),
@@ -60,7 +59,6 @@ class ProductComponent extends StatelessWidget {
               "\$ "+product.precioUnitario.toString(),
               style: TextStyle(
                   color: primaryColor,
-                  //fontWeight: FontWeight.w900,
                   fontSize: getResponsiveText(17)),
               textAlign: TextAlign.left,
             ),
@@ -70,7 +68,6 @@ class ProductComponent extends StatelessWidget {
               "Stock: "+product.stock.toString(),
               style: TextStyle(
                   color: primaryColor,
-                  //fontWeight: FontWeight.w900,
                   fontSize: getResponsiveText(17)),
               textAlign: TextAlign.left,
             ),

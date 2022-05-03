@@ -28,6 +28,7 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
       FirebaseBusinessDataSource();
 
   String? businessId;
+  String? userPosition; 
   Business? _business;
   bool _isLoading = true;
 
@@ -133,7 +134,7 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
                         text: button_see_employees,
                         isDisabled: true,
                         onPressed: () {
-                          _nextScreenArgs(list_employees_route, _business!.id);
+                          _nextScreenArgs(list_employees_route, _business!.id, userPosition.toString());
                         },
                       ),
                     ],
@@ -141,12 +142,15 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
                 ),
               ],
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _nextScreenArgsBusiness(edit_business_route, _business!);
-        },
-        backgroundColor: primaryColor,
-        child: Icon(Icons.edit),
+      floatingActionButton: Visibility(
+        child: FloatingActionButton(
+          onPressed: () {
+            _nextScreenArgsBusiness(edit_business_route, _business!);
+          },
+          backgroundColor: primaryColor,
+          child: Icon(Icons.edit),
+        ),
+        visible: userPosition == "[Administrador]" ? true : false,
       ),
     );
   }
@@ -159,6 +163,7 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
     }
 
     businessId = args[business_id_args];
+    userPosition = args[user_position_args];
     _getBusiness(businessId!);
   }
 
@@ -179,8 +184,8 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
     Navigator.pushNamed(context, route, arguments: args);
   }
 
-  void _nextScreenArgs(String route, String businessId) {
-    final args = {business_id_args: businessId};
+  void _nextScreenArgs(String route, String businessId, String userPosition) {
+    final args = {business_id_args: businessId, user_position_args: userPosition};
     Navigator.pushNamed(context, route, arguments: args);
   }
 

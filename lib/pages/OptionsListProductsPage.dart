@@ -28,6 +28,7 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
   FirebaseBusinessDataSource();
 
   String? businessId;
+  String? userPosition;
   Business? _business;
   bool _isLoading = true;
 
@@ -57,7 +58,7 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
                   height: 80,
                   child: ButtonMain(
                     onPressed: () {
-                      _nextScreenArgs(allList_product_page, _business!.id.toString());
+                      _nextScreenArgs(allList_product_page, _business!.id.toString(),userPosition.toString());
                     },
                     text: button_allList_product,
                     isDisabled: true,
@@ -80,7 +81,7 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
                   height: 80,
                   child: ButtonMain(
                     onPressed: () {
-                      _nextScreenArgs(search_product_code_route, _business!.id.toString());
+                      _nextScreenArgs(search_product_code_route, _business!.id.toString(),userPosition.toString());
                     },
                     text: button_codeList_product,
                     isDisabled: true,
@@ -99,6 +100,7 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
     }
 
     businessId = args[business_id_args];
+    userPosition = args[user_position_args];
     _getBusiness(businessId!);
   }
 
@@ -114,8 +116,8 @@ class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
         });
   }
 
-  void _nextScreenArgs(String route, String businessId) {
-    final args = {business_id_args: businessId};
+  void _nextScreenArgs(String route, String businessId, String usrPos) {
+    final args = {business_id_args: businessId, user_position_args:usrPos};
     Navigator.pushNamed(context, route, arguments: args);
   }
 

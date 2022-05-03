@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/data/models/Sales.dart';
 import 'package:gest_inventory/utils/arguments.dart';
+import 'package:gest_inventory/utils/strings.dart';
 import '../components/SalesComponent.dart';
 import '../data/framework/FirebaseSalesDataSource.dart';
+import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
 import '../utils/colors.dart';
 
 class AllSalesPage extends StatefulWidget {
@@ -14,8 +16,7 @@ class AllSalesPage extends StatefulWidget {
 }
 
 class _AllSalesPageState extends State<AllSalesPage> {
-  late final FirebaseSalesDataSource _salesDataSource =
-      FirebaseSalesDataSource();
+  late final FirebaseSalesDataSource _salesDataSource = FirebaseSalesDataSource();
 
   String? businessId;
   late Future<List<Sales>> _listSalesStream;
@@ -46,13 +47,13 @@ class _AllSalesPageState extends State<AllSalesPage> {
               future: _listSalesStream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return hasError("Error de Conexión");
+                  return hasError(text_error_connection);
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return waitingConnection();
                 }
                 if (snapshot.data!.isEmpty) {
-                  return hasError("Historial Vacio");
+                  return hasError(text_empty_list);
                 }
                 if (snapshot.hasData) {
                   return _component(snapshot.data!);
@@ -65,6 +66,11 @@ class _AllSalesPageState extends State<AllSalesPage> {
                 );
               },
             ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor,
+        onPressed: () {},
+        child: Icon(Icons.archive_rounded),
+      ),
     );
   }
 

@@ -143,7 +143,7 @@ class FirebaseSalesDataSource {
         final sale = Sales.fromMap(document.data());
         sales.add(sale);
       }
-
+      
       return sales.length;
     } catch (error) {
       return 0;

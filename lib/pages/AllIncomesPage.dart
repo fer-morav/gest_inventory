@@ -65,6 +65,11 @@ class _AllIncomesPageState extends State<AllIncomesPage> {
                 );
               },
             ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor,
+        onPressed: () {},
+        child: Icon(Icons.archive_rounded),
+      ),
     );
   }
 
