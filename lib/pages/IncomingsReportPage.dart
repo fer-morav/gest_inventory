@@ -3,19 +3,20 @@ import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/IncomingsComponent.dart';
 import 'package:gest_inventory/data/models/Incomings.dart';
 import 'package:gest_inventory/utils/arguments.dart';
+import 'package:gest_inventory/utils/strings.dart';
 import '../data/framework/FirebaseIncomingsSource.dart';
 import '../utils/colors.dart';
 
-class AllIncomesPage extends StatefulWidget {
-  const AllIncomesPage({Key? key}) : super(key: key);
+class IncomingsReportPage extends StatefulWidget {
+  const IncomingsReportPage({Key? key}) : super(key: key);
 
   @override
-  State<AllIncomesPage> createState() => _AllIncomesPageState();
+  State<IncomingsReportPage> createState() => _IncomingsReportPageState();
 }
 
-class _AllIncomesPageState extends State<AllIncomesPage> {
-
-  late final FirebaseIncomingsDataSource _incomingsDataSource = FirebaseIncomingsDataSource();
+class _IncomingsReportPageState extends State<IncomingsReportPage> {
+  late final FirebaseIncomingsDataSource _incomingsDataSource =
+      FirebaseIncomingsDataSource();
 
   String? businessId;
   late Future<List<Incomings>> _listIncomingsStream;
@@ -24,7 +25,8 @@ class _AllIncomesPageState extends State<AllIncomesPage> {
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
-      _listIncomingsStream = _incomingsDataSource.getTableIncomings(businessId!);
+      _listIncomingsStream =
+          _incomingsDataSource.getTableIncomings(businessId!);
     });
     super.initState();
   }
@@ -35,7 +37,7 @@ class _AllIncomesPageState extends State<AllIncomesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        textAppBar: "Historial de Entradas",
+        textAppBar: title_incomings_report,
         onPressed: () {
           Navigator.pop(context);
         },
@@ -65,6 +67,11 @@ class _AllIncomesPageState extends State<AllIncomesPage> {
                 );
               },
             ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor,
+        onPressed: () {},
+        child: Icon(Icons.archive_rounded),
+      ),
     );
   }
 
@@ -78,11 +85,6 @@ class _AllIncomesPageState extends State<AllIncomesPage> {
     setState(() {
       isLoading = false;
     });
-  }
-
-  void _nextScreenArgs(String route, String businessId) {
-    final args = {business_id_args: businessId};
-    Navigator.pushNamed(context, route, arguments: args);
   }
 
   Widget _component(List<Incomings> incomings) {

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
@@ -6,9 +5,7 @@ import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
-import '../components/ButtonMain.dart';
 import '../components/TextFieldMain.dart';
-import '../data/framework/FirebaseAuthDataSource.dart';
 import '../data/framework/FirebaseUserDataSource.dart';
 import '../data/models/User.dart';
 import '../utils/colors.dart';

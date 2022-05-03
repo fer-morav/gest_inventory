@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/pages/AddBusinessPage.dart';
 import 'package:gest_inventory/pages/AddProductPage.dart';
+import 'package:gest_inventory/pages/AllIncomesPage.dart';
 import 'package:gest_inventory/pages/EditBusinessProfilePage.dart';
 import 'package:gest_inventory/pages/EditProductPage.dart';
 import 'package:gest_inventory/pages/EditUserProfilePage.dart';
 import 'package:gest_inventory/pages/EmployeeListPage.dart';
+import 'package:gest_inventory/pages/IncomingsReportPage.dart';
+import 'package:gest_inventory/pages/SalesReportPage.dart';
 import 'package:gest_inventory/pages/InfoBusinessPage.dart';
 import 'package:gest_inventory/pages/MakeSalePage.dart';
+import 'package:gest_inventory/pages/OtptionsReportsPage.dart';
 import 'package:gest_inventory/pages/RecordDatePage.dart';
 import 'package:gest_inventory/pages/RegisterEmployeePage.dart';
 import 'package:gest_inventory/pages/RestockPage.dart';
@@ -15,7 +19,6 @@ import 'package:gest_inventory/pages/StatisticsPage.dart';
 import 'package:gest_inventory/pages/ViewRecordsPage.dart';
 import 'package:gest_inventory/pages/AllSalesPage.dart';
 import '../pages/AdministratorPage.dart';
-import '../pages/AllIncomesPage.dart';
 import '../pages/EmployeesPage.dart';
 import '../pages/LoginPage.dart';
 import '../pages/RegisterUserPage.dart';
@@ -52,6 +55,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     make_sale_route: (BuildContext context) => const MakeSalePage(),
     restock_route: (BuildContext context) => const RestockPage(),
     allsales_route: (BuildContext context) => const AllSalesPage(),
+    optionsReports_route: (BuildContext context) => const OptionsReportsPage(),
+    salesReport_route: (BuildContext context) => const SalesReportPage(),
+    incomingsReport_route: (BuildContext context) => const IncomingsReportPage(),
     allincomes_route: (BuildContext context) => const AllIncomesPage(),
   };
 }
@@ -81,4 +87,7 @@ const search_product_code_route = "search_product_code";
 const make_sale_route = "make_sale";
 const restock_route = "restock";
 const allsales_route = "all_sales";
+const optionsReports_route = "options_reports";
+const salesReport_route = "sales_report";
+const incomingsReport_route = "incomings_report";
 const allincomes_route = "all_incomes";

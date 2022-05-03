@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
-import 'package:gest_inventory/components/IncomingsComponent.dart';
-import 'package:gest_inventory/data/models/Incomings.dart';
+import 'package:gest_inventory/data/models/Sales.dart';
 import 'package:gest_inventory/utils/arguments.dart';
-import '../data/framework/FirebaseIncomingsSource.dart';
+import 'package:gest_inventory/utils/strings.dart';
+import '../components/SalesComponent.dart';
+import '../data/framework/FirebaseSalesDataSource.dart';
 import '../utils/colors.dart';
 
-class AllIncomesPage extends StatefulWidget {
-  const AllIncomesPage({Key? key}) : super(key: key);
+class SalesReportPage extends StatefulWidget {
+  const SalesReportPage({Key? key}) : super(key: key);
 
   @override
-  State<AllIncomesPage> createState() => _AllIncomesPageState();
+  State<SalesReportPage> createState() => _SalesReportPageState();
 }
 
-class _AllIncomesPageState extends State<AllIncomesPage> {
-
-  late final FirebaseIncomingsDataSource _incomingsDataSource = FirebaseIncomingsDataSource();
+class _SalesReportPageState extends State<SalesReportPage> {
+  late final FirebaseSalesDataSource _salesDataSource =
+      FirebaseSalesDataSource();
 
   String? businessId;
-  late Future<List<Incomings>> _listIncomingsStream;
+  late Future<List<Sales>> _listSalesStream;
 
   @override
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
-      _listIncomingsStream = _incomingsDataSource.getTableIncomings(businessId!);
+      _listSalesStream = _salesDataSource.getTableSales(businessId!);
     });
     super.initState();
   }
@@ -35,15 +36,15 @@ class _AllIncomesPageState extends State<AllIncomesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        textAppBar: "Historial de Entradas",
+        textAppBar: title_sales_report,
         onPressed: () {
           Navigator.pop(context);
         },
       ),
       body: isLoading
           ? waitingConnection()
-          : FutureBuilder<List<Incomings>>(
-              future: _listIncomingsStream,
+          : FutureBuilder<List<Sales>>(
+              future: _listSalesStream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return hasError("Error de Conexión");
@@ -65,6 +66,11 @@ class _AllIncomesPageState extends State<AllIncomesPage> {
                 );
               },
             ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor,
+        onPressed: () {},
+        child: Icon(Icons.archive_rounded),
+      ),
     );
   }
 
@@ -80,19 +86,14 @@ class _AllIncomesPageState extends State<AllIncomesPage> {
     });
   }
 
-  void _nextScreenArgs(String route, String businessId) {
-    final args = {business_id_args: businessId};
-    Navigator.pushNamed(context, route, arguments: args);
-  }
-
-  Widget _component(List<Incomings> incomings) {
+  Widget _component(List<Sales> sales) {
     return ListView.builder(
-      itemCount: incomings.length,
+      itemCount: sales.length,
       itemBuilder: (contex, index) {
         return Padding(
           padding: const EdgeInsets.all(10),
-          child: IncomingsComponent(
-            incomings: incomings[index],
+          child: SalesComponent(
+            sales: sales[index],
           ),
         );
       },

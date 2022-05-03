@@ -1,28 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../data/framework/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
-import '../utils/arguments.dart';
+import '../data/models/User.dart';
 
-class ViewRecordsPage extends StatefulWidget {
-  const ViewRecordsPage({Key? key}) : super(key: key);
+class OptionsReportsPage extends StatefulWidget {
+  const OptionsReportsPage({Key? key}) : super(key: key);
 
   @override
-  State<ViewRecordsPage> createState() => _ViewRecordsState();
+  State<OptionsReportsPage> createState() => _OptionsReports();
 }
 
-class _ViewRecordsState extends State<ViewRecordsPage> {
-
-  late final FirebaseBusinessDataSource _businessDataSource =
-  FirebaseBusinessDataSource();
-
-  String? businessId;
-  Business? _business;
-
-
+class _OptionsReports extends State<OptionsReportsPage> {
   final _padding = const EdgeInsets.only(
     left: 15,
     top: 10,
@@ -30,9 +23,19 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
     bottom: 10,
   );
 
+  late final FirebaseBusinessDataSource _businessDataSource =
+      FirebaseBusinessDataSource();
+
+  String? businessId;
+  Business? _business;
+
+  User? user;
+
+  @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
     });
   }
@@ -41,7 +44,7 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        textAppBar: title_report,
+        textAppBar: "Generar Reporte",
         onPressed: () {
           Navigator.of(context).pop();
         },
@@ -52,7 +55,10 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
             padding: _padding,
             height: 80,
             child: ButtonMain(
-              onPressed: () => _nextScreenArgs(allincomes_route, _business!.id),
+              onPressed: () {
+                _nextScreenArgs(
+                    incomingsReport_route, _business!.id.toString());
+              },
               text: button_compras,
               isDisabled: true,
             ),
@@ -61,7 +67,9 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
             padding: _padding,
             height: 80,
             child: ButtonMain(
-              onPressed: () => _nextScreenArgs(allsales_route, _business!.id),
+              onPressed: () {
+                _nextScreenArgs(salesReport_route, _business!.id.toString());
+              },
               text: button_ventas,
               isDisabled: true,
             ),
@@ -69,6 +77,17 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
         ],
       ),
     );
+  }
+
+  void _getBusiness(String id) async {
+    _businessDataSource.getBusiness(id).then((business) => {
+          if (business != null)
+            {
+              setState(() {
+                _business = business;
+              }),
+            }
+        });
   }
 
   void _getArguments() {
@@ -80,17 +99,6 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
 
     businessId = args[business_id_args];
     _getBusiness(businessId!);
-  }
-
-  void _getBusiness(String id) async {
-    _businessDataSource.getBusiness(id).then((business) => {
-      if (business != null)
-        {
-          setState(() {
-            _business = business;
-          }),
-        }
-    });
   }
 
   void _nextScreenArgs(String route, String businessId) {

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/generated/i18n.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Business.dart';
