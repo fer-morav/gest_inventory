@@ -11,6 +11,7 @@ import 'package:gest_inventory/utils/strings.dart';
 import '../components/ButtonMain.dart';
 import '../components/TextFieldMain.dart';
 import '../data/models/Sales.dart';
+import 'package:intl/intl.dart';
 
 class MakeSalePage extends StatefulWidget {
   const MakeSalePage({Key? key}) : super(key: key);
@@ -37,6 +38,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
 
   String? businessId;
   String? _nombreError;
+  double total = 0.0;
 
   List<String> listItems = [];
   late List<Product> listProduct = [];
@@ -183,6 +185,31 @@ class _MakeSalePageState extends State<MakeSalePage> {
                         );
                       }),
                 ),
+                Container(
+                  height: 35,
+                  margin: const EdgeInsets.only(
+                    left: 80,
+                    top: 10,
+                    right: 80,
+                    bottom: 10,
+                  ),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: listItems.length > 0 ? Colors.green : Colors.red,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: FittedBox(
+                    child: Text(
+                      listItems.length > 0 ? "TOTAL: \$ "+ total.toString() : "TOTAL: \$ 0.0" ,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 25,
+                      ),
+                    ),
+                  ),
+                ),
+
               ],
             ),
       floatingActionButton: Column(
@@ -264,7 +291,11 @@ class _MakeSalePageState extends State<MakeSalePage> {
       final _product =
           await _businessDataSource.getProduct(businessId!, idController.text);
       if (_product!.stock != 0.0 && inStock(_product)) {
+
         listProduct.add(_product);
+
+        total = total + _product.precioUnitario;
+
         _addProduct(_product.id);
       } else {
         _showToast(text_product_not_avilable);
@@ -282,6 +313,9 @@ class _MakeSalePageState extends State<MakeSalePage> {
               {
                 if (product.stock != 0.0 && inStock(product))
                   {
+
+                  total = total + product.precioUnitario,
+
                     listProduct.add(product),
                     _addProduct(product.id),
                   }
@@ -364,10 +398,12 @@ class _MakeSalePageState extends State<MakeSalePage> {
     });
     List<String> paid = [];
     listProduct.forEach((product) async {
+
       if(!paid.contains(product.id)){
         await _payPrice(product,  quantityProduct(product.id));
         paid.add(product.id);
       }
+
     });
     _showToast(text_paid_product);
   }

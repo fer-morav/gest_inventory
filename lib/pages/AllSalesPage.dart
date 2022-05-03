@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
-import 'package:gest_inventory/components/ButtonMain.dart';
-import 'package:gest_inventory/components/ProductComponent.dart';
-import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/data/models/Sales.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
-
 import '../components/SalesComponent.dart';
-import '../data/framework/FirebaseAuthDataSource.dart';
 import '../data/framework/FirebaseSalesDataSource.dart';
-import '../data/framework/FirebaseUserDataSource.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
-import '../data/models/User.dart';
 import '../utils/colors.dart';
-import '../utils/routes.dart';
 
 class AllSalesPage extends StatefulWidget {
   const AllSalesPage({Key? key}) : super(key: key);
@@ -24,22 +16,16 @@ class AllSalesPage extends StatefulWidget {
 }
 
 class _AllSalesPageState extends State<AllSalesPage> {
-  final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
-  final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
-  late final FirebaseBusinessDataSource _businessDataSource = FirebaseBusinessDataSource();
   late final FirebaseSalesDataSource _salesDataSource = FirebaseSalesDataSource();
 
   String? businessId;
-  late Stream<List<Product>> _listProductStream;
   late Future<List<Sales>> _listSalesStream;
 
   @override
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
-      _listProductStream = _businessDataSource.getProducts(businessId!).asStream();
       _listSalesStream = _salesDataSource.getTableSales(businessId!);
-      //_listUsers();
     });
     super.initState();
   }
@@ -61,13 +47,13 @@ class _AllSalesPageState extends State<AllSalesPage> {
               future: _listSalesStream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return hasError("Error de Conexión");
+                  return hasError(text_error_connection);
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return waitingConnection();
                 }
                 if (snapshot.data!.isEmpty) {
-                  return hasError("Historial Vacio");
+                  return hasError(text_empty_list);
                 }
                 if (snapshot.hasData) {
                   return _component(snapshot.data!);
@@ -80,11 +66,11 @@ class _AllSalesPageState extends State<AllSalesPage> {
                 );
               },
             ),
-      /*floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
-        onPressed: () => _nextScreenArgs(add_product_page, businessId!),//Cambiar al de registrar producto
-        child: Icon(Icons.add),
-      ),*/
+        onPressed: () {},
+        child: Icon(Icons.archive_rounded),
+      ),
     );
   }
 
@@ -100,15 +86,10 @@ class _AllSalesPageState extends State<AllSalesPage> {
     });
   }
 
-  void _nextScreenArgs(String route, String businessId) {
-    final args = {business_id_args: businessId};
-    Navigator.pushNamed(context, route, arguments: args);
-  }
-
   Widget _component(List<Sales> sales) {
     return ListView.builder(
       itemCount: sales.length,
-      itemBuilder: (contex, index) {
+      itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(10),
           child: SalesComponent(

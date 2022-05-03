@@ -3,7 +3,6 @@ import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
-
 import '../data/framework/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
 import '../utils/arguments.dart';
@@ -19,7 +18,6 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
 
   late final FirebaseBusinessDataSource _businessDataSource =
   FirebaseBusinessDataSource();
-  bool _isLoading = true;
 
   String? businessId;
   Business? _business;
@@ -54,7 +52,7 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
             padding: _padding,
             height: 80,
             child: ButtonMain(
-              onPressed: () => _nextScreenArgs(records_date_route, _business!.id),
+              onPressed: () => _nextScreenArgs(allincomes_route, _business!.id),
               text: button_compras,
               isDisabled: true,
             ),
@@ -65,15 +63,6 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
             child: ButtonMain(
               onPressed: () => _nextScreenArgs(allsales_route, _business!.id),
               text: button_ventas,
-              isDisabled: true,
-            ),
-          ),
-          Container(
-            padding: _padding,
-            height: 80,
-            child: ButtonMain(
-              onPressed: () => _nextScreen(records_date_route),
-              text: button_ambos,
               isDisabled: true,
             ),
           ),
@@ -102,14 +91,9 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
         {
           setState(() {
             _business = business;
-            _isLoading = false;
           }),
         }
     });
-  }
-  void _nextScreenArgsBusiness(String route, Business business) {
-    final args = {business_args: business};
-    Navigator.pushNamed(context, route, arguments: args);
   }
 
   void _nextScreenArgs(String route, String businessId) {

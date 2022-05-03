@@ -23,6 +23,8 @@ const title_search_product = "Buscar Producto";
 const title_opSearch_product = "Busqueda de Productos";
 const title_make_sale = "Realizar Venta";
 const title_restock_product = "Entrada de Productos";
+const title_sales_report = "Reporte de Ventas";
+const title_incomings_report = "Reporte de Entradas";
 
 ////////////////Buttons///////////////////////////////////////
 const button_login = "Iniciar Sesión";
@@ -149,6 +151,8 @@ const text_paid_product = "Producto Pagado";
 const text_year = "Año";
 const text_month = "Mes";
 const text_day = "Día";
+const text_error_connection = "Error de Conexión";
+const text_empty_history = "Historial Vacio";
 
 ////////////////Alert////////////////////////////////////////
 const alert_title_send_email = "Enlace enviado para restablecer contraseña";

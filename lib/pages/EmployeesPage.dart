@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
@@ -8,7 +7,6 @@ import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
-
 import '../data/models/User.dart';
 import '../utils/routes.dart';
 

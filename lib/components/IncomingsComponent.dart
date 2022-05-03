@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:gest_inventory/data/models/Product.dart';
+import 'package:gest_inventory/data/models/Incomings.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
-import 'package:gest_inventory/utils/routes.dart';
 
-class ProductComponent extends StatelessWidget {
-  final Product product;
-  final String? userPosition;
+class IncomingsComponent extends StatelessWidget {
+  final Incomings incomings;
   final sizeReference = 700.0;
 
-  const ProductComponent({
+  const IncomingsComponent({
     Key? key,
-    required this.product, this.userPosition,
+    required this.incomings,
   }) : super(key: key);
 
   @override
@@ -22,8 +20,7 @@ class ProductComponent extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () {
-        final args = {product_args: product,user_position_args:userPosition};
-        Navigator.pushNamed(context, see_product_info_route, arguments: args);
+        final args = {incomings_args: incomings};
       },
       backgroundColor: Colors.white,
       elevation: 8,
@@ -38,34 +35,27 @@ class ProductComponent extends StatelessWidget {
             child: Transform.scale(
               scale: 1.6,
               child: Icon(
-                Icons.shopping_bag_outlined,
-                color:
-                    product.stock.toString() == "0.0" ? Colors.redAccent : Colors.greenAccent,
+                Icons.arrow_circle_down,
+                color: incomings.nombreProducto.toString() == "0.0"
+                    ? Colors.redAccent
+                    : Colors.greenAccent,
               ),
               alignment: Alignment.center,
             ),
           ),
           Expanded(
             child: Text(
-              product.nombre,
+              incomings.nombreProducto,
               style: TextStyle(
                   color: primaryColor,
+                  //fontWeight: FontWeight.w900,
                   fontSize: getResponsiveText(17)),
               textAlign: TextAlign.left,
             ),
           ),
           Expanded(
             child: Text(
-              "\$ "+product.precioUnitario.toString(),
-              style: TextStyle(
-                  color: primaryColor,
-                  fontSize: getResponsiveText(17)),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              "Stock: "+product.stock.toString(),
+              "Total de unidades compradas: " + incomings.unidadesCompradas.toString(),
               style: TextStyle(
                   color: primaryColor,
                   fontSize: getResponsiveText(17)),

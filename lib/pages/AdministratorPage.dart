@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
@@ -9,7 +8,6 @@ import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
-
 import '../data/models/User.dart';
 
 class AdministratorPage extends StatefulWidget {
@@ -109,15 +107,17 @@ class _Administrator extends State<AdministratorPage> {
                 isDisabled: true,
               ),
             ),
-            Container(
+            /*Container(
               padding: _padding,
               height: 80,
               child: ButtonMain(
-                onPressed: () {},
+                onPressed: () {
+                  _nextScreenArgs(optionsReports_route, user!.idNegocio.toString());
+                },
                 text: button_generate_report,
                 isDisabled: true,
               ),
-            ),
+            ),*/
             Container(
               padding: _padding,
               height: 80,

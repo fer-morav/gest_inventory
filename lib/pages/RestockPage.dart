@@ -157,26 +157,18 @@ class _RestockPageState extends State<RestockPage> {
           _product.stock = newStock + stock;
           if (_product != null &&
               await _businessDataSource.updateProduct(_product)) {
+
+            final _prod = await _businessDataSource.getProduct(_product.idNegocio, _product.id);
+
+
             _incoming.id = _product.id;
             _incoming.idNegocio = _product.idNegocio;
             _incoming.nombreProducto = _product.nombre;
             _incoming.precioUnitario = _product.precioUnitario;
             _incoming.precioMayoreo = _product.precioMayoreo;
+            _incoming.unidadesCompradas = newStock; //ingreso de unidades
 
-            if (await _incomingsDataSource.getIncoming(
-                    _product.idNegocio, _product.id) ==
-                null) {
-              _incoming.unidadesCompradas = newStock;
-
-              _incomingsDataSource.addIncoming(_incoming);
-            } else {
-              final _incomingRecovered = await _incomingsDataSource.getIncoming(
-                  _product.idNegocio, _product.id);
-
-              _incoming.unidadesCompradas =
-                  _incomingRecovered!.unidadesCompradas + newStock;
-              _incomingsDataSource.addIncoming(_incoming);
-            }
+            _incomingsDataSource.addIncoming(_incoming);//adición a la base de datos
 
             _showToast("Datos actualizados");
             Navigator.pop(context);

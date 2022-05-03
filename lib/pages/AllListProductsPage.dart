@@ -5,7 +5,6 @@ import 'package:gest_inventory/components/ProductComponent.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
-
 import '../data/framework/FirebaseAuthDataSource.dart';
 import '../data/framework/FirebaseUserDataSource.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
@@ -21,8 +20,6 @@ class AllListProductsPage extends StatefulWidget {
 }
 
 class _AllListProductsPageState extends State<AllListProductsPage> {
-  final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
-  final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
   late final FirebaseBusinessDataSource _businessDataSource = FirebaseBusinessDataSource();
 
   String? businessId;

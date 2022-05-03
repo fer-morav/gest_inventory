@@ -185,7 +185,7 @@ class _InfoBusinessPageState extends State<InfoBusinessPage> {
   }
 
   void _nextScreenArgs(String route, String businessId, String userPosition) {
-    final args = {business_id_args: businessId,user_position_args:userPosition};
+    final args = {business_id_args: businessId, user_position_args: userPosition};
     Navigator.pushNamed(context, route, arguments: args);
   }
 

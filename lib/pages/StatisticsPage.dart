@@ -25,7 +25,6 @@ class _StatisticsState extends State<StatisticsPage> {
   FirebaseSalesDataSource _salesDataSource = FirebaseSalesDataSource();
 
   String? businessId;
-  late Stream<List<Sales>> _listSaleStream;
 
   bool Order = true;
   bool isLoading = true;
@@ -35,7 +34,6 @@ class _StatisticsState extends State<StatisticsPage> {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
       _fetchTips();
-      //_listSaleStream = _salesDataSource.getTableSales(businessId!).asStream();
     });
     super.initState();
   }
