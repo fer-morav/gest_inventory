@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
-import 'package:gest_inventory/components/ButtonMain.dart';
-import 'package:gest_inventory/components/ProductComponent.dart';
-import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/data/models/Sales.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
-
 import '../components/SalesComponent.dart';
-import '../data/framework/FirebaseAuthDataSource.dart';
 import '../data/framework/FirebaseSalesDataSource.dart';
-import '../data/framework/FirebaseUserDataSource.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
-import '../data/models/Business.dart';
-import '../data/models/User.dart';
 import '../utils/colors.dart';
-import '../utils/routes.dart';
 
 class SalesReportPage extends StatefulWidget {
   const SalesReportPage({Key? key}) : super(key: key);
@@ -25,7 +15,8 @@ class SalesReportPage extends StatefulWidget {
 }
 
 class _SalesReportPageState extends State<SalesReportPage> {
-  late final FirebaseSalesDataSource _salesDataSource = FirebaseSalesDataSource();
+  late final FirebaseSalesDataSource _salesDataSource =
+      FirebaseSalesDataSource();
 
   String? businessId;
   late Future<List<Sales>> _listSalesStream;
@@ -52,34 +43,32 @@ class _SalesReportPageState extends State<SalesReportPage> {
       ),
       body: isLoading
           ? waitingConnection()
-          :FutureBuilder<List<Sales>>(
-        future: _listSalesStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return hasError("Error de Conexión");
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return waitingConnection();
-          }
-          if (snapshot.data!.isEmpty) {
-            return hasError("Historial Vacio");
-          }
-          if (snapshot.hasData) {
-            return _component(snapshot.data!);
-          }
+          : FutureBuilder<List<Sales>>(
+              future: _listSalesStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return hasError("Error de Conexión");
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return waitingConnection();
+                }
+                if (snapshot.data!.isEmpty) {
+                  return hasError("Historial Vacio");
+                }
+                if (snapshot.hasData) {
+                  return _component(snapshot.data!);
+                }
 
-          return Container(
-            child: Center(
-              child: CircularProgressIndicator(),
+                return Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
-        onPressed: () {
-
-        },
+        onPressed: () {},
         child: Icon(Icons.archive_rounded),
       ),
     );
@@ -95,11 +84,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
     setState(() {
       isLoading = false;
     });
-  }
-
-  void _nextScreenArgs(String route, String businessId) {
-    final args = {business_id_args: businessId};
-    Navigator.pushNamed(context, route, arguments: args);
   }
 
   Widget _component(List<Sales> sales) {

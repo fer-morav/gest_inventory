@@ -3,7 +3,6 @@ import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
-
 import '../data/framework/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
 import '../utils/arguments.dart';
@@ -19,7 +18,6 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
 
   late final FirebaseBusinessDataSource _businessDataSource =
   FirebaseBusinessDataSource();
-  bool _isLoading = true;
 
   String? businessId;
   Business? _business;
@@ -68,15 +66,11 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
               isDisabled: true,
             ),
           ),
-
         ],
       ),
     );
   }
 
-  void _nextScreen(String route) {
-    Navigator.pushNamed(context, route);
-  }
   void _getArguments() {
     final args = ModalRoute.of(context)?.settings.arguments as Map;
     if (args.isEmpty) {
@@ -94,14 +88,9 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
         {
           setState(() {
             _business = business;
-            _isLoading = false;
           }),
         }
     });
-  }
-  void _nextScreenArgsBusiness(String route, Business business) {
-    final args = {business_args: business};
-    Navigator.pushNamed(context, route, arguments: args);
   }
 
   void _nextScreenArgs(String route, String businessId) {

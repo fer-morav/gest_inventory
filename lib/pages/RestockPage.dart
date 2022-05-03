@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/data/framework/FirebaseIncomingsSource.dart';
 import 'package:gest_inventory/utils/arguments.dart';
@@ -11,7 +10,6 @@ import '../data/framework/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
 import '../utils/scan_util.dart';
 import 'package:gest_inventory/data/models/Incomings.dart';
-import 'package:intl/intl.dart';
 
 class RestockPage extends StatefulWidget {
   const RestockPage({Key? key}) : super(key: key);
@@ -21,14 +19,13 @@ class RestockPage extends StatefulWidget {
 }
 
 class _RestockPageState extends State<RestockPage> {
-
   Incomings _incoming = Incomings(
-      id: "",
-      idNegocio: "",
-      nombreProducto: "",
-      precioUnitario: 0.0,
-      precioMayoreo: 0.0,
-      unidadesCompradas: 0.0
+    id: "",
+    idNegocio: "",
+    nombreProducto: "",
+    precioUnitario: 0.0,
+    precioMayoreo: 0.0,
+    unidadesCompradas: 0.0,
   );
 
   TextEditingController idProductController = TextEditingController();

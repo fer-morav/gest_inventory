@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'Product.dart';
-
 class Sales {
   String id = "";
   String idNegocio = "";

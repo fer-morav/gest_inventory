@@ -90,6 +90,7 @@ class FirebaseIncomingsDataSource {
       return [];
     }
   }
+
   Future<int> getTableIncomingsLength(String businessId) async {
     try {
       final snapshots = await _database

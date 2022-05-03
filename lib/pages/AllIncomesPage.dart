@@ -1,23 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
-import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/IncomingsComponent.dart';
-import 'package:gest_inventory/components/ProductComponent.dart';
 import 'package:gest_inventory/data/models/Incomings.dart';
-import 'package:gest_inventory/data/models/Product.dart';
-import 'package:gest_inventory/data/models/Sales.dart';
 import 'package:gest_inventory/utils/arguments.dart';
-import 'package:gest_inventory/utils/strings.dart';
-
-import '../components/SalesComponent.dart';
-import '../data/framework/FirebaseAuthDataSource.dart';
-import '../data/framework/FirebaseSalesDataSource.dart';
-import '../data/framework/FirebaseUserDataSource.dart';
 import '../data/framework/FirebaseIncomingsSource.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
-import '../data/models/User.dart';
 import '../utils/colors.dart';
-import '../utils/routes.dart';
 
 class AllIncomesPage extends StatefulWidget {
   const AllIncomesPage({Key? key}) : super(key: key);
@@ -27,23 +14,17 @@ class AllIncomesPage extends StatefulWidget {
 }
 
 class _AllIncomesPageState extends State<AllIncomesPage> {
-  final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
-  final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
-  late final FirebaseBusinessDataSource _businessDataSource = FirebaseBusinessDataSource();
-  late final FirebaseSalesDataSource _salesDataSource = FirebaseSalesDataSource();
+
   late final FirebaseIncomingsDataSource _incomingsDataSource = FirebaseIncomingsDataSource();
 
   String? businessId;
   late Future<List<Incomings>> _listIncomingsStream;
-  late Future<List<Sales>> _listSalesStream;
 
   @override
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
       _listIncomingsStream = _incomingsDataSource.getTableIncomings(businessId!);
-      //_listSalesStream = _salesDataSource.getTableSales(businessId!);
-      //_listUsers();
     });
     super.initState();
   }
@@ -62,33 +43,28 @@ class _AllIncomesPageState extends State<AllIncomesPage> {
       body: isLoading
           ? waitingConnection()
           : FutureBuilder<List<Incomings>>(
-        future: _listIncomingsStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return hasError("Error de Conexión");
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return waitingConnection();
-          }
-          if (snapshot.data!.isEmpty) {
-            return hasError("Historial Vacio");
-          }
-          if (snapshot.hasData) {
-            return _component(snapshot.data!);
-          }
+              future: _listIncomingsStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return hasError("Error de Conexión");
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return waitingConnection();
+                }
+                if (snapshot.data!.isEmpty) {
+                  return hasError("Historial Vacio");
+                }
+                if (snapshot.hasData) {
+                  return _component(snapshot.data!);
+                }
 
-          return Container(
-            child: Center(
-              child: CircularProgressIndicator(),
+                return Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
-      /*floatingActionButton: FloatingActionButton(
-        backgroundColor: primaryColor,
-        onPressed: () => _nextScreenArgs(add_product_page, businessId!),//Cambiar al de registrar producto
-        child: Icon(Icons.add),
-      ),*/
     );
   }
 

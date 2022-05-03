@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/generated/i18n.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/arguments.dart';
+import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/TextFieldMain.dart';
@@ -263,10 +263,15 @@ class _EditProductState extends State<EditProductPage> {
     if (_product != null &&
         await _businessDataSource.updateProduct(_product!)) {
       _showToast("Datos actualizados");
-      Navigator.pop(context);Navigator.pop(context);Navigator.pop(context);
+      _nextScreenArgs(optionsList_product_page, _product!.idNegocio);
     } else {
       _showToast("Error al actualizar los datos");
     }
+  }
+
+  void _nextScreenArgs(String route, String businessId) {
+    final args = {business_id_args: businessId};
+    Navigator.popAndPushNamed(context, route, arguments: args);
   }
 
   void _showToast(String content) {
