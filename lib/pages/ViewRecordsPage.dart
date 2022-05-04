@@ -52,7 +52,7 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
             padding: _padding,
             height: 80,
             child: ButtonMain(
-              onPressed: () => _nextScreenArgs(allincomes_route, _business!.id),
+              onPressed: () => _nextScreenArgs(allincomes_route, _business!.id,_business!.nombreNegocio, _business!.nombreDueno),
               text: button_compras,
               isDisabled: true,
             ),
@@ -61,7 +61,7 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
             padding: _padding,
             height: 80,
             child: ButtonMain(
-              onPressed: () => _nextScreenArgs(allsales_route, _business!.id),
+              onPressed: () => _nextScreenArgs(allsales_route, _business!.id,_business!.nombreNegocio, _business!.nombreDueno),
               text: button_ventas,
               isDisabled: true,
             ),
@@ -93,8 +93,8 @@ class _ViewRecordsState extends State<ViewRecordsPage> {
     });
   }
 
-  void _nextScreenArgs(String route, String businessId) {
-    final args = {business_id_args: businessId};
+  void _nextScreenArgs(String route, String businessId, String businessName, String businessAdmin) {
+    final args = {business_id_args: businessId, business_name_args:businessName, business_nameadmin_args:businessAdmin};
     Navigator.pushNamed(context, route, arguments: args);
   }
 }

@@ -7,3 +7,5 @@ const String product_args = "product_args";
 const String sales_args = "sales_args";
 const String incomings_args = "incomings_args";
 const String product_id_args = "product_id_args";
+const String business_name_args = "business_name_args";
+const String business_nameadmin_args = "business_nameadmin_args";
