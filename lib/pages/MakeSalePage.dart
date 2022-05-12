@@ -111,40 +111,40 @@ class _MakeSalePageState extends State<MakeSalePage> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: listItems.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext ctxt, int Index) {
-                        final item = listItems[Index];
-                        return Dismissible(
-                          onDismissed: (_) {
-                            listItems.removeAt(Index);
-                            listProduct.removeAt(Index);
-                            _showToast(text_removed_product);
-                            setState(() {});
-                          },
-                          movementDuration: Duration(milliseconds: 100),
-                          key: Key(item),
+                ListView.builder(
+                    itemCount: listItems.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext ctxt, int Index) {
+                      final item = listItems[Index];
+                      return Dismissible(
+                        onDismissed: (_) {
+                          listItems.removeAt(Index);
+                          listProduct.removeAt(Index);
+                          _showToast(text_removed_product);
+                          setState(() {});
+                        },
+                        movementDuration: Duration(milliseconds: 100),
+                        key: Key(item),
+                        child: Card(
                           child: ListTile(
-                            title: Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 15),
-                                  child: Transform.scale(
-                                    scale: 1.6,
-                                    child: Icon(
-                                      Icons.shopping_bag_outlined,
-                                      color:
-                                          listProduct[Index].stock.toString() ==
-                                                  "0.0"
-                                              ? Colors.redAccent
-                                              : Colors.greenAccent,
-                                    ),
-                                    alignment: Alignment.center,
-                                  ),
+                            leading: Container(
+                              padding: const EdgeInsets.all(15),
+                              child: Transform.scale(
+                                scale: 1.6,
+                                child: Icon(
+                                  Icons.shopping_bag_outlined,
+                                  color:
+                                  listProduct[Index].stock.toString() ==
+                                      "0.0"
+                                      ? Colors.redAccent
+                                      : Colors.greenAccent,
                                 ),
+                                alignment: Alignment.center,
+                              ),
+                            ),
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
                                 Expanded(
                                   child: Text(
                                     listProduct[Index].nombre,
@@ -166,25 +166,23 @@ class _MakeSalePageState extends State<MakeSalePage> {
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    "Stock: " +
-                                        listProduct[Index].stock.toString(),
-                                    style: TextStyle(
-                                        color: primaryColor,
-                                        fontSize: getResponsiveText(17)),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
                               ],
                             ),
+                            trailing: Text(
+                              "Stock: " +
+                                  listProduct[Index].stock.toString(),
+                              style: TextStyle(
+                                  color: primaryColor,
+                                  fontSize: getResponsiveText(17)),
+                              textAlign: TextAlign.left,
+                            ),
                           ),
-                          background: Container(
-                            color: primaryColor,
-                          ),
-                        );
-                      }),
-                ),
+                        ),
+                        background: Container(
+                          color: primaryColor,
+                        ),
+                      );
+                    }),
                 Container(
                   height: 35,
                   margin: const EdgeInsets.only(
@@ -200,7 +198,9 @@ class _MakeSalePageState extends State<MakeSalePage> {
                   ),
                   child: FittedBox(
                     child: Text(
-                      listItems.length > 0 ? "TOTAL: \$ "+ total.toString() : "TOTAL: \$ 0.0" ,
+                      listItems.length > 0
+                          ? "TOTAL: \$ " + total.toString()
+                          : "TOTAL: \$ 0.0",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w800,
@@ -209,13 +209,13 @@ class _MakeSalePageState extends State<MakeSalePage> {
                     ),
                   ),
                 ),
-
               ],
             ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
+            heroTag: null,
             child: Icon(
               Icons.qr_code_scanner,
               color: primaryColor,
@@ -227,6 +227,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
           ),
           SizedBox(height: 10),
           FloatingActionButton(
+            heroTag: null,
             child: Icon(
               Icons.abc_sharp,
               color: primaryColor,
@@ -291,7 +292,6 @@ class _MakeSalePageState extends State<MakeSalePage> {
       final _product =
           await _businessDataSource.getProduct(businessId!, idController.text);
       if (_product!.stock != 0.0 && inStock(_product)) {
-
         listProduct.add(_product);
 
         total = total + _product.precioUnitario;
@@ -313,9 +313,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
               {
                 if (product.stock != 0.0 && inStock(product))
                   {
-
-                  total = total + product.precioUnitario,
-
+                    total = total + product.precioUnitario,
                     listProduct.add(product),
                     _addProduct(product.id),
                   }
@@ -398,12 +396,10 @@ class _MakeSalePageState extends State<MakeSalePage> {
     });
     List<String> paid = [];
     listProduct.forEach((product) async {
-
-      if(!paid.contains(product.id)){
-        await _payPrice(product,  quantityProduct(product.id));
+      if (!paid.contains(product.id)) {
+        await _payPrice(product, quantityProduct(product.id));
         paid.add(product.id);
       }
-
     });
     _showToast(text_paid_product);
   }
@@ -411,7 +407,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
   int quantityProduct(String id) {
     int cont = 0;
     listItems.forEach((element) {
-      if(element == id) {
+      if (element == id) {
         cont++;
       }
     });
@@ -439,9 +435,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
         product.stock -= quantity;
         await _businessDataSource.updateProduct(product);
       }
-
     } else {
-
       final sale = Sales(
         id: product.id,
         idNegocio: product.idNegocio,
