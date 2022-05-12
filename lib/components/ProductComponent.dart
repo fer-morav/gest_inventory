@@ -11,7 +11,8 @@ class ProductComponent extends StatelessWidget {
 
   const ProductComponent({
     Key? key,
-    required this.product, this.userPosition,
+    required this.product,
+    required this.userPosition,
   }) : super(key: key);
 
   @override
@@ -22,7 +23,7 @@ class ProductComponent extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () {
-        final args = {product_args: product,user_position_args:userPosition};
+        final args = {product_args: product,user_position_args: userPosition};
         Navigator.pushNamed(context, see_product_info_route, arguments: args);
       },
       backgroundColor: Colors.white,

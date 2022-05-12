@@ -105,6 +105,7 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
           padding: const EdgeInsets.all(10),
           child: ProductComponent(
             product: products[index],
+            userPosition: userPosition,
           ),
         );
       },
