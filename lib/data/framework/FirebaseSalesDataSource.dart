@@ -4,7 +4,6 @@ import '../models/Sales.dart';
 import 'FirebaseConstants.dart';
 
 class FirebaseSalesDataSource {
-
   final FirebaseFirestore _database = FirebaseFirestore.instance;
 
   Future<Sales?> getSale(String businessId, String saleId) async {
@@ -72,62 +71,43 @@ class FirebaseSalesDataSource {
     }
   }
 
-  Future<List<Sales>> getTableSales(String businessId) async {
+  Stream<List<Sales>> getTableSales(String businessId) async* {
     try {
       final snapshots = await _database
           .collection(BUSINESS_COLLECTION)
           .doc(businessId)
           .collection(BUSINESS_SALES_COLLECTION)
-          .get();
+          .snapshots();
 
-      List<Sales> sales = [];
-
-      for (var document in snapshots.docs) {
-        final sale = Sales.fromMap(document.data());
-        sales.add(sale);
+      await for (var document in snapshots) {
+        final documents = document.docs.where((element) => element.exists);
+        final sales = documents
+            .map((document) => Sales.fromMap(document.data()))
+            .toList();
+        yield sales;
       }
-
-      return sales;
     } catch (error) {
-      return [];
+      yield [];
     }
   }
 
-  Future<List<Sales>> getSalesOrder(String businessId, bool Order) async {
+  Stream<List<Sales>> getSalesOrder(String businessId, bool order) async* {
     try {
       final snapshots = await _database
           .collection(BUSINESS_COLLECTION)
           .doc(businessId)
           .collection(BUSINESS_SALES_COLLECTION)
-          .get();
+          .orderBy(Sales.VENTAS_MAYOREO, descending: order)
+          .orderBy(Sales.VENTAS_UNITARIO, descending: order)
+          .snapshots();
 
-      List<Sales> temps = [];
-      List<Sales> sales = [];
-      List<int> solds = [];
-
-      for (var document in snapshots.docs) {
-        final sale = Sales.fromMap(document.data());
-        solds.add(sale.ventasUnitario + sale.ventasMayoreo);
-        temps.add(sale);
+      await for (final snapshot in snapshots) {
+        final documents = snapshot.docs.where((document) => document.exists);
+        final sales = documents.map((document) => Sales.fromMap(document.data())).toList();
+        yield sales;
       }
-
-      solds.sort();
-
-      for (var sold in solds) {
-        for (var temp in temps) {
-          if ((temp.ventasMayoreo + temp.ventasUnitario) == sold &&
-              !sales.contains(temp)) {
-            sales.add(temp);
-          }
-        }
-      }
-
-      if(Order) {
-        sales = List.from(sales.reversed);
-      }
-      return sales;
     } catch (error) {
-      return [];
+      yield [];
     }
   }
 
@@ -145,7 +125,7 @@ class FirebaseSalesDataSource {
         final sale = Sales.fromMap(document.data());
         sales.add(sale);
       }
-      
+
       return sales.length;
     } catch (error) {
       return 0;

@@ -1,58 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:gest_inventory/pages/AddBusinessPage.dart';
-import 'package:gest_inventory/pages/AddProductPage.dart';
-import 'package:gest_inventory/pages/AllIncomesPage.dart';
-import 'package:gest_inventory/pages/EditBusinessProfilePage.dart';
-import 'package:gest_inventory/pages/EditProductPage.dart';
-import 'package:gest_inventory/pages/EditUserProfilePage.dart';
-import 'package:gest_inventory/pages/EmployeeListPage.dart';
-import 'package:gest_inventory/pages/InfoBusinessPage.dart';
-import 'package:gest_inventory/pages/MakeSalePage.dart';
-import 'package:gest_inventory/pages/RecordDatePage.dart';
-import 'package:gest_inventory/pages/RegisterEmployeePage.dart';
-import 'package:gest_inventory/pages/RestockPage.dart';
-import 'package:gest_inventory/pages/SearchProductPage.dart';
-import 'package:gest_inventory/pages/StatisticsPage.dart';
-import 'package:gest_inventory/pages/ViewRecordsPage.dart';
-import 'package:gest_inventory/pages/AllSalesPage.dart';
-import '../pages/AdministratorPage.dart';
-import '../pages/EmployeesPage.dart';
-import '../pages/LoginPage.dart';
-import '../pages/RegisterUserPage.dart';
-import '../pages/SearchProductCodePage.dart';
-import '../pages/SeeInfoUserPage.dart';
-import '../pages/OptionsListProductsPage.dart';
-import '../pages/AllListProductsPage.dart';
-import '../pages/SeeProductInfoPage.dart';
+import 'package:gest_inventory/pages/add_business_page.dart';
+import 'package:gest_inventory/pages/add_product_page.dart';
+import 'package:gest_inventory/pages/incomes_page.dart';
+import 'package:gest_inventory/pages/update_business_page.dart';
+import 'package:gest_inventory/pages/update_product_page.dart';
+import 'package:gest_inventory/pages/update_user_page.dart';
+import 'package:gest_inventory/pages/employees_list_page.dart';
+import 'package:gest_inventory/pages/business_page.dart';
+import 'package:gest_inventory/pages/make_sale_page.dart';
+import 'package:gest_inventory/pages/record_date_page.dart';
+import 'package:gest_inventory/pages/add_employee_page.dart';
+import 'package:gest_inventory/pages/restock_page.dart';
+import 'package:gest_inventory/pages/search_product_page.dart';
+import 'package:gest_inventory/pages/statistics_page.dart';
+import 'package:gest_inventory/pages/records_page.dart';
+import 'package:gest_inventory/pages/sales_page.dart';
+import '../pages/administrator_page.dart';
+import '../pages/employees_page.dart';
+import '../pages/login_page.dart';
+import '../pages/add_user_page.dart';
+import '../pages/search_product_code_page.dart';
+import '../pages/user_page.dart';
+import '../pages/options_products_page.dart';
+import '../pages/products_page.dart';
+import '../pages/product_page.dart';
 
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
     login_route: (BuildContext context) => const LoginPage(),
-    register_user_route: (BuildContext context) => const RegisterUserPage(),
+    register_user_route: (BuildContext context) => const AddUserPage(),
     employees_route: (BuildContext context) => const EmployeesPage(),
     administrator_route: (BuildContext context) => const AdministratorPage(),
-    records_route: (BuildContext context) => const ViewRecordsPage(),
+    records_route: (BuildContext context) => const RecordsPage(),
     add_business_route: (BuildContext context) => const AddBusinessPage(),
     statistics_route: (BuildContext context) => const StatisticsPage(),
     records_date_route: (BuildContext context) => const RecordDatePage(),
-    register_employees_route: (BuildContext context) => const RegisterEmployeePage(),
-    modify_profile_route: (BuildContext context) => const EditUserProfilePage(),
-    list_employees_route: (BuildContext context) => const EmployeeListPage(),
-    see_profile_route: (BuildContext context) => const SeeInfoUserPage(),
-    info_business_route: (BuildContext context) => const InfoBusinessPage(),
+    register_employees_route: (BuildContext context) => const AddEmployeePage(),
+    modify_profile_route: (BuildContext context) => const UpdateUserPage(),
+    list_employees_route: (BuildContext context) => const EmployeesListPage(),
+    see_profile_route: (BuildContext context) => const UserPage(),
+    info_business_route: (BuildContext context) => const BusinessPage(),
     add_product_page: (BuildContext context) => const AddProductPage(),
-    optionsList_product_page: (BuildContext context) => const OptionsListProductsPage(),
-    allList_product_page: (BuildContext context) => const AllListProductsPage(),
+    optionsList_product_page: (BuildContext context) => const OptionsProductsPage(),
+    allList_product_page: (BuildContext context) => const ProductsPage(),
     see_product_info_route: (BuildContext context) => const SeeInfoProductPage(),
-    edit_business_route: (BuildContext context) => const EditBusinessProfilePage(),
+    edit_business_route: (BuildContext context) => const UpdateBusinessPage(),
     search_product_route: (BuildContext context) => const SearchProductPage(),
-    modify_product_route: (BuildContext context) => const EditProductPage(),
+    modify_product_route: (BuildContext context) => const UpdateProductPage(),
     search_product_code_route: (BuildContext context) => const SearchProductCodePage(),
     make_sale_route: (BuildContext context) => const MakeSalePage(),
     restock_route: (BuildContext context) => const RestockPage(),
-    allsales_route: (BuildContext context) => const AllSalesPage(),
-    allincomes_route: (BuildContext context) => const AllIncomesPage(),
+    allsales_route: (BuildContext context) => const SalesPage(),
+    allincomes_route: (BuildContext context) => const IncomesPage(),
   };
 }
 

@@ -8,14 +8,14 @@ import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
 import '../utils/colors.dart';
 import '../utils/routes.dart';
 
-class AllListProductsPage extends StatefulWidget {
-  const AllListProductsPage({Key? key}) : super(key: key);
+class ProductsPage extends StatefulWidget {
+  const ProductsPage({Key? key}) : super(key: key);
 
   @override
-  State<AllListProductsPage> createState() => _AllListProductsPageState();
+  State<ProductsPage> createState() => _ProductsPageState();
 }
 
-class _AllListProductsPageState extends State<AllListProductsPage> {
+class _ProductsPageState extends State<ProductsPage> {
   late final FirebaseBusinessDataSource _businessDataSource = FirebaseBusinessDataSource();
 
   String? businessId;
@@ -58,7 +58,7 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
                   return hasError("Lista Vacia");
                 }
                 if (snapshot.hasData) {
-                  return _component(snapshot.data!,userPosition.toString());
+                  return _component(snapshot.data!, userPosition.toString());
                 }
 
                 return Container(
@@ -87,6 +87,7 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
     }
     businessId = args[business_id_args];
     userPosition = args[user_position_args];
+
     setState(() {
       isLoading = false;
     });
@@ -105,6 +106,7 @@ class _AllListProductsPageState extends State<AllListProductsPage> {
           padding: const EdgeInsets.all(10),
           child: ProductComponent(
             product: products[index],
+            userPosition: usrPos,
           ),
         );
       },

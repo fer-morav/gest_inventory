@@ -10,14 +10,14 @@ import '../data/framework/FirebaseUserDataSource.dart';
 import '../data/models/User.dart';
 import '../utils/colors.dart';
 
-class EditUserProfilePage extends StatefulWidget {
-  const EditUserProfilePage({Key? key}) : super(key: key);
+class UpdateUserPage extends StatefulWidget {
+  const UpdateUserPage({Key? key}) : super(key: key);
 
   @override
-  State<EditUserProfilePage> createState() => _EditUserProfilePageState();
+  State<UpdateUserPage> createState() => _UpdateUserPageState();
 }
 
-class _EditUserProfilePageState extends State<EditUserProfilePage> {
+class _UpdateUserPageState extends State<UpdateUserPage> {
   TextEditingController idController = TextEditingController();
   TextEditingController cargoController = TextEditingController();
   TextEditingController nombreController = TextEditingController();

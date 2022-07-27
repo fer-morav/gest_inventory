@@ -142,7 +142,7 @@ class _StatisticsState extends State<StatisticsPage> {
   }
 
   Stream<List<Sales>>? _fetchTips() {
-    return _salesDataSource.getSalesOrder(businessId!, Order).asStream();
+    return _salesDataSource.getSalesOrder(businessId!, Order);
   }
 
   Widget _component(List<Sales> sales) {

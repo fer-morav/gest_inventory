@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
@@ -8,15 +7,15 @@ import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/TextFieldMain.dart';
 
-class EditBusinessProfilePage extends StatefulWidget {
-  const EditBusinessProfilePage({Key? key}) : super(key: key);
+class UpdateBusinessPage extends StatefulWidget {
+  const UpdateBusinessPage({Key? key}) : super(key: key);
 
   @override
-  State<EditBusinessProfilePage> createState() =>
-      _EditBusinessProfilePageState();
+  State<UpdateBusinessPage> createState() =>
+      _UpdateBusinessPageState();
 }
 
-class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
+class _UpdateBusinessPageState extends State<UpdateBusinessPage> {
   TextEditingController nombreNegocioController = TextEditingController();
   TextEditingController nombreDuenoController = TextEditingController();
   TextEditingController direccionController = TextEditingController();

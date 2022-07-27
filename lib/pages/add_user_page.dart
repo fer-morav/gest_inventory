@@ -2,23 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/TextFieldMain.dart';
-import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
-import 'package:flutter_multiselect/flutter_multiselect.dart';
-
 import 'package:gest_inventory/data/models/User.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/data/framework/FirebaseUserDataSource.dart';
 
-class RegisterUserPage extends StatefulWidget {
-  const RegisterUserPage({Key? key}) : super(key: key);
+class AddUserPage extends StatefulWidget {
+  const AddUserPage({Key? key}) : super(key: key);
 
   @override
-  State<RegisterUserPage> createState() => _RegisterUserPageState();
+  State<AddUserPage> createState() => _AddUserPageState();
 }
 
-class _RegisterUserPageState extends State<RegisterUserPage> {
+class _AddUserPageState extends State<AddUserPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController idNegocioController = TextEditingController();

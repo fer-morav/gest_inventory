@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../models/User.dart';
 import 'FirebaseConstants.dart';
 
@@ -42,28 +41,21 @@ class FirebaseUserDataSource {
     }
   }
 
-  Future<List<User>> getUsers(String businessId) async {
+  Stream<List<User>> getUsers(String businessId) async* {
     try {
-      final snapshots = await _database.collection(USERS_COLLECTION).get();
-      List<User> users = [];
+      final snapshots = await _database
+          .collection(USERS_COLLECTION)
+          .where(User.FIELD_ID_BUSINESS, isEqualTo: businessId)
+          .orderBy(User.FIELD_POSITION)
+          .snapshots();
 
-      for (var document in snapshots.docs) {
-        final user = User.fromMap(document.data());
-        if (user.idNegocio == businessId && user.cargo == "[Administrador]") {
-          users.add(user);
-        }
+      await for (final snapshot in snapshots) {
+        final documents = snapshot.docs.where((document) => document.exists);
+        final users = documents.map((document) => User.fromMap(document.data())).toList();
+        yield users;
       }
-
-      for (var document in snapshots.docs) {
-        final user = User.fromMap(document.data());
-        if (user.idNegocio == businessId && user.cargo == "[Empleado]") {
-          users.add(user);
-        }
-      }
-
-      return users;
     } catch (error) {
-      return [];
+      yield [];
     }
   }
 

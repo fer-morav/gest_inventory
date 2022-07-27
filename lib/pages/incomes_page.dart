@@ -13,16 +13,16 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
 
-class AllIncomesPage extends StatefulWidget {
-  const AllIncomesPage({Key? key}) : super(key: key);
+class IncomesPage extends StatefulWidget {
+  const IncomesPage({Key? key}) : super(key: key);
 
   @override
-  State<AllIncomesPage> createState() => _AllIncomesPageState();
+  State<IncomesPage> createState() => _IncomesPageState();
 }
 
-class _AllIncomesPageState extends State<AllIncomesPage> {
+class _IncomesPageState extends State<IncomesPage> {
 
-  late final FirebaseIncomingsDataSource _incomingsDataSource = FirebaseIncomingsDataSource();
+  late final FirebaseIncomingDataSource _incomingsDataSource = FirebaseIncomingDataSource();
 
   String? businessId, businessName, businessAdmin;
   late Future<List<Incomings>> _listIncomingsStream;
@@ -32,7 +32,7 @@ class _AllIncomesPageState extends State<AllIncomesPage> {
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
-      _listIncomingsStream = _incomingsDataSource.getTableIncomings(businessId!);
+      _listIncomingsStream = _incomingsDataSource.getTableIncoming(businessId!);
     });
     super.initState();
   }
@@ -167,7 +167,7 @@ class _AllIncomesPageState extends State<AllIncomesPage> {
     adm_name.draw(page: page, bounds: Rect.fromLTWH(10, 55, 0, 0))!;
     print_date.draw(page: page, bounds: Rect.fromLTWH(10, 75, 0, 0))!;
     page.graphics.drawImage(
-      PdfBitmap(await _readImageData('SVG_GI_AZUL.png')),
+      PdfBitmap(await _readImageData('gi-blue.png')),
       Rect.fromLTWH(400, 0, 132, 99)
     );
 

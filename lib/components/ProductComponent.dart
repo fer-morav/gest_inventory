@@ -22,7 +22,7 @@ class ProductComponent extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () {
-        final args = {product_args: product,user_position_args:userPosition};
+        final args = {product_args: product, user_position_args: userPosition};
         Navigator.pushNamed(context, see_product_info_route, arguments: args);
       },
       backgroundColor: Colors.white,

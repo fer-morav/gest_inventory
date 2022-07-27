@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gest_inventory/data/models/Incomings.dart';
 import 'FirebaseConstants.dart';
 
-class FirebaseIncomingsDataSource {
+class FirebaseIncomingDataSource {
 
   final FirebaseFirestore _database = FirebaseFirestore.instance;
 
@@ -25,14 +25,14 @@ class FirebaseIncomingsDataSource {
     }
   }
 
-  Future<bool> addIncoming(Incomings incomming) async {
+  Future<bool> addIncoming(Incomings incoming) async {
     try {
       await _database
           .collection(BUSINESS_COLLECTION)
-          .doc(incomming.idNegocio)
+          .doc(incoming.idNegocio)
           .collection(BUSINESS_INCOMINGS_COLLECTION)
-          .doc(incomming.id)
-          .set(incomming.toMap());
+          .doc(incoming.id)
+          .set(incoming.toMap());
 
       return true;
     } catch (error) {
@@ -70,7 +70,7 @@ class FirebaseIncomingsDataSource {
     }
   }
 
-  Future<List<Incomings>> getTableIncomings(String businessId) async {
+  Future<List<Incomings>> getTableIncoming(String businessId) async {
     try {
       final snapshots = await _database
           .collection(BUSINESS_COLLECTION)
@@ -78,20 +78,20 @@ class FirebaseIncomingsDataSource {
           .collection(BUSINESS_INCOMINGS_COLLECTION)
           .get();
 
-      List<Incomings> incomings = [];
+      List<Incomings> incoming = [];
 
       for (var document in snapshots.docs) {
-        final incomig = Incomings.fromMap(document.data());
-        incomings.add(incomig);
+        final inco = Incomings.fromMap(document.data());
+        incoming.add(inco);
       }
 
-      return incomings;
+      return incoming;
     } catch (error) {
       return [];
     }
   }
 
-  Future<int> getTableIncomingsLength(String businessId) async {
+  Future<int> getTableIncomingLength(String businessId) async {
     try {
       final snapshots = await _database
           .collection(BUSINESS_COLLECTION)
@@ -99,14 +99,14 @@ class FirebaseIncomingsDataSource {
           .collection(BUSINESS_INCOMINGS_COLLECTION)
           .get();
 
-      List<Incomings> incomings = [];
+      List<Incomings> incoming = [];
 
       for (var document in snapshots.docs) {
-        final incomig = Incomings.fromMap(document.data());
-        incomings.add(incomig);
+        final incom = Incomings.fromMap(document.data());
+        incoming.add(incom);
       }
 
-      return incomings.length;
+      return incoming.length;
     } catch (error) {
       return 0;
     }

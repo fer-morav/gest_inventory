@@ -41,8 +41,8 @@ class _RestockPageState extends State<RestockPage> {
   late final FirebaseBusinessDataSource _businessDataSource =
       FirebaseBusinessDataSource();
 
-  late final FirebaseIncomingsDataSource _incomingsDataSource =
-      FirebaseIncomingsDataSource();
+  late final FirebaseIncomingDataSource _incomingsDataSource =
+      FirebaseIncomingDataSource();
 
   String? businessId;
   Business? _business;
