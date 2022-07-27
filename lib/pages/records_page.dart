@@ -7,14 +7,14 @@ import '../data/framework/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
 import '../utils/arguments.dart';
 
-class ViewRecordsPage extends StatefulWidget {
-  const ViewRecordsPage({Key? key}) : super(key: key);
+class RecordsPage extends StatefulWidget {
+  const RecordsPage({Key? key}) : super(key: key);
 
   @override
-  State<ViewRecordsPage> createState() => _ViewRecordsState();
+  State<RecordsPage> createState() => _ViewRecordsState();
 }
 
-class _ViewRecordsState extends State<ViewRecordsPage> {
+class _ViewRecordsState extends State<RecordsPage> {
 
   late final FirebaseBusinessDataSource _businessDataSource =
   FirebaseBusinessDataSource();

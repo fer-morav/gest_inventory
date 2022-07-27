@@ -10,6 +10,13 @@ class Product {
   int ventaSemana = 0;
   int ventaMes = 0;
 
+  static const FIELD_ID = "id";
+  static const FIELD_BUSINESS_ID = "idNegocio";
+  static const FIELD_NAME = "nombre";
+  static const FIELD_UNIT_PRICE = "precioUnitario";
+  static const FIELD_WHOLESALE_PRICE = "precioMayoreo";
+  static const FIELD_STOCK = "stock";
+
   Product({
     required this.id,
     required this.idNegocio,

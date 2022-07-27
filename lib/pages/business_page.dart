@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
@@ -9,14 +8,14 @@ import '../components/ButtonMain.dart';
 import '../data/framework/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
 
-class InfoBusinessPage extends StatefulWidget {
-  const InfoBusinessPage({Key? key}) : super(key: key);
+class BusinessPage extends StatefulWidget {
+  const BusinessPage({Key? key}) : super(key: key);
 
   @override
-  State<InfoBusinessPage> createState() => _InfoBusinessPageState();
+  State<BusinessPage> createState() => _BusinessPageState();
 }
 
-class _InfoBusinessPageState extends State<InfoBusinessPage> {
+class _BusinessPageState extends State<BusinessPage> {
   final _padding = const EdgeInsets.only(
     left: 15,
     top: 10,

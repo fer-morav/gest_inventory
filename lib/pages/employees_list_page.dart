@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
-import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/UserComponent.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
-
-import '../data/framework/FirebaseAuthDataSource.dart';
 import '../data/framework/FirebaseUserDataSource.dart';
 import '../data/models/User.dart';
 import '../utils/colors.dart';
 import '../utils/routes.dart';
 
-class EmployeeListPage extends StatefulWidget {
-  const EmployeeListPage({Key? key}) : super(key: key);
+class EmployeesListPage extends StatefulWidget {
+  const EmployeesListPage({Key? key}) : super(key: key);
 
   @override
-  State<EmployeeListPage> createState() => _EmployeeListPageState();
+  State<EmployeesListPage> createState() => _EmployeesListPageState();
 }
 
-class _EmployeeListPageState extends State<EmployeeListPage> {
+class _EmployeesListPageState extends State<EmployeesListPage> {
   final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
 
   String? businessId;
@@ -29,7 +26,7 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
-      _listUserStream = _userDataSource.getUsers(businessId!).asStream();;
+      _listUserStream = _userDataSource.getUsers(businessId!);
     });
     super.initState();
   }

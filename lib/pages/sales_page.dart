@@ -5,28 +5,26 @@ import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/SalesComponent.dart';
 import '../data/framework/FirebaseSalesDataSource.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
 import '../utils/colors.dart';
-
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import '../components/pdf_gen.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
 
-class AllSalesPage extends StatefulWidget {
-  const AllSalesPage({Key? key}) : super(key: key);
+class SalesPage extends StatefulWidget {
+  const SalesPage({Key? key}) : super(key: key);
 
   @override
-  State<AllSalesPage> createState() => _AllSalesPageState();
+  State<SalesPage> createState() => _SalesPageState();
 }
 
-class _AllSalesPageState extends State<AllSalesPage> {
+class _SalesPageState extends State<SalesPage> {
   late final FirebaseSalesDataSource _salesDataSource = FirebaseSalesDataSource();
 
   String? businessId, businessName, businessAdmin;
   double total=0.0;
-  late Future<List<Sales>> _listSalesStream;
+  late Stream<List<Sales>> _listSalesStream;
   late List<Sales> _listSales;
 
   @override
@@ -51,8 +49,8 @@ class _AllSalesPageState extends State<AllSalesPage> {
       ),
       body: isLoading
           ? waitingConnection()
-          : FutureBuilder<List<Sales>>(
-              future: _listSalesStream,
+          : StreamBuilder<List<Sales>>(
+              stream: _listSalesStream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return hasError(text_error_connection);
@@ -163,7 +161,7 @@ class _AllSalesPageState extends State<AllSalesPage> {
     adm_name.draw(page: page, bounds: Rect.fromLTWH(10, 55, 0, 0))!;
     print_date.draw(page: page, bounds: Rect.fromLTWH(10, 75, 0, 0))!;
     page.graphics.drawImage(
-      PdfBitmap(await _readImageData('SVG_GI_AZUL.png')),
+      PdfBitmap(await _readImageData('gi-blue.png')),
       Rect.fromLTWH(400, 0, 132, 99)
     );
 

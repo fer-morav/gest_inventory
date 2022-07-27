@@ -1,17 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gest_inventory/data/framework/FirebaseUserDataSource.dart';
 import 'package:gest_inventory/data/models/User.dart';
-
 import '../models/Business.dart';
 import '../models/Product.dart';
 import 'FirebaseConstants.dart';
 
 class FirebaseBusinessDataSource {
-
   final FirebaseFirestore _database = FirebaseFirestore.instance;
 
   Future<Business?> getBusiness(String id) async {
-    final response = await _database.collection(BUSINESS_COLLECTION).doc(id).get();
+    final response =
+        await _database.collection(BUSINESS_COLLECTION).doc(id).get();
 
     if (response.exists && response.data() != null) {
       return Business.fromMap(response.data()!);
@@ -22,14 +20,14 @@ class FirebaseBusinessDataSource {
 
   Future<String?> addBusiness(Business business) async {
     try {
-      final _reference = _database.collection(BUSINESS_COLLECTION);
-      final _businessId = _reference.doc().id;
+      final reference = _database.collection(BUSINESS_COLLECTION);
+      final businessId = reference.doc().id;
 
-      business.id = _businessId;
+      business.id = businessId;
 
-      await _reference.doc(_businessId).set(business.toMap());
+      await reference.doc(businessId).set(business.toMap());
 
-      return _businessId;
+      return businessId;
     } catch (error) {
       return null;
     }
@@ -58,25 +56,6 @@ class FirebaseBusinessDataSource {
     }
   }
 
-  Future<List<User>> getEmployees(String businessId) async {
-    try {
-      final snapshots = await _database.collection(USERS_COLLECTION).get();
-
-      List<User> users = [];
-
-      for (var document in snapshots.docs) {
-        final user = User.fromMap(document.data());
-        if(user.idNegocio == businessId){
-          users.add(user);
-        }
-      }
-
-      return users;
-    } catch (error) {
-      return [];
-    }
-  }
-
   Future<Product?> getProduct(String businessId, String productId) async {
     try {
       final response = await _database
@@ -96,27 +75,27 @@ class FirebaseBusinessDataSource {
     }
   }
 
-  Future<Product?> getProductForName(String businessId, String productName) async {
+  Future<Product?> getProductForName(
+      String businessId, String productName) async {
     try {
+      if (productName.isEmpty) {
+        return null;
+      }
+
       final response = await _database
           .collection(BUSINESS_COLLECTION)
           .doc(businessId)
           .collection(BUSINESS_PRODUCT_COLLECTION)
+          .where(Product.FIELD_NAME, isEqualTo: productName)
+          .limit(1)
           .get();
 
-      if(productName.isEmpty) {
-        return null;
-      }
+      final products = response.docs
+          .where((element) => element.exists)
+          .map((e) => Product.fromMap(e.data()))
+          .toList();
 
-      Product? product;
-
-      for(var document in response.docs) {
-        final temp = Product.fromMap(document.data());
-        if(temp.nombre.contains(productName)){
-          product = temp;
-        }
-      }
-      return product;
+      return products.first;
     } catch (error) {
       return null;
     }

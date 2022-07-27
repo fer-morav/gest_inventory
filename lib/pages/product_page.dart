@@ -1,24 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/data/models/Business.dart';
+import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
-import '../data/models/User.dart';
 import '../utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 
-class SeeInfoUserPage extends StatefulWidget {
-  const SeeInfoUserPage({Key? key}) : super(key: key);
+class SeeInfoProductPage extends StatefulWidget {
+  const SeeInfoProductPage({Key? key}) : super(key: key);
 
   @override
-  State<SeeInfoUserPage> createState() => _SeeInfoUserPageState();
+  State<SeeInfoProductPage> createState() => _SeeInfoProductPageState();
 }
 
-class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
-  late String nombre, apellidos, cargo, salario, telefono, idNegocio, negocio;
-  String? userPosition;
+class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
+  late String nombre,
+      precioMayoreo,
+      precioUnitario,
+      stock,
+      ventaMes,
+      ventaSemana,
+      idNegocio,
+      negocio;
 
   final _padding = const EdgeInsets.only(
     left: 15,
@@ -31,8 +37,9 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
       FirebaseBusinessDataSource();
 
   bool _isLoading = true;
-  User? _user;
+  Product? _product;
   Business? _business;
+  String? userPosition;
 
   @override
   void initState() {
@@ -40,7 +47,6 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
 
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       _getArguments();
-      //_getUser();
     });
   }
 
@@ -48,7 +54,7 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        textAppBar: title_info_user,
+        textAppBar: title_info_product,
         onPressed: () {
           Navigator.of(context).pop();
         },
@@ -58,18 +64,13 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
           : ListView(
               children: [
                 Container(
-                  height: 100,
-                  margin: const EdgeInsets.only(
-                    left: 100,
-                    top: 10,
-                    right: 100,
-                    bottom: 10,
-                  ),
+                  height: 80,
+                  padding: _padding,
                   child: Transform.scale(
-                    scale: 5,
+                    scale: 3.5,
                     child: Icon(
-                      Icons.account_circle,
-                      color: cargo == "[Administrador]"
+                      Icons.shopping_bag_outlined,
+                      color: stock.toString() == "0.0"
                           ? Colors.redAccent
                           : Colors.greenAccent,
                     ),
@@ -77,7 +78,7 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                   ),
                 ),
                 Container(
-                  height: 50,
+                  height: 30,
                   margin: const EdgeInsets.only(
                     left: 80,
                     top: 10,
@@ -86,14 +87,16 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                   ),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: cargo == "[Administrador]"
+                    color: stock.toString() == "0.0"
                         ? Colors.redAccent
                         : Colors.greenAccent,
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: FittedBox(
                     child: Text(
-                      cargo == "[Administrador]" ? "Administrador" : "Empleado",
+                      stock.toString() == "0.0"
+                          ? text_not_available
+                          : text_available,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w800,
@@ -105,7 +108,7 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    "Negocio: ",
+                    "Producto: ",
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Color.fromARGB(1000, 0, 68, 106),
@@ -117,7 +120,7 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    negocio,
+                    _product!.nombre.toString(),
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       color: Colors.black87,
@@ -129,10 +132,10 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    "Nombre: ",
+                    text_unit_price,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
-                      color: primaryColor,
+                      color: Color.fromARGB(1000, 0, 68, 106),
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
                     ),
@@ -141,9 +144,9 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    nombre + " " + apellidos,
+                    "\$ " + _product!.precioUnitario.toString(),
                     textAlign: TextAlign.right,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
@@ -153,10 +156,10 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    "Teléfono: ",
+                    text_price,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
-                      color: primaryColor,
+                      color: Color.fromARGB(1000, 0, 68, 106),
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
                     ),
@@ -165,9 +168,9 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    telefono,
+                    "\$ " + _product!.precioMayoreo.toString(),
                     textAlign: TextAlign.right,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
@@ -177,7 +180,55 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    "Salario:",
+                    text_stock,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      color: Color.fromARGB(1000, 0, 68, 106),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  child: Text(
+                    _product!.stock.toString() + " Unidades",
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  child: Text(
+                    text_available_in,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      color: Color.fromARGB(1000, 0, 68, 106),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  child: Text(
+                    _business!.nombreNegocio.toString(),
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  child: Text(
+                    text_sale_week,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: primaryColor,
@@ -189,9 +240,33 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
                 Container(
                   padding: _padding,
                   child: Text(
-                    "\$ " + salario,
+                    _product!.ventaSemana.toString(),
                     textAlign: TextAlign.right,
+                    style: const TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  child: Text(
+                    text_sale_month,
+                    textAlign: TextAlign.left,
                     style: TextStyle(
+                      color: primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: _padding,
+                  child: Text(
+                    _product!.ventaMes.toString(),
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
@@ -202,7 +277,7 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
             ),
       floatingActionButton: Visibility(
         child: FloatingActionButton(
-          onPressed: () => _nextScreenArgs(modify_profile_route, _user!),
+          onPressed: () => _nextScreenArgs(modify_product_route, _product!),
           backgroundColor: primaryColor,
           child: Icon(Icons.edit_outlined),
         ),
@@ -211,8 +286,8 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
     );
   }
 
-  void _nextScreenArgs(String route, User user) {
-    final args = {user_args: user};
+  void _nextScreenArgs(String route, Product product) {
+    final args = {product_args: product};
     Navigator.pushNamed(context, route, arguments: args);
   }
 
@@ -223,15 +298,16 @@ class _SeeInfoUserPageState extends State<SeeInfoUserPage> {
       return;
     }
 
-    _user = args[user_args];
+    _product = args[product_args];
     userPosition = args[user_position_args];
 
-    nombre = _user!.nombre;
-    apellidos = _user!.apellidos;
-    cargo = _user!.cargo;
-    telefono = _user!.telefono.toString();
-    salario = _user!.salario.toString();
-    idNegocio = _user!.idNegocio.toString();
+    nombre = _product!.nombre;
+    precioMayoreo = _product!.precioMayoreo.toString();
+    precioUnitario = _product!.precioUnitario.toString();
+    stock = _product!.stock.toString();
+    ventaMes = _product!.ventaMes.toString();
+    ventaSemana = _product!.ventaSemana.toString();
+    idNegocio = _product!.idNegocio.toString();
 
     _businessDataSource.getBusiness(idNegocio).then((business) => {
           if (business != null)

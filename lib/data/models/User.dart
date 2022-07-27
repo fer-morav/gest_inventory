@@ -9,6 +9,14 @@ class User {
   int telefono = 0;
   double salario = 0.0;
 
+  static const FIELD_ID = "id";
+  static const FIELD_ID_BUSINESS = "idNegocio";
+  static const FIELD_POSITION = "cargo";
+  static const FIELD_NAME = "nombre";
+  static const FIELD_LASTNAME = "apellido";
+  static const FIELD_PHONE = "telefono";
+  static const FIELD_PAY = "salario";
+
   User({
     required this.id,
     required this.idNegocio,

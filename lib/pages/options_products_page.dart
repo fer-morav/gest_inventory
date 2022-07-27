@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
@@ -9,14 +8,14 @@ import '../components/ButtonMain.dart';
 import '../data/framework/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
 
-class OptionsListProductsPage extends StatefulWidget {
-  const OptionsListProductsPage({Key? key}) : super(key: key);
+class OptionsProductsPage extends StatefulWidget {
+  const OptionsProductsPage({Key? key}) : super(key: key);
 
   @override
-  State<OptionsListProductsPage> createState() => _OptionsListProductsPageState();
+  State<OptionsProductsPage> createState() => _OptionsProductsPageState();
 }
 
-class _OptionsListProductsPageState extends State<OptionsListProductsPage> {
+class _OptionsProductsPageState extends State<OptionsProductsPage> {
   final _padding = const EdgeInsets.only(
     left: 15,
     top: 10,

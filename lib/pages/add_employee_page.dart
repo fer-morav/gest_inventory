@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
-import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/components/TextFieldMain.dart';
 import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
@@ -10,19 +8,18 @@ import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
-
 import 'package:gest_inventory/data/models/User.dart';
 import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/data/framework/FirebaseUserDataSource.dart';
 
-class RegisterEmployeePage extends StatefulWidget {
-  const RegisterEmployeePage({Key? key}) : super(key: key);
+class AddEmployeePage extends StatefulWidget {
+  const AddEmployeePage({Key? key}) : super(key: key);
 
   @override
-  State<RegisterEmployeePage> createState() => _RegisterEmployeePageState();
+  State<AddEmployeePage> createState() => _AddEmployeePageState();
 }
 
-class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
+class _AddEmployeePageState extends State<AddEmployeePage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController idNegocioController = TextEditingController();
