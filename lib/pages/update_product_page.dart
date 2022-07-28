@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/arguments.dart';
@@ -8,6 +7,7 @@ import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/TextFieldMain.dart';
+import '../data/firebase/FirebaseBusinessDataSource.dart';
 
 class UpdateProductPage extends StatefulWidget {
   const UpdateProductPage({Key? key}) : super(key: key);

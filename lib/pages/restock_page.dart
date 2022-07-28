@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gest_inventory/data/framework/FirebaseIncomingsSource.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/ButtonSecond.dart';
 import '../components/TextFieldMain.dart';
-import '../data/framework/FirebaseBusinessDataSource.dart';
+import '../data/firebase/FirebaseBusinessDataSource.dart';
+import '../data/firebase/FirebaseIncomingsSource.dart';
 import '../data/models/Business.dart';
 import '../utils/scan_util.dart';
 import 'package:gest_inventory/data/models/Incomings.dart';

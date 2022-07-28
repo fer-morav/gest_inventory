@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
+import 'package:gest_inventory/data/firebase/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';

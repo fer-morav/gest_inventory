@@ -5,8 +5,9 @@ import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/ButtonMain.dart';
-import '../data/framework/FirebaseBusinessDataSource.dart';
+import '../data/firebase/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
+import '../utils/icons.dart';
 
 class BusinessPage extends StatefulWidget {
   const BusinessPage({Key? key}) : super(key: key);
@@ -147,7 +148,7 @@ class _BusinessPageState extends State<BusinessPage> {
             _nextScreenArgsBusiness(edit_business_route, _business!);
           },
           backgroundColor: primaryColor,
-          child: Icon(Icons.edit),
+          child: getIcon(AppIcons.edit),
         ),
         visible: userPosition == "[Administrador]" ? true : false,
       ),

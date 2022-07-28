@@ -16,3 +16,6 @@ const Map<int, Color> _primaryColor = {
 };
 
 const primaryOnColor = Colors.white;
+const adminColor = Colors.red;
+const employeeColor = Colors.greenAccent;
+const lightColor = Colors.white;

@@ -6,7 +6,7 @@ import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/TextFieldMain.dart';
-import '../data/framework/FirebaseUserDataSource.dart';
+import '../data/firebase/FirebaseUserDataSource.dart';
 import '../data/models/User.dart';
 import '../utils/colors.dart';
 

@@ -5,6 +5,7 @@ import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 
 import '../data/models/Sales.dart';
+import '../utils/icons.dart';
 
 class SalesComponent extends StatelessWidget {
   final Sales sales;
@@ -24,7 +25,6 @@ class SalesComponent extends StatelessWidget {
       heroTag: null,
       onPressed: () {
         final args = {sales_args: sales};
-        //avigator.pushNamed(context, see_product_info_route, arguments: args);
       },
       backgroundColor: Colors.white,
       elevation: 8,
@@ -34,19 +34,11 @@ class SalesComponent extends StatelessWidget {
         //side: BorderSide(color: user.cargo == "[Administrador]" ? Colors.redAccent : Colors.greenAccent,),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            padding: const EdgeInsets.only(left: 10, right: 15),
-            child: Transform.scale(
-              scale: 1.6,
-              child: Icon(
-                Icons.monetization_on_outlined,
-                color: sales.nombreProducto.toString() == "0.0"
-                    ? Colors.redAccent
-                    : Colors.greenAccent,
-              ),
-              alignment: Alignment.center,
-            ),
+            padding: const EdgeInsets.only(left: 5, right: 5),
+            child: getIcon(AppIcons.price, color: Colors.greenAccent, size: 45)
           ),
           Expanded(
             child: Text(

@@ -1,13 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
+import 'package:gest_inventory/data/firebase/FirebaseBusinessDataSource.dart';
+import '../components/IndicatorComponent.dart';
+import '../components/ProfileImageComponent.dart';
 import '../data/models/User.dart';
 import '../utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
+import '../utils/icons.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -27,8 +29,21 @@ class _UserPageState extends State<UserPage> {
     bottom: 10,
   );
 
-  late final FirebaseBusinessDataSource _businessDataSource =
-      FirebaseBusinessDataSource();
+  final _marginImage = const EdgeInsets.only(
+    left: 100,
+    top: 10,
+    right: 100,
+    bottom: 10,
+  );
+
+  final _marginPosition = const EdgeInsets.only(
+    left: 80,
+    top: 10,
+    right: 80,
+    bottom: 10,
+  );
+
+  late final _businessDataSource;
 
   bool _isLoading = true;
   User? _user;
@@ -38,9 +53,10 @@ class _UserPageState extends State<UserPage> {
   void initState() {
     super.initState();
 
+    _businessDataSource = FirebaseBusinessDataSource();
+
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       _getArguments();
-      //_getUser();
     });
   }
 
@@ -58,48 +74,23 @@ class _UserPageState extends State<UserPage> {
           : ListView(
               children: [
                 Container(
-                  height: 100,
-                  margin: const EdgeInsets.only(
-                    left: 100,
-                    top: 10,
-                    right: 100,
-                    bottom: 10,
-                  ),
-                  child: Transform.scale(
-                    scale: 5,
-                    child: Icon(
-                      Icons.account_circle,
-                      color: cargo == "[Administrador]"
-                          ? Colors.redAccent
-                          : Colors.greenAccent,
-                    ),
-                    alignment: Alignment.center,
+                  height: 150,
+                  margin: _marginImage,
+                  child: ProfileImageComponent(
+                    isAdmin: cargo == "[Administrador]",
+                    size: 75,
                   ),
                 ),
                 Container(
-                  height: 50,
-                  margin: const EdgeInsets.only(
-                    left: 80,
-                    top: 10,
-                    right: 80,
-                    bottom: 10,
-                  ),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
+                  child: IndicatorComponent(
+                    margin: _marginPosition,
                     color: cargo == "[Administrador]"
                         ? Colors.redAccent
                         : Colors.greenAccent,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: FittedBox(
-                    child: Text(
-                      cargo == "[Administrador]" ? "Administrador" : "Empleado",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 25,
-                      ),
-                    ),
+                    height: 50,
+                    text: cargo == "[Administrador]"
+                        ? "Administrador"
+                        : "Empleado",
                   ),
                 ),
                 Container(
@@ -204,7 +195,7 @@ class _UserPageState extends State<UserPage> {
         child: FloatingActionButton(
           onPressed: () => _nextScreenArgs(modify_profile_route, _user!),
           backgroundColor: primaryColor,
-          child: Icon(Icons.edit_outlined),
+          child: getIcon(AppIcons.edit),
         ),
         visible: userPosition == "[Administrador]" ? true : false,
       ),
@@ -218,6 +209,7 @@ class _UserPageState extends State<UserPage> {
 
   void _getArguments() {
     final args = ModalRoute.of(context)?.settings.arguments as Map;
+
     if (args.isEmpty) {
       Navigator.pop(context);
       return;

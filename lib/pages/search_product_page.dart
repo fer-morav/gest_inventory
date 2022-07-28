@@ -6,7 +6,7 @@ import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/ButtonSecond.dart';
 import '../components/TextFieldMain.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
+import '../data/firebase/FirebaseBusinessDataSource.dart';
 import '../utils/routes.dart';
 
 class SearchProductPage extends StatefulWidget {

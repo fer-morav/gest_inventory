@@ -77,6 +77,7 @@ class FirebaseSalesDataSource {
           .collection(BUSINESS_COLLECTION)
           .doc(businessId)
           .collection(BUSINESS_SALES_COLLECTION)
+          .orderBy(Sales.TOTAL, descending: true)
           .snapshots();
 
       await for (var document in snapshots) {
@@ -99,11 +100,14 @@ class FirebaseSalesDataSource {
           .collection(BUSINESS_SALES_COLLECTION)
           .orderBy(Sales.VENTAS_MAYOREO, descending: order)
           .orderBy(Sales.VENTAS_UNITARIO, descending: order)
+          .orderBy(Sales.TOTAL, descending: order)
           .snapshots();
 
       await for (final snapshot in snapshots) {
         final documents = snapshot.docs.where((document) => document.exists);
-        final sales = documents.map((document) => Sales.fromMap(document.data())).toList();
+        final sales = documents
+            .map((document) => Sales.fromMap(document.data()))
+            .toList();
         yield sales;
       }
     } catch (error) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/models/Sales.dart';
 import '../utils/colors.dart';
+import '../utils/icons.dart';
 
 class StatisticsComponent extends StatelessWidget {
   final Sales sales;
@@ -11,10 +12,7 @@ class StatisticsComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double getResponsiveText(double size) =>
-        size * sizeReference / MediaQuery
-            .of(context)
-            .size
-            .longestSide;
+        size * sizeReference / MediaQuery.of(context).size.longestSide;
 
     return FloatingActionButton(
       heroTag: null,
@@ -28,14 +26,11 @@ class StatisticsComponent extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.only(left: 10, right: 5),
-            child: Transform.scale(
-              scale: 1.5,
-              child: Icon(
-                Icons.monetization_on_outlined,
-                color: Colors.greenAccent,
-              ),
-              alignment: Alignment.center,
+            padding: const EdgeInsets.only(left: 5, right: 5),
+            child: getIcon(
+              AppIcons.price,
+              color: Colors.green,
+              size: 40,
             ),
           ),
           Expanded(

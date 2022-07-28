@@ -5,9 +5,11 @@ import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
+import 'package:gest_inventory/data/firebase/FirebaseBusinessDataSource.dart';
 import '../utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
+
+import '../utils/icons.dart';
 
 class SeeInfoProductPage extends StatefulWidget {
   const SeeInfoProductPage({Key? key}) : super(key: key);
@@ -279,7 +281,7 @@ class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
         child: FloatingActionButton(
           onPressed: () => _nextScreenArgs(modify_product_route, _product!),
           backgroundColor: primaryColor,
-          child: Icon(Icons.edit_outlined),
+          child: getIcon(AppIcons.edit),
         ),
         visible: userPosition == "[Administrador]" ? true : false,
       ),

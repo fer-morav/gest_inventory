@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
-import 'package:gest_inventory/data/framework/FirebaseSalesDataSource.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
@@ -10,8 +8,11 @@ import 'package:gest_inventory/utils/scan_util.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/ButtonMain.dart';
 import '../components/TextFieldMain.dart';
+import '../data/firebase/FirebaseBusinessDataSource.dart';
+import '../data/firebase/FirebaseSalesDataSource.dart';
 import '../data/models/Sales.dart';
-import 'package:intl/intl.dart';
+
+import '../utils/icons.dart';
 
 class MakeSalePage extends StatefulWidget {
   const MakeSalePage({Key? key}) : super(key: key);
@@ -216,10 +217,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
         children: [
           FloatingActionButton(
             heroTag: null,
-            child: Icon(
-              Icons.qr_code_scanner,
-              color: primaryColor,
-            ),
+            child: getIcon(AppIcons.scanner, color: primaryColor),
             backgroundColor: Colors.white,
             onPressed: () {
               scanBarcodeNormal();

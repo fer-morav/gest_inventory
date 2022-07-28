@@ -4,13 +4,15 @@ import 'package:gest_inventory/data/models/Sales.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/SalesComponent.dart';
-import '../data/framework/FirebaseSalesDataSource.dart';
+import '../data/firebase/FirebaseSalesDataSource.dart';
 import '../utils/colors.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import '../components/pdf_gen.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
+
+import '../utils/icons.dart';
 
 class SalesPage extends StatefulWidget {
   const SalesPage({Key? key}) : super(key: key);
@@ -76,7 +78,7 @@ class _SalesPageState extends State<SalesPage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
         onPressed: () {_genPDF();},
-        child: Icon(Icons.archive_rounded),
+        child: getIcon(AppIcons.gen_pdf, color: Colors.white),
       ),
     );
   }

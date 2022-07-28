@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/TextFieldMain.dart';
-import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
-import 'package:gest_inventory/data/framework/FirebaseUserDataSource.dart';
+import 'package:gest_inventory/data/firebase/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
+import '../data/firebase/FirebaseBusinessDataSource.dart';
+import '../data/firebase/FirebaseUserDataSource.dart';
 import '../data/models/Business.dart';
 import '../data/models/User.dart';
 

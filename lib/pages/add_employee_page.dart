@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/components/TextFieldMain.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
+import 'package:gest_inventory/data/firebase/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:gest_inventory/data/models/User.dart';
-import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
-import 'package:gest_inventory/data/framework/FirebaseUserDataSource.dart';
+
+import '../data/firebase/FirebaseAuthDataSource.dart';
+import '../data/firebase/FirebaseUserDataSource.dart';
 
 class AddEmployeePage extends StatefulWidget {
   const AddEmployeePage({Key? key}) : super(key: key);
