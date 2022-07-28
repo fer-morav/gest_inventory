@@ -4,8 +4,9 @@ import 'package:gest_inventory/components/ProductComponent.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
+import 'package:gest_inventory/data/firebase/FirebaseBusinessDataSource.dart';
 import '../utils/colors.dart';
+import '../utils/icons.dart';
 import '../utils/routes.dart';
 
 class ProductsPage extends StatefulWidget {
@@ -16,7 +17,8 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
-  late final FirebaseBusinessDataSource _businessDataSource = FirebaseBusinessDataSource();
+  late final FirebaseBusinessDataSource _businessDataSource =
+      FirebaseBusinessDataSource();
 
   String? businessId;
   String? userPosition;
@@ -26,7 +28,8 @@ class _ProductsPageState extends State<ProductsPage> {
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _getArguments();
-      _listProductStream = _businessDataSource.getProducts(businessId!).asStream();
+      _listProductStream =
+          _businessDataSource.getProducts(businessId!).asStream();
       //_listUsers();
     });
     super.initState();
@@ -42,6 +45,10 @@ class _ProductsPageState extends State<ProductsPage> {
         onPressed: () {
           Navigator.pop(context);
         },
+        action: FloatingActionButton(
+          child: getIcon(AppIcons.search),
+          onPressed: () {},
+        ),
       ),
       body: isLoading
           ? waitingConnection()
@@ -72,7 +79,7 @@ class _ProductsPageState extends State<ProductsPage> {
         child: FloatingActionButton(
           onPressed: () => _nextScreenArgs(add_product_page, businessId!),
           backgroundColor: primaryColor,
-          child: Icon(Icons.add),
+          child: getIcon(AppIcons.add),
         ),
         visible: userPosition == "[Administrador]" ? true : false,
       ),
@@ -139,4 +146,3 @@ class _ProductsPageState extends State<ProductsPage> {
     );
   }
 }
-

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
-import 'package:gest_inventory/data/framework/FirebaseBusinessDataSource.dart';
+import 'package:gest_inventory/data/firebase/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';

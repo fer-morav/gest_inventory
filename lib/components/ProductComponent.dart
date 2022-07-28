@@ -4,6 +4,8 @@ import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 
+import '../utils/icons.dart';
+
 class ProductComponent extends StatelessWidget {
   final Product product;
   final String? userPosition;
@@ -23,7 +25,10 @@ class ProductComponent extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () {
-        final args = {product_args: product, user_position_args: userPosition};
+        final args = {
+          product_args: product,
+          user_position_args: userPosition,
+        };
         Navigator.pushNamed(context, see_product_info_route, arguments: args);
       },
       backgroundColor: Colors.white,
@@ -33,43 +38,39 @@ class ProductComponent extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            padding: const EdgeInsets.only(left: 10, right: 15),
-            child: Transform.scale(
-              scale: 1.6,
-              child: Icon(
-                Icons.shopping_bag_outlined,
-                color:
-                    product.stock.toString() == "0.0" ? Colors.redAccent : Colors.greenAccent,
-              ),
-              alignment: Alignment.center,
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: getIcon(
+              AppIcons.product,
+              color: product.stock.toString() == "0.0"
+                  ? Colors.redAccent
+                  : Colors.greenAccent,
+              size: 50,
             ),
           ),
           Expanded(
             child: Text(
               product.nombre,
               style: TextStyle(
-                  color: primaryColor,
-                  fontSize: getResponsiveText(17)),
+                  color: primaryColor, fontSize: getResponsiveText(17)),
               textAlign: TextAlign.left,
             ),
           ),
           Expanded(
             child: Text(
-              "\$ "+product.precioUnitario.toString(),
+              "\$" + product.precioUnitario.toString(),
               style: TextStyle(
-                  color: primaryColor,
-                  fontSize: getResponsiveText(17)),
+                  color: primaryColor, fontSize: getResponsiveText(17)),
               textAlign: TextAlign.left,
             ),
           ),
           Expanded(
             child: Text(
-              "Stock: "+product.stock.toString(),
+              "Stock: " + product.stock.toString(),
               style: TextStyle(
-                  color: primaryColor,
-                  fontSize: getResponsiveText(17)),
+                  color: primaryColor, fontSize: getResponsiveText(17)),
               textAlign: TextAlign.left,
             ),
           ),

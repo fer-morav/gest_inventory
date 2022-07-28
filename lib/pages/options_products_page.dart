@@ -5,7 +5,7 @@ import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/ButtonMain.dart';
-import '../data/framework/FirebaseBusinessDataSource.dart';
+import '../data/firebase/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
 
 class OptionsProductsPage extends StatefulWidget {

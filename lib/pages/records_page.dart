@@ -3,7 +3,7 @@ import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
-import '../data/framework/FirebaseBusinessDataSource.dart';
+import '../data/firebase/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
 import '../utils/arguments.dart';
 

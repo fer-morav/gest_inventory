@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/utils/colors.dart';
 
+import '../utils/icons.dart';
+
 class BackButton extends StatelessWidget {
   final Function() onPressed;
 
-  const BackButton({Key? key, required this.onPressed})
-      : super(key: key);
+  const BackButton({Key? key, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 5),
+      padding: const EdgeInsets.only(top: 10),
       child: FloatingActionButton(
+        isExtended: true,
         child: Container(
-          child: Transform.scale(
-            scale: 1.5,
-            child: Icon(Icons.arrow_back, color: Colors.white),
-            alignment: Alignment.center,
+          child: getIcon(
+            AppIcons.arrow_back,
+            color: lightColor,
+            size: 30,
           ),
         ),
         onPressed: onPressed,
@@ -25,5 +27,4 @@ class BackButton extends StatelessWidget {
       ),
     );
   }
-
 }

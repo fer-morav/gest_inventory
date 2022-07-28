@@ -4,6 +4,8 @@ import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 
+import 'ProfileImageComponent.dart';
+
 class UserComponent extends StatelessWidget {
   final User user;
   final String? userPosition;
@@ -11,7 +13,8 @@ class UserComponent extends StatelessWidget {
 
   const UserComponent({
     Key? key,
-    required this.user, this.userPosition,
+    required this.user,
+    this.userPosition,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class UserComponent extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () {
-        final args = {user_args: user,user_position_args:userPosition};
+        final args = {user_args: user, user_position_args: userPosition};
         Navigator.pushNamed(context, see_profile_route, arguments: args);
       },
       backgroundColor: Colors.white,
@@ -29,20 +32,14 @@ class UserComponent extends StatelessWidget {
       isExtended: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        //side: BorderSide(color: user.cargo == "[Administrador]" ? Colors.redAccent : Colors.greenAccent,),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.only(left: 10, right: 15),
-            child: Transform.scale(
-              scale: 1.6,
-              child: Icon(
-                Icons.account_circle,
-                color:
-                    user.cargo == "[Administrador]" ? Colors.redAccent : Colors.greenAccent,
-              ),
-              alignment: Alignment.center,
+            child: ProfileImageComponent(
+              isAdmin: user.cargo == "[Administrador]",
+              size: 20,
             ),
           ),
           Expanded(

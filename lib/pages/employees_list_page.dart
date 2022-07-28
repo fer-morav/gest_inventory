@@ -3,9 +3,10 @@ import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/UserComponent.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
-import '../data/framework/FirebaseUserDataSource.dart';
+import '../data/firebase/FirebaseUserDataSource.dart';
 import '../data/models/User.dart';
 import '../utils/colors.dart';
+import '../utils/icons.dart';
 import '../utils/routes.dart';
 
 class EmployeesListPage extends StatefulWidget {
@@ -71,7 +72,7 @@ class _EmployeesListPageState extends State<EmployeesListPage> {
         child: FloatingActionButton(
           onPressed: () => _nextScreen(register_employees_route),
           backgroundColor: primaryColor,
-          child: Icon(Icons.add),
+          child: getIcon(AppIcons.add),
         ),
         visible: userPosition == "[Administrador]" ? true : false,
       ),

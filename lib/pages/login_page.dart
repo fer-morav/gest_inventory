@@ -8,8 +8,8 @@ import 'package:gest_inventory/utils/resources.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import 'package:gest_inventory/data/models/User.dart';
-import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
-import 'package:gest_inventory/data/framework/FirebaseUserDataSource.dart';
+import 'package:gest_inventory/data/firebase/FirebaseAuthDataSource.dart';
+import '../data/firebase/FirebaseUserDataSource.dart';
 import '../utils/colors.dart';
 
 class LoginPage extends StatefulWidget {

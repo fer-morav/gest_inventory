@@ -4,9 +4,9 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
-import 'package:gest_inventory/data/framework/FirebaseAuthDataSource.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
+import '../data/firebase/FirebaseAuthDataSource.dart';
 import '../data/models/User.dart';
 import '../utils/routes.dart';
 
@@ -101,9 +101,6 @@ class _Employees extends State<EmployeesPage> {
       return;
     }
     user = args[user_args];
-  }
-  void _nextScreen(String route) {
-    Navigator.pushNamed(context, route);
   }
 
   void _nextScreenArgs(String route, String businessId, String userPosition) {

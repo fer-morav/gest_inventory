@@ -4,7 +4,7 @@ import 'package:gest_inventory/components/IncomingsComponent.dart';
 import 'package:gest_inventory/data/models/Incomings.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
-import '../data/framework/FirebaseIncomingsSource.dart';
+import '../data/firebase/FirebaseIncomingsSource.dart';
 import '../utils/colors.dart';
 
 import 'package:syncfusion_flutter_pdf/pdf.dart';

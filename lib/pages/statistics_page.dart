@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/StatisticsComponent.dart';
-import '../data/framework/FirebaseSalesDataSource.dart';
+import '../data/firebase/FirebaseSalesDataSource.dart';
 import '../data/models/Sales.dart';
 import '../utils/arguments.dart';
 import '../utils/colors.dart';
+import '../utils/icons.dart';
 
 class StatisticsPage extends StatefulWidget {
   const StatisticsPage({Key? key}) : super(key: key);
@@ -75,10 +76,7 @@ class _StatisticsState extends State<StatisticsPage> {
                         backgroundColor: primaryColor,
                         mini: true,
                         onPressed: () {_setOrder();},
-                        child: Icon(
-                          Icons.wifi_protected_setup,
-                          color: Colors.white,
-                        ),
+                        child: getIcon(AppIcons.change),
                       ),
                     ),
                   ],
@@ -91,7 +89,7 @@ class _StatisticsState extends State<StatisticsPage> {
                       child: _labelText(text_product, 14),
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 50, top: 10),
+                      padding: EdgeInsets.only(left: 60, top: 10),
                       child: _labelText(text_total_sales, 14),
                     ),
                     Container(
