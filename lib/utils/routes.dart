@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gest_inventory/pages/add_business_page.dart';
 import 'package:gest_inventory/pages/add_product_page.dart';
 import 'package:gest_inventory/pages/incomes_page.dart';
-import 'package:gest_inventory/pages/update_business_page.dart';
-import 'package:gest_inventory/pages/update_product_page.dart';
-import 'package:gest_inventory/pages/update_user_page.dart';
+import 'package:gest_inventory/pages/edit_business_page.dart';
+import 'package:gest_inventory/pages/edit_product_page.dart';
+import 'package:gest_inventory/pages/edit_user_page.dart';
 import 'package:gest_inventory/pages/employees_list_page.dart';
 import 'package:gest_inventory/pages/business_page.dart';
 import 'package:gest_inventory/pages/make_sale_page.dart';
@@ -37,7 +37,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     statistics_route: (BuildContext context) => const StatisticsPage(),
     records_date_route: (BuildContext context) => const RecordDatePage(),
     register_employees_route: (BuildContext context) => const AddEmployeePage(),
-    modify_profile_route: (BuildContext context) => const UpdateUserPage(),
+    modify_profile_route: (BuildContext context) => const EditUserPage(),
     list_employees_route: (BuildContext context) => const EmployeesListPage(),
     see_profile_route: (BuildContext context) => const UserPage(),
     info_business_route: (BuildContext context) => const BusinessPage(),
@@ -45,9 +45,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     optionsList_product_page: (BuildContext context) => const OptionsProductsPage(),
     allList_product_page: (BuildContext context) => const ProductsPage(),
     see_product_info_route: (BuildContext context) => const SeeInfoProductPage(),
-    edit_business_route: (BuildContext context) => const UpdateBusinessPage(),
+    edit_business_route: (BuildContext context) => const EditBusinessPage(),
     search_product_route: (BuildContext context) => const SearchProductPage(),
-    modify_product_route: (BuildContext context) => const UpdateProductPage(),
+    modify_product_route: (BuildContext context) => const EditProductPage(),
     search_product_code_route: (BuildContext context) => const SearchProductCodePage(),
     make_sale_route: (BuildContext context) => const MakeSalePage(),
     restock_route: (BuildContext context) => const RestockPage(),

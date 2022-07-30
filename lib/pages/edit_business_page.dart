@@ -5,17 +5,17 @@ import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
-import '../components/TextFieldMain.dart';
+import '../components/TextInputForm.dart';
 
-class UpdateBusinessPage extends StatefulWidget {
-  const UpdateBusinessPage({Key? key}) : super(key: key);
+class EditBusinessPage extends StatefulWidget {
+  const EditBusinessPage({Key? key}) : super(key: key);
 
   @override
-  State<UpdateBusinessPage> createState() =>
-      _UpdateBusinessPageState();
+  State<EditBusinessPage> createState() =>
+      _EditBusinessPageState();
 }
 
-class _UpdateBusinessPageState extends State<UpdateBusinessPage> {
+class _EditBusinessPageState extends State<EditBusinessPage> {
   TextEditingController nombreNegocioController = TextEditingController();
   TextEditingController nombreDuenoController = TextEditingController();
   TextEditingController direccionController = TextEditingController();
@@ -65,66 +65,48 @@ class _UpdateBusinessPageState extends State<UpdateBusinessPage> {
           ? waitingConnection()
           : ListView(
               children: [
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: textfield_hint_name,
-                    labelText: textfield_label_name_business,
-                    textEditingController: nombreNegocioController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    errorText: _nombreNegocioError,
-                  ),
+                TextInputForm(
+                  hintText: textfield_hint_name,
+                  labelText: textfield_label_name_business,
+                  controller: nombreNegocioController,
+                  inputType: TextInputType.name,
+                  onTap: () {},
+                  errorText: _nombreNegocioError,
+                ),
+                TextInputForm(
+                  hintText: textfield_hint_name,
+                  labelText: textfield_label_owner,
+                  controller: nombreDuenoController,
+                  inputType: TextInputType.name,
+                  onTap: () {},
+                  errorText: _nombreDuenoError,
+                ),
+                TextInputForm(
+                  hintText: textfield_hint_address,
+                  labelText: textfield_label_address,
+                  controller: direccionController,
+                  inputType: TextInputType.streetAddress,
+                  onTap: () {},
+                  errorText: _direccionError,
                 ),
                 Container(
                   padding: _padding,
-                  child: TextFieldMain(
-                    hintText: textfield_hint_name,
-                    labelText: textfield_label_owner,
-                    textEditingController: nombreDuenoController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    errorText: _nombreDuenoError,
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: textfield_hint_address,
-                    labelText: textfield_label_address,
-                    textEditingController: direccionController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    errorText: _direccionError,
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
+                  child: TextInputForm(
                     hintText: textfield_hint_email,
                     labelText: textfield_label_email,
-                    textEditingController: correoController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
+                    controller: correoController,
+                    inputType: TextInputType.emailAddress,
                     onTap: () {},
                     errorText: _correoError,
                   ),
                 ),
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: textfield_hint_phone,
-                    labelText: textfield_label_number_phone,
-                    textEditingController: telefonoController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    isNumber: true,
-                    errorText: _telefonoError,
-                  ),
+                TextInputForm(
+                  hintText: textfield_hint_phone,
+                  labelText: textfield_label_number_phone,
+                  controller: telefonoController,
+                  inputType: TextInputType.phone,
+                  onTap: () {},
+                  errorText: _telefonoError,
                 ),
                 Container(
                   padding: _padding,

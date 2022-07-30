@@ -2,13 +2,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonMain.dart';
-import 'package:gest_inventory/components/TextFieldMain.dart';
+import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/resources.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import 'package:gest_inventory/data/models/User.dart';
 import 'package:gest_inventory/data/firebase/FirebaseAuthDataSource.dart';
+import '../components/TextInputForm.dart';
 import '../data/firebase/FirebaseUserDataSource.dart';
 import '../utils/colors.dart';
 
@@ -78,29 +79,20 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: Image.asset(image_logo_azul_png),
                   ),
-                  Container(
-                    padding: _padding,
-                    height: 80,
-                    child: TextFieldMain(
-                      hintText: textfield_hint_email,
-                      labelText: textfield_label_email,
-                      textEditingController: emailController,
-                      isPassword: false,
-                      isPasswordTextStatus: false,
-                      onTap: () {},
-                    ),
+                  TextInputForm(
+                    hintText: textfield_hint_email,
+                    labelText: textfield_label_email,
+                    controller: emailController,
+                    onTap: () {},
+                    inputType: TextInputType.emailAddress,
                   ),
-                  Container(
-                    padding: _padding,
-                    height: 80,
-                    child: TextFieldMain(
-                      hintText: textfield_hint_password,
-                      labelText: textfield_label_password,
-                      textEditingController: passwordController,
-                      isPassword: true,
-                      isPasswordTextStatus: showPassword,
-                      onTap: _showPassword,
-                    ),
+                  TextInputForm(
+                    hintText: textfield_hint_password,
+                    labelText: textfield_label_password,
+                    controller: passwordController,
+                    inputType: TextInputType.visiblePassword,
+                    passwordTextStatus: showPassword,
+                    onTap: _showPassword,
                   ),
                   Container(
                     padding: _padding,
@@ -232,15 +224,13 @@ class _LoginPageState extends State<LoginPage> {
           ),
           title: Text(
             title_reset_password,
-            textAlign: TextAlign.center,
             style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
           ),
-          content: TextFieldMain(
+          content: TextInputForm(
             hintText: textfield_hint_email,
             labelText: textfield_label_email,
-            textEditingController: emailController,
-            isPassword: false,
-            isPasswordTextStatus: false,
+            controller: emailController,
+            inputType: TextInputType.emailAddress,
             onTap: () {},
           ),
           actions: <Widget>[
@@ -262,18 +252,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      _sendEmailResetPassword(emailController);
-                    },
-                    child: Text(
-                      button_recover_password,
-                      style: TextStyle(
-                        color: primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
+                  child: Container(
+                    height: 50,
+                    child: ButtonSecond(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        _sendEmailResetPassword(emailController);
+                      },
+                      text: button_recover_password,
                     ),
                   ),
                 ),

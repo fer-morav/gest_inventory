@@ -6,18 +6,18 @@ import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
-import '../components/TextFieldMain.dart';
+import '../components/TextInputForm.dart';
 import '../data/firebase/FirebaseBusinessDataSource.dart';
 
-class UpdateProductPage extends StatefulWidget {
-  const UpdateProductPage({Key? key}) : super(key: key);
+class EditProductPage extends StatefulWidget {
+  const EditProductPage({Key? key}) : super(key: key);
 
   @override
-  State<UpdateProductPage> createState() =>
+  State<EditProductPage> createState() =>
       _EditProductState();
 }
 
-class _EditProductState extends State<UpdateProductPage> {
+class _EditProductState extends State<EditProductPage> {
   TextEditingController nombreController = TextEditingController();
   TextEditingController precioMayoreoController = TextEditingController();
   TextEditingController precioUnitarioController = TextEditingController();
@@ -70,82 +70,53 @@ class _EditProductState extends State<UpdateProductPage> {
           ? waitingConnection()
           : ListView(
               children: [
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: "Nombre del Producto",
-                    labelText: "Nombre del Producto",
-                    textEditingController: nombreController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    errorText: _nombreError,
-                  ),
+                TextInputForm(
+                  hintText: "Nombre del Producto",
+                  labelText: "Nombre del Producto",
+                  controller: nombreController,
+                  inputType: TextInputType.name,
+                  onTap: () {},
+                  errorText: _nombreError,
                 ),
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: "Precio Unitario",
-                    labelText: "Precio Unitario",
-                    textEditingController: precioUnitarioController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    isNumber: true,
-                    errorText: _precioUnitarioError,
-                  ),
+                TextInputForm(
+                  hintText: "Precio Unitario",
+                  labelText: "Precio Unitario",
+                  controller: precioUnitarioController,
+                  inputType: TextInputType.number,
+                  onTap: () {},
+                  errorText: _precioUnitarioError,
                 ),
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: "Precio Mayoreo",
-                    labelText: "Precio Mayoreo",
-                    textEditingController: precioMayoreoController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    isNumber: true,
-                    errorText: _precioMayoreoError,
-                  ),
+                TextInputForm(
+                  hintText: "Precio Mayoreo",
+                  labelText: "Precio Mayoreo",
+                  controller: precioMayoreoController,
+                  inputType: TextInputType.number,
+                  onTap: () {},
+                  errorText: _precioMayoreoError,
                 ),
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: "Stock",
-                    labelText: "Stock",
-                    textEditingController: stockController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    isNumber: true,
-                    errorText: _stockError,
-                  ),
+                TextInputForm(
+                  hintText: "Stock",
+                  labelText: "Stock",
+                  controller: stockController,
+                  inputType: TextInputType.number,
+                  onTap: () {},
+                  errorText: _stockError,
                 ),
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: "Ventas a la Semana",
-                    labelText: "Ventas a la Semana",
-                    textEditingController: ventaSemanaController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    isNumber: true,
-                    errorText: _ventaSemanaError,
-                  ),
+                TextInputForm(
+                  hintText: "Ventas a la Semana",
+                  labelText: "Ventas a la Semana",
+                  controller: ventaSemanaController,
+                  inputType: TextInputType.number,
+                  onTap: () {},
+                  errorText: _ventaSemanaError,
                 ),
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: "Ventas al Mes",
-                    labelText: "Ventas al Mes",
-                    textEditingController: ventaMesController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    isNumber: true,
-                    errorText: _ventaMesError,
-                  ),
+                TextInputForm(
+                  hintText: "Ventas al Mes",
+                  labelText: "Ventas al Mes",
+                  controller: ventaMesController,
+                  inputType: TextInputType.number,
+                  onTap: () {},
+                  errorText: _ventaMesError,
                 ),
                 Container(
                   padding: _padding,
