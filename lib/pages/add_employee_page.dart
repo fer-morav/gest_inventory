@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
-import 'package:gest_inventory/components/TextFieldMain.dart';
+import 'package:gest_inventory/components/TextInputForm.dart';
 import 'package:gest_inventory/data/firebase/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/utils/colors.dart';
@@ -9,7 +9,6 @@ import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:gest_inventory/data/models/User.dart';
-
 import '../data/firebase/FirebaseAuthDataSource.dart';
 import '../data/firebase/FirebaseUserDataSource.dart';
 
@@ -76,79 +75,48 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
       ),
       body: ListView(
         children: [
-          Container(
-            padding: _padding,
-            height: 80,
-            child: TextFieldMain(
-              hintText: textfield_hint_email,
-              labelText: textfield_label_email,
-              textEditingController: emailController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
-            ),
+          TextInputForm(
+            hintText: textfield_hint_email,
+            labelText: textfield_label_email,
+            controller: emailController,
+            inputType: TextInputType.emailAddress,
+            onTap: () {},
           ),
-          Container(
-            padding: _padding,
-            height: 80,
-            child: TextFieldMain(
-              hintText: textfield_hint_password,
-              labelText: textfield_label_password,
-              textEditingController: passwordController,
-              isPassword: true,
-              isPasswordTextStatus: showPassword,
-              onTap: _showPassword,
-            ),
+          TextInputForm(
+            hintText: textfield_hint_password,
+            labelText: textfield_label_password,
+            controller: passwordController,
+            inputType: TextInputType.visiblePassword,
+            passwordTextStatus: showPassword,
+            onTap: _showPassword,
           ),
-          Container(
-            padding: _padding,
-            height: 80,
-            child: TextFieldMain(
-              hintText: textfield_hint_name,
-              labelText: textfield_label_name,
-              textEditingController: nombreController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
-            ),
+          TextInputForm(
+            hintText: textfield_hint_name,
+            labelText: textfield_label_name,
+            controller: nombreController,
+            inputType: TextInputType.name,
+            onTap: () {},
           ),
-          Container(
-            padding: _padding,
-            height: 80,
-            child: TextFieldMain(
-              hintText: textfield_hint_last_name,
-              labelText: textfield_label_last_name,
-              textEditingController: apellidosController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
-            ),
+          TextInputForm(
+            hintText: textfield_hint_last_name,
+            labelText: textfield_label_last_name,
+            controller: apellidosController,
+            inputType: TextInputType.name,
+            onTap: () {},
           ),
-          Container(
-            padding: _padding,
-            height: 80,
-            child: TextFieldMain(
-              hintText: textfield_hint_phone,
-              labelText: textfield_label_number_phone,
-              textEditingController: telefonoController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
-              isNumber: true,
-            ),
+          TextInputForm(
+            hintText: textfield_hint_phone,
+            labelText: textfield_label_number_phone,
+            controller: telefonoController,
+            inputType: TextInputType.phone,
+            onTap: () {},
           ),
-          Container(
-            padding: _padding,
-            height: 80,
-            child: TextFieldMain(
-              hintText: textfield_hint_salary,
-              labelText: textfield_label_salary,
-              textEditingController: salarioController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
-              isNumber: true,
-            ),
+          TextInputForm(
+            hintText: textfield_hint_salary,
+            labelText: textfield_label_salary,
+            controller: salarioController,
+            inputType: TextInputType.number,
+            onTap: () {},
           ),
           Container(
             padding: _padding,

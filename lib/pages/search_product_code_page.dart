@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gest_inventory/components/TextInputForm.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/ButtonSecond.dart';
-import '../components/TextFieldMain.dart';
 import '../data/firebase/FirebaseBusinessDataSource.dart';
 import '../data/models/Business.dart';
 import '../data/models/Product.dart';
@@ -62,12 +62,11 @@ class _SearchProductCodePageState extends State<SearchProductCodePage> {
                 Container(
                   padding: _padding,
                   height: 80,
-                  child: TextFieldMain(
+                  child: TextInputForm(
                     hintText: textfield_hint_product,
                     labelText: textfield_label_product,
-                    textEditingController: idProductController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
+                    controller: idProductController,
+                    inputType: TextInputType.text,
                     onTap: () {},
                   ),
                 ),

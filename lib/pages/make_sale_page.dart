@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/components/ButtonSecond.dart';
+import 'package:gest_inventory/components/TextInputForm.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/scan_util.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/ButtonMain.dart';
-import '../components/TextFieldMain.dart';
 import '../data/firebase/FirebaseBusinessDataSource.dart';
 import '../data/firebase/FirebaseSalesDataSource.dart';
 import '../data/models/Sales.dart';
@@ -339,17 +339,13 @@ class _MakeSalePageState extends State<MakeSalePage> {
             textAlign: TextAlign.center,
             style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
           ),
-          content: Container(
-            padding: _padding,
-            child: TextFieldMain(
-              hintText: textfield_hint_name_product,
-              labelText: textfield_label_name_product,
-              textEditingController: nameController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
-              errorText: _nombreError,
-            ),
+          content: TextInputForm(
+            hintText: textfield_hint_name_product,
+            labelText: textfield_label_name_product,
+            controller: nameController,
+            inputType: TextInputType.text,
+            onTap: () {},
+            errorText: _nombreError,
           ),
           actions: <Widget>[
             Row(

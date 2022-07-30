@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
+import 'package:gest_inventory/components/TextInputForm.dart';
 import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/ButtonSecond.dart';
-import '../components/TextFieldMain.dart';
 import '../data/firebase/FirebaseBusinessDataSource.dart';
 import '../utils/routes.dart';
 
@@ -66,12 +66,11 @@ class _SearchProductPageState extends State<SearchProductPage> {
               children: [
                 Container(
                   padding: _padding,
-                  child: TextFieldMain(
+                  child: TextInputForm(
                     hintText: textfield_hint_name_product,
                     labelText: textfield_label_name,
-                    textEditingController: nombreController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
+                    controller: nombreController,
+                    inputType: TextInputType.name,
                     onTap: () {},
                     errorText: _nombreError,
                   ),

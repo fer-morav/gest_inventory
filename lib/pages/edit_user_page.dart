@@ -5,19 +5,19 @@ import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
-import '../components/TextFieldMain.dart';
+import '../components/TextInputForm.dart';
 import '../data/firebase/FirebaseUserDataSource.dart';
 import '../data/models/User.dart';
 import '../utils/colors.dart';
 
-class UpdateUserPage extends StatefulWidget {
-  const UpdateUserPage({Key? key}) : super(key: key);
+class EditUserPage extends StatefulWidget {
+  const EditUserPage({Key? key}) : super(key: key);
 
   @override
-  State<UpdateUserPage> createState() => _UpdateUserPageState();
+  State<EditUserPage> createState() => _EditUserPageState();
 }
 
-class _UpdateUserPageState extends State<UpdateUserPage> {
+class _EditUserPageState extends State<EditUserPage> {
   TextEditingController idController = TextEditingController();
   TextEditingController cargoController = TextEditingController();
   TextEditingController nombreController = TextEditingController();
@@ -67,55 +67,37 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
           ? waitingConnection()
           : ListView(
               children: [
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: textfield_label_name,
-                    labelText: textfield_label_name,
-                    textEditingController: nombreController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    errorText: _nombreError,
-                  ),
+                TextInputForm(
+                  hintText: textfield_label_name,
+                  labelText: textfield_label_name,
+                  controller: nombreController,
+                  inputType: TextInputType.name,
+                  onTap: () {},
+                  errorText: _nombreError,
                 ),
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: textfield_label_last_name,
-                    labelText: textfield_label_last_name,
-                    textEditingController: apellidosController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    errorText: _apellidosError,
-                  ),
+                TextInputForm(
+                  hintText: textfield_label_last_name,
+                  labelText: textfield_label_last_name,
+                  controller: apellidosController,
+                  inputType: TextInputType.name,
+                  onTap: () {},
+                  errorText: _apellidosError,
                 ),
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: textfield_label_number_phone,
-                    labelText: textfield_label_number_phone,
-                    textEditingController: telefonoController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    isNumber: true,
-                    errorText: _telefonoError,
-                  ),
+                TextInputForm(
+                  hintText: textfield_label_number_phone,
+                  labelText: textfield_label_number_phone,
+                  controller: telefonoController,
+                  inputType: TextInputType.phone,
+                  onTap: () {},
+                  errorText: _telefonoError,
                 ),
-                Container(
-                  padding: _padding,
-                  child: TextFieldMain(
-                    hintText: textfield_label_salary,
-                    labelText: textfield_label_salary,
-                    textEditingController: salarioController,
-                    isPassword: false,
-                    isPasswordTextStatus: false,
-                    onTap: () {},
-                    isNumber: true,
-                    errorText: _salarioError,
-                  ),
+                TextInputForm(
+                  hintText: textfield_label_salary,
+                  labelText: textfield_label_salary,
+                  controller: salarioController,
+                  inputType: TextInputType.number,
+                  onTap: () {},
+                  errorText: _salarioError,
                 ),
                 Container(
                   padding: _padding,

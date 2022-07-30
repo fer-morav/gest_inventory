@@ -19,3 +19,4 @@ const primaryOnColor = Colors.white;
 const adminColor = Colors.red;
 const employeeColor = Colors.greenAccent;
 const lightColor = Colors.white;
+const blackColor = Colors.black;

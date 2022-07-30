@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
 import 'package:gest_inventory/data/firebase/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Product.dart';
@@ -9,8 +9,7 @@ import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/scan_util.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/ButtonMain.dart';
-import '../components/TextFieldMain.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import '../components/TextInputForm.dart';
 
 class AddProductPage extends StatefulWidget {
   const AddProductPage({Key? key}) : super(key: key);
@@ -83,68 +82,45 @@ class _AddProductPageState extends State<AddProductPage> {
       ),
       body: ListView(
         children: [
-          Container(
-            padding: _padding,
-            child: TextFieldMain(
-              hintText: textfield_hint_id,
-              labelText: textfield_label_id,
-              textEditingController: idController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
-              errorText: _idError,
-            ),
+          TextInputForm(
+            hintText: textfield_hint_id,
+            labelText: textfield_label_id,
+            controller: idController,
+            inputType: TextInputType.text,
+            onTap: () {},
+            errorText: _idError,
           ),
-          Container(
-            padding: _padding,
-            child: TextFieldMain(
-              hintText: textfield_hint_name,
-              labelText: textfield_label_name,
-              textEditingController: nombreController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
-              errorText: _nombreError,
-            ),
+          TextInputForm(
+            hintText: textfield_hint_name,
+            labelText: textfield_label_name,
+            controller: nombreController,
+            inputType: TextInputType.text,
+            onTap: () {},
+            errorText: _nombreError,
           ),
-          Container(
-            padding: _padding,
-            child: TextFieldMain(
-              hintText: textfield_hint_unit_price,
-              labelText: textfield_label_unit_price,
-              textEditingController: precioUnitarioController,
-              isNumber: true,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
-              errorText: _precioUnitarioError,
-            ),
+          TextInputForm(
+            hintText: textfield_hint_unit_price,
+            labelText: textfield_label_unit_price,
+            controller: precioUnitarioController,
+            inputType: TextInputType.number,
+            onTap: () {},
+            errorText: _precioUnitarioError,
           ),
-          Container(
-            padding: _padding,
-            child: TextFieldMain(
-              hintText: textfield_hint_wholesale,
-              labelText: textfield_label_wholesale,
-              textEditingController: precioMayoreoController,
-              isPassword: false,
-              isNumber: true,
-              isPasswordTextStatus: false,
-              onTap: () {},
-              errorText: _precioMayoreoError,
-            ),
+          TextInputForm(
+            hintText: textfield_hint_wholesale,
+            labelText: textfield_label_wholesale,
+            controller: precioMayoreoController,
+            inputType: TextInputType.number,
+            onTap: () {},
+            errorText: _precioMayoreoError,
           ),
-          Container(
-            padding: _padding,
-            child: TextFieldMain(
-              hintText: textfield_hint_stock,
-              labelText: textfield_label_stock,
-              textEditingController: stockController,
-              isPassword: false,
-              isPasswordTextStatus: false,
-              onTap: () {},
-              isNumber: true,
-              errorText: _stockError,
-            ),
+          TextInputForm(
+            hintText: textfield_hint_stock,
+            labelText: textfield_label_stock,
+            controller: stockController,
+            inputType: TextInputType.number,
+            onTap: () {},
+            errorText: _stockError,
           ),
           Container(
             padding: _padding,
