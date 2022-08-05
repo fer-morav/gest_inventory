@@ -48,7 +48,7 @@ class _IndicatorComponentState extends State<IndicatorComponent> {
 
   BoxDecoration _boxDecoration() {
     return BoxDecoration(
-      color: lightColor,
+      color: primaryOnColor,
       borderRadius: BorderRadius.circular(20),
       border: Border.all(
         color: widget.color,

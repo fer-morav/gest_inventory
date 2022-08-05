@@ -3,6 +3,7 @@ import 'package:gest_inventory/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/firebase/FirebaseBusinessDataSource.dart';
 import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/utils/arguments.dart';
+import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../components/AppBarComponent.dart';
 import '../components/TextInputForm.dart';
@@ -57,14 +58,15 @@ class _EditBusinessPageState extends State<EditBusinessPage> {
     return Scaffold(
       appBar: AppBarComponent(
         textAppBar: title_edit_business,
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
+        appBarColor: primaryOnColor,
+        textColor: primaryColor,
+        onPressed: () => Navigator.of(context).pop(),
       ),
       body: _isLoading
           ? waitingConnection()
           : ListView(
               children: [
+                SizedBox(height: 20),
                 TextInputForm(
                   hintText: textfield_hint_name,
                   labelText: textfield_label_name_business,
@@ -89,16 +91,13 @@ class _EditBusinessPageState extends State<EditBusinessPage> {
                   onTap: () {},
                   errorText: _direccionError,
                 ),
-                Container(
-                  padding: _padding,
-                  child: TextInputForm(
-                    hintText: textfield_hint_email,
-                    labelText: textfield_label_email,
-                    controller: correoController,
-                    inputType: TextInputType.emailAddress,
-                    onTap: () {},
-                    errorText: _correoError,
-                  ),
+                TextInputForm(
+                  hintText: textfield_hint_email,
+                  labelText: textfield_label_email,
+                  controller: correoController,
+                  inputType: TextInputType.emailAddress,
+                  onTap: () {},
+                  errorText: _correoError,
                 ),
                 TextInputForm(
                   hintText: textfield_hint_phone,

@@ -3,28 +3,30 @@ import 'package:gest_inventory/utils/colors.dart';
 
 import '../utils/icons.dart';
 
-class BackButton extends StatelessWidget {
+class BackButtonBar extends StatelessWidget {
   final Function() onPressed;
+  final Color? color;
 
-  const BackButton({Key? key, required this.onPressed}) : super(key: key);
+  const BackButtonBar({
+    Key? key,
+    required this.onPressed,
+    this.color,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: FloatingActionButton(
-        isExtended: true,
-        child: Container(
+    return FloatingActionButton(
+      child: Container(
+        child: Transform.scale(
+          scale: 1.5,
           child: getIcon(
             AppIcons.arrow_back,
-            color: lightColor,
-            size: 30,
+            color: color == null ? primaryOnColor : color,
           ),
         ),
-        onPressed: onPressed,
-        backgroundColor: primaryColor,
-        elevation: 7,
       ),
+      onPressed: onPressed,
+      backgroundColor: color == null ? primaryColor : primaryOnColor,
     );
   }
 }

@@ -118,6 +118,12 @@ const textfield_hint_wholesale = "Ingrese el precio por mayoreo";
 const textfield_hint_stock = "Ingrese el numero de existencias";
 const textfield_hint_name_product = "Ingrese el nombre del producto";
 
+const textfield_error_email = "Correo electrónico invalido";
+const textfield_error_email_empty = "Correo electrónico vacio";
+const textfield_error_password_empty = "Contraseña vacia";
+const textfield_error_password = "Contraseña invalida";
+
+
 ////////////////Labels////////////////////////////////////////
 
 const text_havent_business = "¿Aún no Registras tu Negocio?";
@@ -158,6 +164,9 @@ const text_empty_history = "Historial Vacio";
 const alert_title_send_email = "Enlace enviado para restablecer contraseña";
 const alert_title_error_not_registered = "Usuario no registrado";
 const alert_content_imcomplete = "Informacion incompleta";
-const alert_content_not_valid_data = "Correo electrónico o Contraseña invalidos";
-const alert_content_email = "Ingrese dirección de correo electrónico valido";
+const alert_content_not_valid_data = "Verifique que su correo electrónico y contraseña sean correctos";
+const alert_content_email = "Ingrese dirección de correo electrónico valida";
 const alert_content_password = "Ingrese una contraseña valida";
+
+const alert_title_error_general = "Ocurrido un error";
+const alert_content_error_general = "Vuelva a intentarlo mas tarde";

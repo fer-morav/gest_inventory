@@ -50,6 +50,10 @@ dependencies:
   flutter_svg: ^0.22.0
   flutter_barcode_scanner: ^2.0.0
   quiver: ^3.0.1+1
+  future_progress_dialog: ^0.2.0
+  email_validator: ^2.1.17
+  fluttertoast: ^8.0.9
+  adaptive_dialog: ^1.6.3
 
 dev_dependencies:
   flutter_test:

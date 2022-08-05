@@ -13,6 +13,7 @@ class TextInputForm extends StatelessWidget {
   final TextInputType inputType;
   final bool passwordTextStatus;
   final String? errorText;
+  final TextInputAction? inputAction;
 
   TextInputForm({
     Key? key,
@@ -26,9 +27,10 @@ class TextInputForm extends StatelessWidget {
     this.errorText,
     this.readOnly = false,
     this.passwordTextStatus = false,
+    this.inputAction,
   }) : super(key: key);
 
-  final _border = OutlineInputBorder(
+  final _focusBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
     borderSide: const BorderSide(color: primaryColor),
   );
@@ -47,7 +49,7 @@ class TextInputForm extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 20,
-        vertical: 16,
+        vertical: 10,
       ),
       child: TextFormField(
         keyboardType: inputType,
@@ -55,16 +57,17 @@ class TextInputForm extends StatelessWidget {
         style: _textStyle,
         onChanged: onChange,
         obscureText: passwordTextStatus,
+        textInputAction: inputAction,
         decoration: InputDecoration(
           isDense: true,
           errorText: errorText,
           labelText: labelText,
           hintText: hintText,
           helperText: helperText,
-          enabledBorder: _border,
-          focusedBorder: _border,
+          enabledBorder: _focusBorder,
+          focusedBorder: _focusBorder,
           errorBorder: _errorBorder,
-          border: _border,
+          border: _focusBorder,
           labelStyle: const TextStyle(
             color: primaryColor,
           ),

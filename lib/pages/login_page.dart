@@ -1,9 +1,14 @@
+import 'dart:async';
 import 'dart:io';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:gest_inventory/components/AppBarComponent.dart';
-import 'package:gest_inventory/components/ButtonMain.dart';
-import 'package:gest_inventory/components/ButtonSecond.dart';
+import 'package:gest_inventory/components/MainButton.dart';
+import 'package:gest_inventory/utils/extensions_functions.dart';
 import 'package:gest_inventory/utils/arguments.dart';
+import 'package:gest_inventory/utils/custom_toast.dart';
 import 'package:gest_inventory/utils/resources.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
@@ -21,35 +26,28 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
   final _padding = const EdgeInsets.only(
-    left: 15,
-    top: 10,
-    right: 15,
-    bottom: 10,
-  );
-
-  User newUser = User(
-    id: "",
-    idNegocio: "",
-    cargo: "",
-    nombre: "",
-    apellidos: "",
-    telefono: 0,
-    salario: 0.0,
+    left: 20,
+    top: 5,
+    right: 20,
+    bottom: 5,
   );
 
   late final FirebaseAuthDataSource _authDataSource = FirebaseAuthDataSource();
   late final FirebaseUserDataSource _userDataSource = FirebaseUserDataSource();
 
-  bool showPassword = true;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  String? _errorEmail;
+
+  bool _show = true;
+  bool _enableButton = false;
   bool isLoading = true;
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       _checkLogin();
     });
     super.initState();
@@ -59,21 +57,18 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => exit(0),
-      child: Scaffold(
-        appBar: AppBarComponent(
-          textAppBar: title_login_user,
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        body: isLoading
-            ? waitingConnection()
-            : ListView(
+      child: isLoading
+          ? _showProgressIndicator()
+          : Scaffold(
+              appBar: AppBarComponent(
+                textAppBar: title_login_user,
+              ),
+              body: ListView(
                 children: [
                   Container(
                     padding: const EdgeInsets.only(
                       left: 30,
-                      top: 10,
+                      top: 5,
                       right: 30,
                       bottom: 10,
                     ),
@@ -82,25 +77,29 @@ class _LoginPageState extends State<LoginPage> {
                   TextInputForm(
                     hintText: textfield_hint_email,
                     labelText: textfield_label_email,
-                    controller: emailController,
+                    controller: _emailController,
                     onTap: () {},
+                    onChange: (content) => _onChangeEmail(content),
                     inputType: TextInputType.emailAddress,
+                    errorText: _errorEmail,
+                    inputAction: TextInputAction.next,
                   ),
                   TextInputForm(
                     hintText: textfield_hint_password,
                     labelText: textfield_label_password,
-                    controller: passwordController,
+                    controller: _passwordController,
                     inputType: TextInputType.visiblePassword,
-                    passwordTextStatus: showPassword,
+                    passwordTextStatus: _show,
                     onTap: _showPassword,
+                    onChange: (content) => _onChangePassword(),
                   ),
                   Container(
                     padding: _padding,
-                    height: 80,
-                    child: ButtonMain(
-                      onPressed: _loginUser,
+                    height: 70,
+                    child: MainButton(
+                      isEnable: _enableButton,
+                      onPressed: _signIn,
                       text: button_login,
-                      isDisabled: true,
                     ),
                   ),
                   Container(
@@ -118,8 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.only(
-                        left: 30, top: 0, right: 30, bottom: 0),
+                    padding: const EdgeInsets.only(left: 30, right: 30),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -133,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () {
                             Navigator.pushNamed(context, register_user_route);
                           },
-                          child: const Text(
+                          child: Text(
                             button_registry,
                             style: TextStyle(
                               decoration: TextDecoration.underline,
@@ -150,70 +148,102 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-      ),
+            ),
     );
-  }
-
-  void _loginUser() {
-    String email = emailController.text.split(" ").first;
-    String password = passwordController.text.split(" ").first;
-
-    if (email.isEmpty && password.isEmpty) {
-      _showToast(alert_content_imcomplete);
-    } else {
-      if (email.isEmpty) {
-        _showToast(alert_content_email);
-      } else {
-        if (password.isEmpty) {
-          _showToast(alert_content_password);
-        } else {
-          _signIn();
-        }
-      }
-    }
   }
 
   void _showPassword() {
     setState(() {
-      showPassword = !showPassword;
+      _show = !_show;
     });
   }
 
-  String? _signIn() {
-    String? _userId;
-    _authDataSource
-        .signInWithEmail(emailController.text.split(" ").first,
-            passwordController.text.split(" ").first)
-        .then((id) async => {
-              _userId = id,
-              if (_userId == null)
-                {
-                  _showToast(alert_content_not_valid_data),
-                }
-              else
-                {
-                  //Se obtiene los datos del usuario
-                  newUser = (await _userDataSource.getUser(_userId!))!,
-                  _showToast(
-                      "Bienvenido " + newUser.cargo + " " + newUser.nombre),
-                  //Envio a interfaces
-                  if (newUser.cargo == "[Empleado]")
-                    {
-                      //Ingresar interfaz de empleado
-                      _nextScreen(employees_route, newUser)
-                    }
-                  else
-                    {
-                      if (newUser.cargo == "[Administrador]")
-                        {_nextScreen(administrator_route, newUser)}
-                    }
-                }
-            });
-    return _userId;
+  void _onChangeEmail(String email) {
+    _errorEmail = null;
+
+    if (email.isEmpty) {
+      _errorEmail = textfield_error_email_empty;
+    } else if (!EmailValidator.validate(email)) {
+      _errorEmail = textfield_error_email;
+    }
+
+    _enableButton = isValidForm();
+    setState(() {});
+  }
+
+  void _onChangePassword() {
+    setState(() {
+      _enableButton = isValidForm();
+    });
+  }
+
+  bool isValidForm() {
+    return _emailController.text.trim().isEmailValid() &&
+        _passwordController.text.trim().isPasswordValid();
+  }
+
+  void _checkLogin() async {
+    String? userId = _authDataSource.getUserId();
+
+    if (userId != null) {
+      User? user = await _userDataSource.getUser(userId);
+      if (user != null) {
+        if (user.cargo == "[Empleado]") {
+          _nextScreen(employees_route, user);
+        } else {
+          _nextScreen(administrator_route, user);
+        }
+      }
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _signIn() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    String? result = await showDialog(
+      context: context,
+      builder: (context) => FutureProgressDialog(
+        _authDataSource.signInWithEmail(email, password),
+      ),
+    );
+
+    if (result == null || result.isEmpty) {
+      CustomToast.showToast(message: alert_content_not_valid_data, context: context, status: false);
+      return;
+    }
+
+    User? user = await showDialog(
+      context: context,
+      builder: (context) => FutureProgressDialog(
+        _userDataSource.getUser(result),
+      ),
+    );
+
+    if (user == null) {
+      await showOkAlertDialog(
+        context: context,
+        title: alert_title_error_general,
+        message: alert_content_error_general,
+        barrierDismissible: false,
+        okLabel: button_accept,
+      );
+      return;
+    }
+
+    if (user.cargo == "[Empleado]") {
+      _nextScreen(employees_route, user);
+    } else if (user.cargo == "[Administrador]") {
+      _nextScreen(administrator_route, user);
+    }
   }
 
   void _showDialogResetPassword(BuildContext context) {
-    TextEditingController emailController = new TextEditingController();
+    final emailController = new TextEditingController();
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -253,11 +283,10 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Expanded(
                   child: Container(
-                    height: 50,
-                    child: ButtonSecond(
+                    height: 60,
+                    child: MainButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
-                        _sendEmailResetPassword(emailController);
+                        _sendEmailResetPassword(emailController.text);
                       },
                       text: button_recover_password,
                     ),
@@ -271,64 +300,40 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _sendEmailResetPassword(TextEditingController emailController) {
-    if (emailController.text.isNotEmpty) {
-      _authDataSource.sendPasswordResetEmail(emailController.text).then(
-          (value) => value
-              ? _showToast(alert_title_send_email)
-              : _showToast(alert_title_error_not_registered));
-    } else {
-      _showToast(alert_content_email);
-    }
-  }
+  Future<void> _sendEmailResetPassword(String email) async {
+    if (email.isNotEmpty) {
+      bool result = await showDialog(
+        context: context,
+        builder: (context) => FutureProgressDialog(
+          _authDataSource.sendPasswordResetEmail(email),
+        ),
+      );
 
-  void _checkLogin() async {
-    String? userId;
-    userId = _authDataSource.getUserId();
-
-    if (userId != null) {
-      User? user = await _userDataSource.getUser(userId);
-      if (user != null) {
-        if (user.cargo == "[Empleado]") {
-          _nextScreen(employees_route, user);
-        } else {
-          _nextScreen(administrator_route, user);
-        }
+      if (result) {
+        CustomToast.showToast(message: alert_title_send_email, context: context);
+      } else {
+        CustomToast.showToast(message: alert_title_error_not_registered, context: context, status: false);
       }
-    } else {
-      setState(() {
-        isLoading = false;
-      });
+
+      Navigator.of(context).pop();
     }
   }
 
   void _nextScreen(String route, User user) {
     final args = {user_args: user};
-    Navigator.pushNamed(context, route, arguments: args);
+    Navigator.popAndPushNamed(context, route, arguments: args);
   }
 
-  void _showToast(String content) {
-    final snackBar = SnackBar(
-      content: Text(
-        content,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 15,
+  Scaffold _showProgressIndicator() {
+    return Scaffold(
+      body: Center(
+        child: SizedBox(
+          child: CircularProgressIndicator(
+            strokeWidth: 5,
+          ),
+          width: 75,
+          height: 75,
         ),
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  Center waitingConnection() {
-    return Center(
-      child: SizedBox(
-        child: CircularProgressIndicator(
-          strokeWidth: 5,
-        ),
-        width: 75,
-        height: 75,
       ),
     );
   }

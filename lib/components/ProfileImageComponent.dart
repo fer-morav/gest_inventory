@@ -31,7 +31,7 @@ class _ProfileImageComponentState extends State<ProfileImageComponent> {
                 backgroundImage: NetworkImage(widget.photoURL!))
             : CircleAvatar(
                 radius: widget.size / 1.075,
-                backgroundColor: lightColor,
+                backgroundColor: primaryOnColor,
                 child: getIcon(
                   AppIcons.user,
                   color: widget.isAdmin ? adminColor : employeeColor,
