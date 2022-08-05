@@ -45,9 +45,6 @@ class _Employees extends State<EmployeesPage> {
       child: Scaffold(
         appBar: AppBarComponent(
           textAppBar: title_employees,
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
         ),
         body: ListView(
           children: [

@@ -45,9 +45,6 @@ class _Administrator extends State<AdministratorPage> {
       child: Scaffold(
         appBar: AppBarComponent(
           textAppBar: title_administrator,
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
         ),
         body: ListView(
           children: [

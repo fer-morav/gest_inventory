@@ -1,44 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:gest_inventory/components/BackButton.dart';
 import '../utils/colors.dart';
 
 class AppBarComponent extends AppBar {
   AppBarComponent({
     required String textAppBar,
-    required Function() onPressed,
-    bool? isBack,
+    Function()? onPressed,
     Color? appBarColor,
     Color? textColor,
     double? textSize,
     FloatingActionButton? action,
   }) : super(
-            elevation: 0,
-            toolbarHeight: 80,
-            title: FittedBox(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  textAppBar,
-                  style: TextStyle(
-                    color: textColor ?? primaryOnColor,
-                    fontWeight: FontWeight.w900,
-                    fontSize: 25,
+          elevation: 0,
+          toolbarHeight: 80,
+          title: FittedBox(
+            child: Align(
+              child: Text(
+                textAppBar,
+                style: TextStyle(
+                  color: textColor ?? primaryOnColor,
+                  fontSize: 25,
+                ),
+              ),
+            ),
+          ),
+          backgroundColor: appBarColor,
+          leading: onPressed != null
+              ? Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 5, top: 15),
+                    child: BackButtonBar(
+                      onPressed: onPressed,
+                    ),
                   ),
-                ),
-              ),
-            ),
-            backgroundColor: appBarColor,
-            leading: Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                padding: const EdgeInsets.only(left: 10, top: 15, bottom: 5),
-                child: BackButton(
-                  onPressed: onPressed,
-                ),
-              ),
-            ),
-            actions: <Widget>[
-              action != null
-                  ? action
-                  : Container()
-            ]);
+                )
+              : null,
+          actions: <Widget>[
+            action != null ? action : Container(),
+          ],
+        );
 }

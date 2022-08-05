@@ -14,9 +14,11 @@ final _icons = <AppIcons, IconData>{
   AppIcons.delete: Icons.person_remove,
   AppIcons.gen_pdf: CustomIcons.picture_as_pdf,
   AppIcons.change: CustomIcons.arrows_ccw,
-  AppIcons.arrow_back: Icons.arrow_back_outlined,
+  AppIcons.arrow_back: Icons.arrow_back,
   AppIcons.show: Icons.visibility,
-  AppIcons.hide: Icons.visibility_off
+  AppIcons.hide: Icons.visibility_off,
+  AppIcons.error: Icons.clear,
+  AppIcons.ok: Icons.check,
 };
 
 Icon getIcon(AppIcons icon, {Color? color, double? size}) {
@@ -42,5 +44,7 @@ enum AppIcons {
   change,
   arrow_back,
   show,
-  hide
+  hide,
+  ok,
+  error
 }

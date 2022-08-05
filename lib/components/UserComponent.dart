@@ -24,7 +24,10 @@ class UserComponent extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () {
-        final args = {user_args: user, user_position_args: userPosition};
+        final args = {
+          user_args: user,
+          user_position_args: userPosition,
+        };
         Navigator.pushNamed(context, see_profile_route, arguments: args);
       },
       backgroundColor: Colors.white,
