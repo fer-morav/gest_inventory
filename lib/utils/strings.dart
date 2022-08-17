@@ -18,7 +18,8 @@ const title_add_product = "Añadir Producto";
 const title_opList_product = "Listas de Productos";
 const title_allList_product = "Lista Completa de Productos";
 const title_info_product = "Información del Producto";
-const title_edit_business = "Modificar Negocio";
+const title_edit_business = "Editar Negocio";
+const title_edit_product = "Editar Producto";
 const title_search_product = "Buscar Producto";
 const title_opSearch_product = "Busqueda de Productos";
 const title_make_sale = "Realizar Venta";
@@ -95,6 +96,7 @@ const textfield_label_unit_price = "Precio";
 const textfield_label_product = "Código de producto";
 const textfield_label_newStock_product = "Cantidad de productos";
 const textfield_label_wholesale = "Precio Mayoreo";
+const textfield_label_unit = "Precio Unitario";
 const textfield_label_stock = "Existencias";
 const textfield_label_name_business = "Nombre del Negocio";
 const textfield_label_name_product = "Nombre del Producto";
@@ -117,11 +119,12 @@ const textfield_hint_unit_price = "Ingrese el precio";
 const textfield_hint_wholesale = "Ingrese el precio por mayoreo";
 const textfield_hint_stock = "Ingrese el numero de existencias";
 const textfield_hint_name_product = "Ingrese el nombre del producto";
-
 const textfield_error_email = "Correo electrónico invalido";
-const textfield_error_email_empty = "Correo electrónico vacio";
-const textfield_error_password_empty = "Contraseña vacia";
+const textfield_error_email_empty = "Correo electrónico requerido";
+const textfield_error_password_empty = "Contraseña requerida";
 const textfield_error_password = "Contraseña invalida";
+const textfield_sale_week = "Ventas a la Semana";
+const textfield_sale_month = "Ventas al Mes";
 
 
 ////////////////Labels////////////////////////////////////////
@@ -144,6 +147,8 @@ const text_removed_product = "Producto Eliminado del Carrito";
 const text_added_product = "Producto Agregado al Carrito";
 const text_product_not_avilable = "Producto No Disponible, Sin Existencias";
 const text_unregistered_product = "Producto No Registrado";
+const text_already_registered_product = "Producto ya registrado";
+const text_registered_product = "Producto registrado";
 const text_search_by_name = "Busqueda por Nombre";
 const text_product_not_found = "Producto No Encontrado";
 const text_total_sales = "Total de Ventas";
@@ -159,14 +164,21 @@ const text_month = "Mes";
 const text_day = "Día";
 const text_error_connection = "Error de Conexión";
 const text_empty_history = "Historial Vacio";
+const text_add_business_success = "Negocio Registrado";
+const text_add_user_success = "Usuario registrado";
+const text_add_user_not_success = "Usuario no registrado";
+const text_update_data = "Datos actualizados";
+const text_error_update_data = "Error al actualizar los datos";
+const text_successful_delete = "Eliminacion Exitosa";
+const text_employee_delete = "Empleado eliminado";
 
 ////////////////Alert////////////////////////////////////////
 const alert_title_send_email = "Enlace enviado para restablecer contraseña";
 const alert_title_error_not_registered = "Usuario no registrado";
-const alert_content_imcomplete = "Informacion incompleta";
+const alert_title_error_general = "Ocurrido un error";
+const alert_content_incomplete = "Informacion incompleta";
 const alert_content_not_valid_data = "Verifique que su correo electrónico y contraseña sean correctos";
 const alert_content_email = "Ingrese dirección de correo electrónico valida";
 const alert_content_password = "Ingrese una contraseña valida";
-
-const alert_title_error_general = "Ocurrido un error";
 const alert_content_error_general = "Vuelva a intentarlo mas tarde";
+const alert_title = "Alerta";

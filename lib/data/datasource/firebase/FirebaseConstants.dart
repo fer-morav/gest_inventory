@@ -1,0 +1,5 @@
+const USERS_COLLECTION = "users";
+const BUSINESS_COLLECTION = "business";
+const BUSINESS_PRODUCT_COLLECTION = "products";
+const BUSINESS_SALES_COLLECTION = "sales";
+const BUSINESS_INCOMING_COLLECTION = "incoming";

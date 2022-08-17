@@ -15,10 +15,15 @@ const Map<int, Color> _primaryColor = {
   900: Color.fromRGBO(0, 68, 107, 1.0),
 };
 
+const complementColor = Color.fromRGBO(255, 182, 71, 0.9);
+const primaryLight = Color.fromRGBO(64, 111, 153, 0.9);
+const primaryDark = Color.fromRGBO(0, 30, 64, 0.9);
+const errorColor = Color.fromRGBO(148, 5, 17, 0.9);
 const primaryOnColor = Colors.white;
+
 const adminColor = Colors.red;
 const employeeColor = Colors.greenAccent;
+
 const okColor = Colors.greenAccent;
-const errorColor = Colors.redAccent;
 const lightColor = Colors.grey;
 const blackColor = Colors.black;
