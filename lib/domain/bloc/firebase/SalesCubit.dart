@@ -2,19 +2,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/models/Sales.dart';
 import '../../../data/repositories/AbstractSalesRepository.dart';
 
-class SalesCubit extends Cubit<SalesState> {
+class SalesCubit extends Cubit<void> {
   final AbstractSalesRepository _salesRepository;
-  Sales? _sales;
 
-  SalesCubit(this._salesRepository) : super(SalesInitialState());
+  SalesCubit(this._salesRepository) : super(0);
 
-  Future<void> reset() async => emit(SalesInitialState());
-
-  Future<Sales?> getSale(String businessId, String saleId) async {
-    _sales = await _salesRepository.getSale(businessId, saleId);
-    emit(SalesReadyState(_sales));
-    return _sales;
-  }
+  Future<Sales?> getSale(String businessId, String saleId) =>
+      _salesRepository.getSale(businessId, saleId);
 
   Future<bool> addSale(Sales sale) => _salesRepository.addSale(sale);
 
@@ -37,14 +31,4 @@ class SalesCubit extends Cubit<SalesState> {
   Future<void> close() {
     return super.close();
   }
-}
-
-abstract class SalesState {}
-
-class SalesInitialState extends SalesState {}
-
-class SalesReadyState extends SalesState {
-  final Sales? sales;
-
-  SalesReadyState(this.sales);
 }

@@ -87,7 +87,7 @@ class _IncomesPageState extends State<IncomesPage> {
     }
     businessId = args[business_id_args];
     businessName = args[business_name_args];
-    businessAdmin = args[business_nameadmin_args];
+    businessAdmin = args[business_name_admin_args];
     setState(() {
       isLoading = false;
     });
@@ -149,7 +149,7 @@ class _IncomesPageState extends State<IncomesPage> {
     admin_name = "Administrador: $businessAdmin",
     printing_date = "Fecha de Impresión: $currentDate";
 
-    PdfTextElement titulo = PdfTextElement(text: title_incomings_report, font: PdfStandardFont(PdfFontFamily.timesRoman, 30));
+    PdfTextElement titulo = PdfTextElement(text: title_incoming_report, font: PdfStandardFont(PdfFontFamily.timesRoman, 30));
     titulo.draw(page: page, bounds: Rect.fromLTWH(10, header.top + 2, 0, 0))!;
 
     PdfTextElement bsName = PdfTextElement(text: bussines_name, font: PdfStandardFont(PdfFontFamily.timesRoman, 18));
@@ -241,7 +241,7 @@ class _IncomesPageState extends State<IncomesPage> {
     List<int> bytes=document.save();
     document.dispose();
 
-    saveAndLaunchPDF(bytes, "$currentDate-$title_incomings_report.pdf");
+    saveAndLaunchPDF(bytes, "$currentDate-$title_incoming_report.pdf");
   }
 
   Future<Uint8List> _readImageData(String name)async{

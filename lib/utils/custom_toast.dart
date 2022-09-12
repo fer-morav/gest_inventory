@@ -25,7 +25,9 @@ class CustomToast {
                 message: message,
               ),
               gravity: ToastGravity.BOTTOM,
-              toastDuration: Duration(seconds: 2),
+              toastDuration: Duration(
+                seconds: 3,
+              ),
             );
   }
 }

@@ -1,334 +1,219 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gest_inventory/data/models/Business.dart';
-import 'package:gest_inventory/data/models/Product.dart';
-import 'package:gest_inventory/domain/bloc/firebase/BusinessCubit.dart';
-import 'package:gest_inventory/utils/arguments.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
+import 'package:gest_inventory/data/datasource/firebase/ProductDataSource.dart';
+import 'package:gest_inventory/data/datasource/firebase/StorageDataSource.dart';
+import 'package:gest_inventory/ui/components/ProgressDialogComponent.dart';
+import 'package:gest_inventory/utils/extensions_functions.dart';
+import 'package:gest_inventory/utils/navigator_functions.dart';
 import 'package:gest_inventory/utils/strings.dart';
+import '../../domain/bloc/ProductCubit.dart';
+import '../../utils/actions_enum.dart';
+import '../../utils/arguments.dart';
 import '../../utils/colors.dart';
+import '../../utils/custom_toast.dart';
 import '../../utils/icons.dart';
+import '../../utils/routes.dart';
 import '../components/AppBarComponent.dart';
-import 'package:gest_inventory/utils/routes.dart';
+import '../components/HeaderPaintComponent.dart';
+import '../components/IconButton.dart';
+import '../components/ImageComponent.dart';
+import '../components/ImageProfileComponent.dart';
+import '../components/ProfilePictureMenu.dart';
+import '../components/TextInputForm.dart';
 
-class SeeInfoProductPage extends StatefulWidget {
-  const SeeInfoProductPage({Key? key}) : super(key: key);
+class ProductPage extends StatefulWidget {
+  const ProductPage({Key? key}) : super(key: key);
 
   @override
-  State<SeeInfoProductPage> createState() => _SeeInfoProductPageState();
+  State<ProductPage> createState() => _ProductPageState();
 }
 
-class _SeeInfoProductPageState extends State<SeeInfoProductPage> {
-  late String nombre,
-      precioMayoreo,
-      precioUnitario,
-      stock,
-      ventaMes,
-      ventaSemana,
-      idNegocio,
-      negocio;
-
-  final _padding = const EdgeInsets.only(
-    left: 15,
-    top: 10,
-    right: 15,
-    bottom: 10,
-  );
-
-  bool _isLoading = true;
-  Product? _product;
-  Business? _business;
-  String? userPosition;
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _getArguments();
-    });
-  }
+class _ProductPageState extends State<ProductPage> {
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarComponent(
-        textAppBar: title_info_product,
-        onPressed: () {
-          Navigator.of(context).pop();
+    return BlocProvider<ProductCubit>(
+      create: (_) => ProductCubit(
+          productRepository: ProductDataSource(),
+          storageRepository: StorageDataSource(),
+      )..init(ModalRoute.of(context)?.settings.arguments as Map),
+      child: BlocConsumer<ProductCubit, ProductState>(
+        listener: (context, state) {
+          if (state.message != null) {
+            CustomToast.showToast(
+              message: state.message!,
+              context: context,
+              status: state.error,
+            );
+          }
+          if (state.message == text_update_data ||
+              state.message == text_add_product_success) {
+            pop(context);
+          }
         },
-      ),
-      body: _isLoading
-          ? waitingConnection()
-          : ListView(
-              children: [
-                Container(
-                  height: 80,
-                  padding: _padding,
-                  child: Transform.scale(
-                    scale: 3.5,
-                    child: Icon(
-                      Icons.shopping_bag_outlined,
-                      color: stock.toString() == "0.0"
-                          ? Colors.redAccent
-                          : Colors.greenAccent,
-                    ),
-                    alignment: Alignment.center,
-                  ),
-                ),
-                Container(
-                  height: 30,
-                  margin: const EdgeInsets.only(
-                    left: 80,
-                    top: 10,
-                    right: 80,
-                    bottom: 10,
-                  ),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: stock.toString() == "0.0"
-                        ? Colors.redAccent
-                        : Colors.greenAccent,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: FittedBox(
-                    child: Text(
-                      stock.toString() == "0.0"
-                          ? text_not_available
-                          : text_available,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 25,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    "Producto: ",
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      color: Color.fromARGB(1000, 0, 68, 106),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    _product!.nombre.toString(),
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    text_unit_price,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      color: Color.fromARGB(1000, 0, 68, 106),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    "\$ " + _product!.precioUnitario.toString(),
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    text_price,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      color: Color.fromARGB(1000, 0, 68, 106),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    "\$ " + _product!.precioMayoreo.toString(),
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    text_stock,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      color: Color.fromARGB(1000, 0, 68, 106),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    _product!.stock.toString() + " Unidades",
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    text_available_in,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      color: Color.fromARGB(1000, 0, 68, 106),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    _business!.nombreNegocio.toString(),
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    text_sale_week,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    _product!.ventaSemana.toString(),
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    text_sale_month,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: _padding,
-                  child: Text(
-                    _product!.ventaMes.toString(),
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-              ],
+        builder: (context, state) {
+          final bloc = context.read<ProductCubit>();
+
+          return Scaffold(
+            appBar: AppBarComponent(
+              textAppBar: title_product,
+              onPressed: () => pop(context),
             ),
-      floatingActionButton: Visibility(
-        child: FloatingActionButton(
-          onPressed: () => _nextScreenArgs(modify_product_route, _product!),
-          backgroundColor: primaryColor,
-          child: getIcon(AppIcons.edit),
-        ),
-        visible: userPosition == "[Administrador]" ? true : false,
+            body: state.user == null
+                ? ProgressDialogComponent()
+                : ListView(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: CustomPaint(
+                          painter: HeaderPaintCurve(),
+                          child: state.actionType == ActionType.add ||
+                                  state.actionType == ActionType.edit
+                              ? ImageProfileComponent(
+                                  admin: true,
+                                  image: state.profilePhoto,
+                                  onPressed: () => _showProfileMenuPhoto(bloc),
+                                )
+                              : ImageComponent(
+                                  color: state.product!.stock.lowStocks() ? adminColor : employeeColor,
+                                  size: 120,
+                                  photoURL: state.product!.photoUrl,
+                                ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                        width: double.infinity,
+                      ),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            TextInputForm(
+                              hintText: textfield_hint_id,
+                              labelText: textfield_label_id,
+                              controller: bloc.barcodeController,
+                              inputAction: TextInputAction.next,
+                              inputType: TextInputType.text,
+                              barcode: true,
+                              onTap: () => bloc.scanBarcode(),
+                              validator: (barcode) => bloc.validatorBarcode(barcode),
+                              readOnly: state.actionType == ActionType.open,
+                            ),
+                            TextInputForm(
+                              hintText: textfield_hint_name,
+                              labelText: textfield_label_name,
+                              controller: bloc.nameController,
+                              inputType: TextInputType.text,
+                              inputAction: TextInputAction.next,
+                              onTap: () {},
+                              validator: (name) => bloc.validatorName(name),
+                              readOnly: state.actionType == ActionType.open,
+                            ),
+                            TextInputForm(
+                              hintText: textfield_hint_description,
+                              labelText: textfield_label_description,
+                              controller: bloc.descriptionController,
+                              inputType: TextInputType.text,
+                              inputAction: TextInputAction.next,
+                              onTap: () {},
+                              validator: (description) => bloc.validatorDescription(description),
+                              readOnly: state.actionType == ActionType.open,
+                            ),
+                            TextInputForm(
+                              hintText: textfield_hint_unit_price,
+                              labelText: textfield_label_unit_price,
+                              controller: bloc.unitPriceController,
+                              inputType: TextInputType.number,
+                              inputAction: TextInputAction.next,
+                              salary: true,
+                              onTap: () {},
+                              validator: (price) => bloc.validatorPrice(price),
+                              readOnly: state.actionType == ActionType.open,
+                            ),
+                            TextInputForm(
+                              hintText: textfield_hint_wholesale,
+                              labelText: textfield_label_wholesale,
+                              controller: bloc.wholesalePriceController,
+                              inputType: TextInputType.number,
+                              inputAction: TextInputAction.next,
+                              salary: true,
+                              onTap: () {},
+                              validator: (price) => bloc.validatorPrice(price),
+                              readOnly: state.actionType == ActionType.open,
+                            ),
+                            TextInputForm(
+                              hintText: textfield_hint_stock,
+                              labelText: textfield_label_stock,
+                              controller: bloc.stockController,
+                              inputType: TextInputType.number,
+                              inputAction: TextInputAction.done,
+                              onTap: () {},
+                              validator: (stock) => bloc.validatorStock(stock),
+                              readOnly: state.actionType == ActionType.open,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Visibility(
+                        visible: state.actionType != ActionType.open,
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          height: 80,
+                          child: ButtonIcon(
+                            onPressed: () {
+                              if (_formKey.currentState?.validate() == true) {
+                                _registerProduct(bloc);
+                              }
+                            },
+                            text: state.actionType == ActionType.edit
+                                ? button_save
+                                : button_add_product,
+                            icon: state.actionType == ActionType.edit
+                                ? AppIcons.save
+                                : AppIcons.add_product,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+            floatingActionButton: Visibility(
+              visible: state.actionType == ActionType.open && state.user!.admin,
+              child: FloatingActionButton(
+                onPressed: () => bloc.setActionType(ActionType.edit),
+                backgroundColor: primaryColor,
+                child: getIcon(AppIcons.edit),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  void _nextScreenArgs(String route, Product product) {
-    final args = {product_args: product};
-    Navigator.pushNamed(context, route, arguments: args);
-  }
+  void _showProfileMenuPhoto(ProductCubit bloc) async {
+    String? result = await showDialog(
+      context: context,
+      builder: (_) {
+        return ProfilePictureMenu();
+      },
+    );
 
-  void _getArguments() {
-    final args = ModalRoute.of(context)?.settings.arguments as Map;
-    if (args.isEmpty) {
-      Navigator.pop(context);
+    if (result == null || result.isEmpty) {
       return;
     }
 
-    _product = args[product_args];
-    userPosition = args[user_position_args];
-
-    nombre = _product!.nombre;
-    precioMayoreo = _product!.precioMayoreo.toString();
-    precioUnitario = _product!.precioUnitario.toString();
-    stock = _product!.stock.toString();
-    ventaMes = _product!.ventaMes.toString();
-    ventaSemana = _product!.ventaSemana.toString();
-    idNegocio = _product!.idNegocio.toString();
-
-    BlocProvider.of<BusinessCubit>(context).getBusiness(idNegocio).then((business) => {
-          if (business != null)
-            {
-              setState(() {
-                _business = business;
-                negocio = _business!.nombreNegocio.toString();
-                _isLoading = false;
-              }),
-            }
-          else
-            {print(business?.id)}
-        });
+    bloc.setProfilePhoto(result);
   }
 
-  Center waitingConnection() {
-    return Center(
-      child: SizedBox(
-        child: CircularProgressIndicator(
-          strokeWidth: 5,
-        ),
-        width: 75,
-        height: 75,
+  void _registerProduct(ProductCubit bloc) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => FutureProgressDialog(
+        bloc.registerProduct(),
       ),
     );
   }

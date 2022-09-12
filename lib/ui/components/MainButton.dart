@@ -5,7 +5,6 @@ import '../../utils/colors.dart';
 class MainButton extends StatelessWidget {
   final Function() onPressed;
   final bool isEnable;
-  final AppIcons? icon;
   final String text;
   final Color color;
   final sizeReference = 700.0;
@@ -14,7 +13,6 @@ class MainButton extends StatelessWidget {
     Key? key,
     required this.onPressed,
     this.isEnable = true,
-    this.icon,
     required this.text,
     this.color = primaryColor,
   }) : super(key: key);
@@ -29,12 +27,6 @@ class MainButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          icon != null
-              ? Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                  child: getIcon(icon!, color: primaryOnColor),
-                )
-              : Container(),
           Expanded(
             child: Text(
               text,

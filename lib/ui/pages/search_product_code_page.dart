@@ -12,7 +12,7 @@ import '../../data/models/Business.dart';
 import '../../utils/custom_toast.dart';
 import '../../utils/scan_util.dart';
 import '../components/AppBarComponent.dart';
-import '../components/ButtonSecond.dart';
+import '../components/MainButton.dart';
 
 class SearchProductCodePage extends StatefulWidget {
   const SearchProductCodePage({Key? key}) : super(key: key);
@@ -72,7 +72,7 @@ class _SearchProductCodePageState extends State<SearchProductCodePage> {
                 Container(
                   padding: _padding,
                   height: 80,
-                  child: ButtonSecond(
+                  child: MainButton(
                     onPressed: () {
                       _searchProduct();
                     },
@@ -96,13 +96,13 @@ class _SearchProductCodePageState extends State<SearchProductCodePage> {
   }
 
   void _scanProductSearch() async {
-    _idProductController.text = await _scanUtil.scanBarcodeNormal();
+    _idProductController.text = await ScanUtil.scanBarcodeNormal();
     if ((await BlocProvider.of<ProductCubit>(context).getProduct(
             _business!.id.toString(), _idProductController.text)) !=
         null) {
       final _product = await BlocProvider.of<ProductCubit>(context).getProduct(
           _business!.id.toString(), _idProductController.text);
-      _nextScreenArgsProduct(see_product_info_route, _product!);
+      _nextScreenArgsProduct(product_route, _product!);
     } else {
       _showToast("Producto no registrado", false);
     }
@@ -124,7 +124,7 @@ class _SearchProductCodePageState extends State<SearchProductCodePage> {
           null) {
         final _product = await BlocProvider.of<ProductCubit>(context).getProduct(
             _business!.id.toString(), idProduct);
-        _nextScreenArgsProduct(see_product_info_route, _product!);
+        _nextScreenArgsProduct(product_route, _product!);
       } else {
         _showToast("Código invalido", false);
       }

@@ -6,11 +6,10 @@ import 'package:gest_inventory/ui/components/AppBarComponent.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
-import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/scan_util.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../../utils/custom_toast.dart';
-import '../components/ButtonMain.dart';
+import '../components/MainButton.dart';
 import '../components/TextInputForm.dart';
 
 class AddProductPage extends StatefulWidget {
@@ -41,7 +40,6 @@ class _AddProductPageState extends State<AddProductPage> {
   String? _stockError;
 
   String? businessId;
-  ScanUtil _scanUtil = ScanUtil();
 
   @override
   void initState() {
@@ -115,12 +113,11 @@ class _AddProductPageState extends State<AddProductPage> {
           Container(
             padding: _padding,
             height: 80,
-            child: ButtonMain(
+            child: MainButton(
               onPressed: () {
                 _addProduct();
               },
               text: button_add_product,
-              isDisabled: false,
             ),
           ),
         ],
@@ -193,13 +190,11 @@ class _AddProductPageState extends State<AddProductPage> {
 
     Product product = Product(
       id: _idController.text.trim(),
-      idNegocio: businessId!,
-      nombre: _nameController.text.trim(),
-      precioUnitario: double.parse(_priceUnitController.text.trim()),
-      precioMayoreo: double.parse(_priceWholeSaleController.text.trim()),
+      businessId: businessId!,
+      name: _nameController.text.trim(),
+      unitPrice: double.parse(_priceUnitController.text.trim()),
+      wholesalePrice: double.parse(_priceWholeSaleController.text.trim()),
       stock: double.parse(_stockController.text.trim()),
-      ventaSemana: 0,
-      ventaMes: 0,
     );
 
     final result = await showDialog(
@@ -214,9 +209,9 @@ class _AddProductPageState extends State<AddProductPage> {
       return;
     }
 
-    if (await BlocProvider.of<ProductCubit>(context).addProduct(businessId!, product)) {
+    if (await BlocProvider.of<ProductCubit>(context).addProduct(businessId!, product) != null) {
       _showToast(text_registered_product, true);
-      _nextScreenArgs(optionsList_product_page, businessId!);
+      //_nextScreenArgs(optionsList_product_page, businessId!);
     } else {
       _showToast(alert_title_error_general + ' ' + alert_content_error_general, false);
     }
@@ -224,13 +219,13 @@ class _AddProductPageState extends State<AddProductPage> {
 
   void scanQR() async {
     if (!mounted) return;
-    _idController.text = await _scanUtil.scanQR();
+    _idController.text = await ScanUtil.scanQR();
   }
 
   void scanBarcodeNormal() async {
     if (!mounted) return;
 
-    _idController.text = await _scanUtil.scanBarcodeNormal();
+    _idController.text = await ScanUtil.scanBarcodeNormal();
   }
 
   void _showToast(String message, bool status) {

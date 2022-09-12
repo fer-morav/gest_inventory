@@ -1,73 +1,87 @@
 import 'dart:convert';
+import 'package:gest_inventory/utils/resources.dart';
 
 class User {
-  String id = "";
-  String idNegocio = "";
-  String cargo = "";
-  String nombre = "";
-  String apellidos = "";
-  int telefono = 0;
-  double salario = 0.0;
+  String id;
+  String idBusiness;
+  String name;
+  String email;
+  String photoUrl;
+  bool admin;
+  int phoneNumber;
+  double salary;
+  bool available;
 
   static const FIELD_ID = "id";
-  static const FIELD_ID_BUSINESS = "idNegocio";
-  static const FIELD_POSITION = "cargo";
-  static const FIELD_NAME = "nombre";
-  static const FIELD_LASTNAME = "apellido";
-  static const FIELD_PHONE = "telefono";
-  static const FIELD_PAY = "salario";
+  static const FIELD_ID_BUSINESS = "idBusiness";
+  static const FIELD_NAME = "name";
+  static const FIELD_ADMIN = "admin";
+  static const FIELD_PHOTO = "photoUrl";
+  static const FIELD_PHONE = "phoneNumber";
+  static const FIELD_SALARY = "salary";
+  static const FIELD_AVAILABLE = "available";
 
   User({
-    required this.id,
-    required this.idNegocio,
-    required this.cargo,
-    required this.nombre,
-    required this.apellidos,
-    required this.telefono,
-    required this.salario,
+    this.id = '',
+    this.idBusiness = '',
+    this.name = '',
+    this.email = '',
+    this.photoUrl = image_profile_default,
+    this.admin = false,
+    this.phoneNumber = 0,
+    this.salary = 0.0,
+    this.available = false,
   });
 
   User copyWith({
     String? id,
-    String? idNegocio,
-    String? cargo,
-    String? nombre,
-    String? apellidos,
-    int? telefono,
-    double? salario,
+    String? idBusiness,
+    String? name,
+    String? email,
+    String? photoUrl,
+    bool? admin,
+    int? phoneNumber,
+    double? salary,
+    bool? available,
   }) {
     return User(
       id: id ?? this.id,
-      idNegocio: idNegocio?? this.idNegocio,
-      cargo: cargo ?? this.cargo,
-      nombre: nombre ?? this.nombre,
-      apellidos: apellidos ?? this.apellidos,
-      telefono: telefono ?? this.telefono,
-      salario: salario ?? this.salario,
+      idBusiness: idBusiness ?? this.idBusiness,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      photoUrl: photoUrl ?? this.photoUrl,
+      admin: admin ?? this.admin,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      salary: salary ?? this.salary,
+      available: available ?? this.available,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'idNegocio': idNegocio,
-      'cargo': cargo,
-      'nombre': nombre,
-      'apellidos': apellidos,
-      'telefono': telefono,
-      'salario': salario,
+      'idBusiness': idBusiness,
+      'name': name,
+      'email': email,
+      'photoUrl': photoUrl,
+      'admin': admin,
+      'phoneNumber': phoneNumber,
+      'salary': salary,
+      'available': available,
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'],
-      idNegocio: map['idNegocio'],
-      cargo: map['cargo'],
-      nombre: map['nombre'],
-      apellidos: map['apellidos'],
-      telefono: map['telefono'],
-      salario: map['salario'],
+      id: map['id'] ?? '',
+      idBusiness: map['idBusiness'] ?? '',
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
+      photoUrl: map['photoUrl'] ?? image_profile_default,
+      admin: map['admin'] ?? false,
+      phoneNumber: map['phoneNumber'] ?? 0,
+      salary: map['salary'] ?? 0,
+      available: map['available'] ?? false,
     );
   }
 
@@ -77,6 +91,6 @@ class User {
 
   @override
   String toString() {
-    return 'User(id: $id, idNegocio: $idNegocio, cargo: $cargo, nombre: $nombre, apellidos: $apellidos, telefono: $telefono, salario: $salario)';
+    return 'User(id: $id, idBusiness: $idBusiness, name: $name, email: $email, photoUrl: $photoUrl, admin: $admin, phoneNumber: $phoneNumber, salary: $salary, available: $available)';
   }
 }

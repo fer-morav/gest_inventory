@@ -14,18 +14,15 @@ class BackButtonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      child: Container(
-        child: Transform.scale(
-          scale: 1.5,
-          child: getIcon(
-            AppIcons.arrow_back,
-            color: color == null ? primaryOnColor : color,
-          ),
+    return IconButton(
+      icon: Transform.scale(
+        scale: 1.5,
+        child: getIcon(
+          AppIcons.arrow_back,
+          color: color,
         ),
       ),
       onPressed: onPressed,
-      backgroundColor: color ?? primaryColor,
     );
   }
 }

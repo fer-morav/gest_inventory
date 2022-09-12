@@ -1,61 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/data/models/User.dart';
-import 'package:gest_inventory/utils/arguments.dart';
+import 'package:gest_inventory/ui/components/ImageComponent.dart';
+import 'package:gest_inventory/utils/actions_enum.dart';
 import 'package:gest_inventory/utils/colors.dart';
-import 'package:gest_inventory/utils/routes.dart';
-import 'ProfileImageComponent.dart';
+import 'package:gest_inventory/utils/icons.dart';
 
 class UserComponent extends StatelessWidget {
   final User user;
-  final String? userPosition;
+  final Function()? onTap;
+  final ActionType actionType;
   final sizeReference = 700.0;
 
   const UserComponent({
     Key? key,
     required this.user,
-    this.userPosition,
+    this.onTap,
+    this.actionType = ActionType.select,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double getResponsiveText(double size) =>
         size * sizeReference / MediaQuery.of(context).size.longestSide;
 
-    return FloatingActionButton(
-      heroTag: null,
-      onPressed: () {
-        final args = {
-          user_args: user,
-          user_position_args: userPosition,
-        };
-        Navigator.pushNamed(context, see_profile_route, arguments: args);
-      },
-      backgroundColor: Colors.white,
-      elevation: 8,
-      isExtended: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+    return ListTile(
+      onTap: onTap,
+      leading: ImageComponent(
+        color: user.admin ? adminColor : employeeColor,
+        photoURL: user.photoUrl,
+        size: 28.5,
       ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(left: 10, right: 15),
-            child: ProfileImageComponent(
-              isAdmin: user.cargo == "[Administrador]",
-              size: 20,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              user.nombre + " " + user.apellidos,
-              style: TextStyle(
-                  color: primaryColor,
-                  //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(17)),
-              textAlign: TextAlign.left,
-            ),
-          )
-        ],
+      title: Text(
+        user.name,
+        style: TextStyle(
+          color: blackColor,
+          fontWeight: FontWeight.w500,
+          fontSize: getResponsiveText(25),
+        ),
       ),
+      isThreeLine: true,
+      subtitle: Text(
+        '${user.phoneNumber.toString()} \n${user.email}',
+        style: TextStyle(
+          color: lightColor,
+          fontWeight: FontWeight.w500,
+          fontSize: getResponsiveText(15),
+        ),
+      ),
+      trailing: actionType == ActionType.edit
+          ? getIcon(AppIcons.edit, color: primaryColor)
+          : actionType == ActionType.delete
+              ? getIcon(AppIcons.delete, color: errorColor)
+              : getIcon(AppIcons.next, color: blackColor),
     );
   }
 }

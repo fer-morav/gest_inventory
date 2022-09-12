@@ -8,12 +8,11 @@ import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/scan_util.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../../data/models/Sales.dart';
-import '../../ui/components/ButtonSecond.dart';
 import '../../ui/components/TextInputForm.dart';
 import '../../utils/custom_toast.dart';
 import '../../utils/icons.dart';
 import '../components/AppBarComponent.dart';
-import '../components/ButtonMain.dart';
+import '../components/MainButton.dart';
 
 class MakeSalePage extends StatefulWidget {
   const MakeSalePage({Key? key}) : super(key: key);
@@ -32,8 +31,6 @@ class _MakeSalePageState extends State<MakeSalePage> {
 
   final idController = TextEditingController();
   final nameController = TextEditingController();
-
-  ScanUtil _scanUtil = ScanUtil();
 
   String? businessId;
   String? _nombreError;
@@ -76,14 +73,13 @@ class _MakeSalePageState extends State<MakeSalePage> {
                 Container(
                   padding: _padding,
                   height: 80,
-                  child: ButtonMain(
+                  child: MainButton(
                     onPressed: () {
                       isLoading = true;
                       _payProduct();
                       Navigator.pop(context);
                     },
                     text: button_paying_products,
-                    isDisabled: false,
                   ),
                 ),
                 Container(
@@ -146,7 +142,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    listProduct[Index].nombre,
+                                    listProduct[Index].name,
                                     style: TextStyle(
                                         color: primaryColor,
                                         fontSize: getResponsiveText(17)),
@@ -157,7 +153,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
                                   child: Text(
                                     "\$ " +
                                         listProduct[Index]
-                                            .precioUnitario
+                                            .unitPrice
                                             .toString(),
                                     style: TextStyle(
                                         color: primaryColor,
@@ -277,11 +273,11 @@ class _MakeSalePageState extends State<MakeSalePage> {
   void scanQR() async {
     if (!mounted) return;
 
-    idController.text = await _scanUtil.scanQR();
+    idController.text = await ScanUtil.scanQR();
   }
 
   void scanBarcodeNormal() async {
-    idController.text = await _scanUtil.scanBarcodeNormal();
+    idController.text = await ScanUtil.scanBarcodeNormal();
     if ((await BlocProvider.of<ProductCubit>(context).getProduct(
             businessId!, idController.text)) !=
         null) {
@@ -290,7 +286,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
       if (_product!.stock != 0.0 && inStock(_product)) {
         listProduct.add(_product);
 
-        total = total + _product.precioUnitario;
+        total = total + _product.unitPrice;
 
         _addProduct(_product.id);
       } else {
@@ -309,7 +305,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
               {
                 if (product.stock != 0.0 && inStock(product))
                   {
-                    total = total + product.precioUnitario,
+                    total = total + product.unitPrice,
                     listProduct.add(product),
                     _addProduct(product.id),
                   }
@@ -365,7 +361,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
                   ),
                 ),
                 Expanded(
-                  child: ButtonSecond(
+                  child: MainButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                       searchByName(nameController.text);
@@ -430,15 +426,15 @@ class _MakeSalePageState extends State<MakeSalePage> {
     } else {
       final sale = Sales(
         id: product.id,
-        idNegocio: product.idNegocio,
-        nombreProducto: product.nombre,
-        precioUnitario: product.precioUnitario,
-        precioMayoreo: product.precioMayoreo,
+        idNegocio: product.businessId,
+        nombreProducto: product.name,
+        precioUnitario: product.unitPrice,
+        precioMayoreo: product.wholesalePrice,
         ventasUnitario: quantity < 10 ? quantity : 0,
         ventasMayoreo: quantity >= 10 ? quantity : 0,
         total: quantity < 10
-            ? product.precioUnitario * quantity
-            : product.precioMayoreo * quantity,
+            ? product.unitPrice * quantity
+            : product.wholesalePrice * quantity,
       );
       if (await BlocProvider.of<SalesCubit>(context).addSale(sale)) {
         product.stock -= quantity;

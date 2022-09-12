@@ -89,7 +89,7 @@ class _SalesPageState extends State<SalesPage> {
     }
     businessId = args[business_id_args];
     businessName = args[business_name_args];
-    businessAdmin = args[business_nameadmin_args];
+    businessAdmin = args[business_name_admin_args];
     setState(() {
       isLoading = false;
     });

@@ -25,6 +25,7 @@ class FlutterToastDesign extends StatelessWidget {
         children: [
           getIcon(
             status ? AppIcons.ok : AppIcons.error,
+            color: primaryOnColor,
           ),
           SizedBox(
             width: 12,
@@ -32,7 +33,7 @@ class FlutterToastDesign extends StatelessWidget {
           Expanded(
             child: Text(
               message,
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: 15, color: primaryOnColor),
               textAlign: TextAlign.center,
             ),
           ),

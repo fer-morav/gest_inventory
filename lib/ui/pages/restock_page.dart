@@ -10,8 +10,8 @@ import '../../domain/bloc/firebase/IncomingCubit.dart';
 import '../../utils/custom_toast.dart';
 import '../../utils/scan_util.dart';
 import '../components/AppBarComponent.dart';
-import '../components/ButtonSecond.dart';
 import 'package:gest_inventory/data/models/Incoming.dart';
+import '../components/MainButton.dart';
 import '../components/TextInputForm.dart';
 
 class RestockPage extends StatefulWidget {
@@ -44,8 +44,6 @@ class _RestockPageState extends State<RestockPage> {
   String? businessId;
   Business? _business;
   bool _isLoading = true;
-
-  ScanUtil _scanUtil = ScanUtil();
 
   @override
   void initState() {
@@ -83,8 +81,8 @@ class _RestockPageState extends State<RestockPage> {
                   padding: _padding,
                   height: 80,
                   child: TextInputForm(
-                    hintText: textfield_hint_newStock_product,
-                    labelText: textfield_label_newStock_product,
+                    hintText: textfield_hint_stock,
+                    labelText: textfield_label_stock,
                     controller: _newStockController,
                     inputType: TextInputType.number,
                     onTap: () {},
@@ -93,7 +91,7 @@ class _RestockPageState extends State<RestockPage> {
                 Container(
                   padding: _padding,
                   height: 80,
-                  child: ButtonSecond(
+                  child: MainButton(
                     onPressed: () {
                       _searchProduct();
                     },
@@ -117,7 +115,7 @@ class _RestockPageState extends State<RestockPage> {
   }
 
   void _scanProductSearch() async {
-    _idProductController.text = await _scanUtil.scanBarcodeNormal();
+    _idProductController.text = await ScanUtil.scanBarcodeNormal();
     if ((await BlocProvider.of<ProductCubit>(context).getProduct(
             _business!.id.toString(), _idProductController.text)) !=
         null) {
@@ -149,14 +147,14 @@ class _RestockPageState extends State<RestockPage> {
           _product.stock = newStock + stock;
           if (await BlocProvider.of<ProductCubit>(context).updateProduct(_product)) {
 
-            await BlocProvider.of<ProductCubit>(context).getProduct(_product.idNegocio, _product.id);
+            await BlocProvider.of<ProductCubit>(context).getProduct(_product.businessId, _product.id);
 
 
             _incoming.id = _product.id;
-            _incoming.idNegocio = _product.idNegocio;
-            _incoming.nombreProducto = _product.nombre;
-            _incoming.precioUnitario = _product.precioUnitario;
-            _incoming.precioMayoreo = _product.precioMayoreo;
+            _incoming.idNegocio = _product.businessId;
+            _incoming.nombreProducto = _product.name;
+            _incoming.precioUnitario = _product.unitPrice;
+            _incoming.precioMayoreo = _product.wholesalePrice;
             _incoming.unidadesCompradas = newStock;
 
             BlocProvider.of<IncomingCubit>(context).addIncoming(_incoming);

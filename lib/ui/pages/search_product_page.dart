@@ -6,9 +6,10 @@ import 'package:gest_inventory/domain/bloc/firebase/ProductCubit.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../../ui/components/TextInputForm.dart';
+import '../../utils/colors.dart';
 import '../../utils/routes.dart';
 import '../components/AppBarComponent.dart';
-import '../components/ButtonSecond.dart';
+import '../components/MainButton.dart';
 
 class SearchProductPage extends StatefulWidget {
   const SearchProductPage({Key? key}) : super(key: key);
@@ -77,7 +78,7 @@ class _SearchProductPageState extends State<SearchProductPage> {
                 Container(
                   padding: _padding,
                   height: 80,
-                  child: ButtonSecond(
+                  child: MainButton(
                     onPressed: _saveData,
                     //_nextScreenArgs(see_product_info_route, product),
                     text: button_search,
@@ -109,7 +110,7 @@ class _SearchProductPageState extends State<SearchProductPage> {
                   setState(() {
                     _product = product;
                     isLoading = false;
-                    _nextScreenArgs(see_product_info_route, _product!);
+                    _nextScreenArgs(product_route, _product!);
                   }),
                 }
               else

@@ -2,19 +2,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/models/Incoming.dart';
 import '../../../data/repositories/AbstractIncomingRepository.dart';
 
-class IncomingCubit extends Cubit<IncomingState> {
+class IncomingCubit extends Cubit<void> {
   final AbstractIncomingRepository _incomingRepository;
-  Incomings? _incoming;
 
-  IncomingCubit(this._incomingRepository) : super(IncomingInitialState());
+  IncomingCubit(this._incomingRepository) : super(0);
 
-  Future<void> reset() async => emit(IncomingInitialState());
-
-  Future<Incomings?> getIncoming(String businessId, String incomingId) async {
-    _incoming = await _incomingRepository.getIncoming(businessId, incomingId);
-    emit(IncomingReadyState(_incoming));
-    return _incoming;
-  }
+  Future<Incomings?> getIncoming(String businessId, String incomingId) =>
+      _incomingRepository.getIncoming(businessId, incomingId);
 
   Future<bool> addIncoming(Incomings incoming) =>
       _incomingRepository.addIncoming(incoming);
@@ -35,14 +29,4 @@ class IncomingCubit extends Cubit<IncomingState> {
   Future<void> close() {
     return super.close();
   }
-}
-
-abstract class IncomingState {}
-
-class IncomingInitialState extends IncomingState {}
-
-class IncomingReadyState extends IncomingState {
-  final Incomings? incoming;
-
-  IncomingReadyState(this.incoming);
 }

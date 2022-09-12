@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:gest_inventory/domain/bloc/firebase/BusinessCubit.dart';
 import 'package:gest_inventory/domain/bloc/firebase/ProductCubit.dart';
-import 'package:gest_inventory/ui/components/ButtonSecond.dart';
 import 'package:gest_inventory/data/models/Business.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/utils/arguments.dart';
-import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
+import '../../utils/colors.dart';
 import '../../utils/custom_toast.dart';
 import '../components/AppBarComponent.dart';
+import '../components/MainButton.dart';
 import '../components/TextInputForm.dart';
 
 class EditProductPage extends StatefulWidget {
@@ -123,7 +123,7 @@ class _EditProductState extends State<EditProductPage> {
                 Container(
                   padding: _padding,
                   height: 80,
-                  child: ButtonSecond(
+                  child: MainButton(
                     onPressed: _saveData,
                     text: button_save,
                   ),
@@ -142,14 +142,12 @@ class _EditProductState extends State<EditProductPage> {
 
     _product = args[product_args];
 
-    nombreController.text = _product!.nombre;
-    precioMayoreoController.text = _product!.precioMayoreo.toString();
-    precioUnitarioController.text = _product!.precioUnitario.toString();
+    nombreController.text = _product!.name;
+    precioMayoreoController.text = _product!.wholesalePrice.toString();
+    precioUnitarioController.text = _product!.unitPrice.toString();
     stockController.text = _product!.stock.toString();
-    ventaMesController.text = _product!.ventaMes.toString();
-    ventaSemanaController.text = _product!.ventaSemana.toString();
 
-    idNegocio = _product!.idNegocio.toString();
+    idNegocio = _product!.businessId.toString();
 
     Business result = await showDialog(
       context: context,
@@ -159,7 +157,7 @@ class _EditProductState extends State<EditProductPage> {
     );
 
     _business = result;
-    negocio = _business!.nombreNegocio.toString();
+    negocio = _business!.name;
     _isLoading = false;
 
     setState(() {});
@@ -225,16 +223,14 @@ class _EditProductState extends State<EditProductPage> {
       _isLoading = true;
     });
 
-    _product?.nombre = nombreController.text;
-    _product?.precioMayoreo = double.parse(precioMayoreoController.text);
-    _product?.precioUnitario = double.parse(precioUnitarioController.text);
+    _product?.name = nombreController.text;
+    _product?.wholesalePrice = double.parse(precioMayoreoController.text);
+    _product?.unitPrice = double.parse(precioUnitarioController.text);
     _product?.stock = double.parse(stockController.text);
-    _product?.ventaSemana = int.parse(ventaSemanaController.text);
-    _product?.ventaMes = int.parse(ventaMesController.text);
 
     if (_product != null && await BlocProvider.of<ProductCubit>(context).updateProduct(_product!)) {
       _showToast(text_update_data, true);
-      _nextScreenArgs(optionsList_product_page, _product!.idNegocio);
+      //_nextScreenArgs(optionsList_product_page, _product!.idNegocio);
     } else {
       _showToast(text_error_update_data, false);
     }

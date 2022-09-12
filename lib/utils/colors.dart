@@ -24,6 +24,6 @@ const primaryOnColor = Colors.white;
 const adminColor = Colors.red;
 const employeeColor = Colors.greenAccent;
 
-const okColor = Colors.greenAccent;
+const okColor = Colors.green;
 const lightColor = Colors.grey;
 const blackColor = Colors.black;

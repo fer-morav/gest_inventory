@@ -1,71 +1,73 @@
 import 'dart:convert';
+import 'package:gest_inventory/data/models/Address.dart';
+import 'package:gest_inventory/utils/resources.dart';
 
 class Business {
-  String id = "";
-  String nombreNegocio = "";
-  String nombreDueno = "";
-  String idDueno = "";
-  String direccion = "";
-  String correo = "";
-  int telefono = 0;
-  bool activo = false;
+  String id;
+  String ownerId;
+  String name;
+  String photoUrl;
+  String rfc;
+  int phone;
+  Address address;
+
+  static const FIELD_ID = "id";
+  static const FIELD_ID_OWNER = "ownerId";
+  static const FIELD_NAME = "name";
+  static const FIELD_PHOTO = "photoUrl";
+  static const FIELD_PHONE = "phoneNumber";
 
   Business({
-    required this.id,
-    required this.nombreNegocio,
-    required this.nombreDueno,
-    required this.idDueno,
-    required this.direccion,
-    required this.correo,
-    required this.telefono,
-    required this.activo,
+    this.id = '',
+    this.ownerId = '',
+    required this.address,
+    this.name = '',
+    this.photoUrl = image_business_default,
+    this.rfc = '',
+    this.phone = 0,
   });
 
   Business copyWith({
     String? id,
-    String? nombreNegocio,
-    String? nombreDueno,
-    String? idDueno,
-    String? direccion,
-    String? correo,
-    int? telefono,
-    bool? activo,
+    String? ownerId,
+    String? name,
+    String? photoUrl,
+    String? rfc,
+    int? phone,
+    Address? address,
   }) {
     return Business(
       id: id ?? this.id,
-      nombreNegocio: nombreNegocio ?? this.nombreNegocio,
-      nombreDueno: nombreDueno ?? this.nombreDueno,
-      idDueno: idDueno ?? this.idDueno,
-      direccion: direccion ?? this.direccion,
-      correo: correo ?? this.correo,
-      telefono: telefono ?? this.telefono,
-      activo: activo ?? this.activo,
+      ownerId: ownerId ?? this.ownerId,
+      address: address ?? this.address,
+      name: name ?? this.name,
+      photoUrl: photoUrl ?? this.photoUrl,
+      rfc: rfc ?? this.rfc,
+      phone: phone ?? this.phone,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'nombreNegocio': nombreNegocio,
-      'nombreDueno': nombreDueno,
-      'idDueno': idDueno,
-      'direccion': direccion,
-      'correo': correo,
-      'telefono': telefono,
-      'activo': activo,
+      'ownerId': ownerId,
+      'address': address.toMap(),
+      'name': name,
+      'photoUrl': photoUrl,
+      'rfc': rfc,
+      'phone': phone,
     };
   }
 
   factory Business.fromMap(Map<String, dynamic> map) {
     return Business(
       id: map['id'],
-      nombreNegocio: map['nombreNegocio'],
-      nombreDueno: map['nombreDueno'],
-      idDueno: map['idDueno'],
-      direccion: map['direccion'],
-      correo: map['correo'],
-      telefono: map['telefono'],
-      activo: map['activo'],
+      ownerId: map['ownerId'],
+      address: Address.fromMap(map['address']),
+      name: map['name'],
+      photoUrl: map['photoUrl'],
+      rfc: map['rfc'],
+      phone: map['phone'],
     );
   }
 
@@ -75,6 +77,6 @@ class Business {
 
   @override
   String toString() {
-    return 'User( id: $id, nombreNegocio: $nombreNegocio, nombreDueño: $nombreDueno, idDueño: $idDueno, direccion: $direccion, correo: $correo, telefono: $telefono, activo: $activo)';
+    return 'Business( id: $id, ownerId: $ownerId, address: $address, name: $name, photoUrl: $photoUrl, rfc: $rfc, phone: $phone )';
   }
 }
