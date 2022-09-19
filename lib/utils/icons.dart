@@ -8,6 +8,7 @@ final _icons = <AppIcons, IconData>{
   AppIcons.edit: Icons.edit,
   AppIcons.qr: Icons.qr_code,
   AppIcons.add: Icons.add,
+  AppIcons.remove: Icons.remove,
   AppIcons.barcode: CustomIcons.barcode,
   AppIcons.scanner: CustomIcons.barcode_scanner,
   AppIcons.google: CustomIcons.google,
@@ -42,7 +43,7 @@ final _icons = <AppIcons, IconData>{
   AppIcons.store: Icons.store,
   AppIcons.store_slash: CustomIcons.store_slash,
   AppIcons.store_add: Icons.add_business,
-  AppIcons.shopping: Icons.shopping_cart,
+  AppIcons.shopping: CustomIcons.cash_register,
   AppIcons.list: Icons.list,
   AppIcons.edit_product: CustomIcons.box_open,
   AppIcons.products: CustomIcons.boxes,
@@ -53,7 +54,8 @@ final _icons = <AppIcons, IconData>{
   AppIcons.employees: Icons.group,
   AppIcons.next: Icons.arrow_forward_ios_outlined,
   AppIcons.options: Icons.more_vert,
-  AppIcons.delete: Icons.delete_forever_rounded
+  AppIcons.delete: Icons.delete_forever_rounded,
+  AppIcons.pay: CustomIcons.cash,
 };
 
 Icon getIcon(AppIcons icon, {Color? color, double? size}) {
@@ -74,6 +76,7 @@ enum AppIcons {
   user,
   edit,
   add,
+  remove,
   qr,
   barcode,
   scanner,
@@ -121,4 +124,5 @@ enum AppIcons {
   next,
   options,
   delete,
+  pay,
 }

@@ -67,6 +67,29 @@ class UserDataSource extends AbstractUserRepository {
   }
 
   @override
+  Future<List<User>> getListUsers(String businessId) async {
+    try {
+      final snapshots = await _database
+          .collection(USERS_COLLECTION)
+          .where(User.FIELD_ID_BUSINESS, isEqualTo: businessId)
+          .orderBy(User.FIELD_ADMIN, descending: true)
+          .orderBy(User.FIELD_NAME)
+          .get();
+
+      List<User> users = [];
+
+      for (var document in snapshots.docs) {
+        final user = User.fromMap(document.data());
+        users.add(user);
+      }
+
+      return users;
+    } catch (error) {
+      return [];
+    }
+  }
+
+  @override
   Future<bool> deleteUser(String id) async {
     try {
       await _database.collection(USERS_COLLECTION).doc(id).delete();

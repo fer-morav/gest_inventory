@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gest_inventory/domain/bloc/firebase/BusinessCubit.dart';
-import 'package:gest_inventory/domain/bloc/firebase/ProductCubit.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../../data/models/Business.dart';
-import '../../domain/bloc/firebase/IncomingCubit.dart';
 import '../../utils/custom_toast.dart';
-import '../../utils/scan_util.dart';
 import '../components/AppBarComponent.dart';
 import 'package:gest_inventory/data/models/Incoming.dart';
 import '../components/MainButton.dart';
@@ -115,60 +110,60 @@ class _RestockPageState extends State<RestockPage> {
   }
 
   void _scanProductSearch() async {
-    _idProductController.text = await ScanUtil.scanBarcodeNormal();
-    if ((await BlocProvider.of<ProductCubit>(context).getProduct(
-            _business!.id.toString(), _idProductController.text)) !=
-        null) {
-      await BlocProvider.of<ProductCubit>(context).getProduct(
-          _business!.id.toString(), _idProductController.text);
-    } else {
-      _showToast("Producto no registrado", false);
-    }
+    // _idProductController.text = await ScanUtil.scanBarcodeNormal();
+    // if ((await BlocProvider.of<ProductCubit>(context).getProduct(
+    //         _business!.id.toString(), _idProductController.text)) !=
+    //     null) {
+    //   await BlocProvider.of<ProductCubit>(context).getProduct(
+    //       _business!.id.toString(), _idProductController.text);
+    // } else {
+    //   _showToast("Producto no registrado", false);
+    // }
   }
 
   Future<void> _searchProduct() async {
-    String idProduct = _idProductController.text.split(" ").first;
-    double newStock = 0;
-    double stock = 0;
-
-    if (idProduct.isEmpty || _newStockController.text.isEmpty) {
-      _showToast(alert_content_incomplete, false);
-    } else {
-      newStock = double.parse(_newStockController.text);
-      if (newStock < 1) {
-        _showToast("Cantidad invalida", false);
-      } else {
-        if ((await BlocProvider.of<ProductCubit>(context).getProduct(
-                _business!.id.toString(), idProduct)) !=
-            null) {
-          final _product = await BlocProvider.of<ProductCubit>(context).getProduct(
-              _business!.id.toString(), idProduct);
-          stock = _product!.stock;
-          _product.stock = newStock + stock;
-          if (await BlocProvider.of<ProductCubit>(context).updateProduct(_product)) {
-
-            await BlocProvider.of<ProductCubit>(context).getProduct(_product.businessId, _product.id);
-
-
-            _incoming.id = _product.id;
-            _incoming.idNegocio = _product.businessId;
-            _incoming.nombreProducto = _product.name;
-            _incoming.precioUnitario = _product.unitPrice;
-            _incoming.precioMayoreo = _product.wholesalePrice;
-            _incoming.unidadesCompradas = newStock;
-
-            BlocProvider.of<IncomingCubit>(context).addIncoming(_incoming);
-
-            _showToast("Datos actualizados", true);
-            Navigator.pop(context);
-          } else {
-            _showToast("Error al actualizar los datos", false);
-          }
-        } else {
-          _showToast("Código invalido", false);
-        }
-      }
-    }
+    // String idProduct = _idProductController.text.split(" ").first;
+    // double newStock = 0;
+    // double stock = 0;
+    //
+    // if (idProduct.isEmpty || _newStockController.text.isEmpty) {
+    //   _showToast(alert_content_incomplete, false);
+    // } else {
+    //   newStock = double.parse(_newStockController.text);
+    //   if (newStock < 1) {
+    //     _showToast("Cantidad invalida", false);
+    //   } else {
+    //     if ((await BlocProvider.of<ProductCubit>(context).getProduct(
+    //             _business!.id.toString(), idProduct)) !=
+    //         null) {
+    //       final _product = await BlocProvider.of<ProductCubit>(context).getProduct(
+    //           _business!.id.toString(), idProduct);
+    //       stock = _product!.stock;
+    //       _product.stock = newStock + stock;
+    //       if (await BlocProvider.of<ProductCubit>(context).updateProduct(_product)) {
+    //
+    //         await BlocProvider.of<ProductCubit>(context).getProduct(_product.businessId, _product.id);
+    //
+    //
+    //         _incoming.id = _product.id;
+    //         _incoming.idNegocio = _product.businessId;
+    //         _incoming.nombreProducto = _product.name;
+    //         _incoming.precioUnitario = _product.unitPrice;
+    //         _incoming.precioMayoreo = _product.wholesalePrice;
+    //         _incoming.unidadesCompradas = newStock;
+    //
+    //         BlocProvider.of<IncomingCubit>(context).addIncoming(_incoming);
+    //
+    //         _showToast("Datos actualizados", true);
+    //         Navigator.pop(context);
+    //       } else {
+    //         _showToast("Error al actualizar los datos", false);
+    //       }
+    //     } else {
+    //       _showToast("Código invalido", false);
+    //     }
+    //   }
+    // }
   }
 
   void _getArguments() {
@@ -183,15 +178,15 @@ class _RestockPageState extends State<RestockPage> {
   }
 
   void _getBusiness(String id) async {
-    BlocProvider.of<BusinessCubit>(context).getBusiness(id).then((business) => {
-          if (business != null)
-            {
-              setState(() {
-                _business = business;
-                _isLoading = false;
-              }),
-            }
-        });
+    // BlocProvider.of<BusinessCubit>(context).getBusiness(id).then((business) => {
+    //       if (business != null)
+    //         {
+    //           setState(() {
+    //             _business = business;
+    //             _isLoading = false;
+    //           }),
+    //         }
+    //     });
   }
 
   void _showToast(String message, bool status) {

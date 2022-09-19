@@ -179,7 +179,7 @@ class _UserPageState extends State<UserPage> {
                         ),
                         SizedBox(height: 30),
                         Visibility(
-                          visible: state.actionType == ActionType.open,
+                          visible: state.actionType != ActionType.open,
                           child: Container(
                             padding: EdgeInsets.all(10),
                             height: 80,

@@ -24,7 +24,13 @@ class ListProductsCubit extends Cubit<ListProductsState> {
 
   void setAction(ActionType action) => _newState(actionType: action);
 
-  Stream<List<Product>> listProducts(String businessId) => _getProductsUseCase.get('6t6b1k0au8yhURsTCGTg');
+  Stream<List<Product>> listStreamProducts() => _getProductsUseCase.getProducts(state.user!.idBusiness);
+
+  Future<List<Product>> listProducts() => _getProductsUseCase.getList(state.user!.idBusiness);
+
+  void deleteProduct(Product product) async {
+    await _deleteProductUseCase.delete(product);
+  }
 
   void _newState({
     User? user,

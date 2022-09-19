@@ -1,75 +1,46 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Sales {
-  String id = "";
-  String idNegocio = "";
-  String nombreProducto = "";
-  double precioUnitario = 0.0;
-  double precioMayoreo = 0.0;
-  int ventasUnitario = 0;
-  int ventasMayoreo = 0;
-  double total = 0.0;
+  String id;
+  double units;
+  Timestamp creationDate;
 
-  static const VENTAS_UNITARIO = "ventasUnitario";
-  static const VENTAS_MAYOREO = "ventasMayoreo";
-  static const TOTAL = "total";
+  static const FIELD_ID = "id";
+  static const FIELD_UNITS = "units";
+  static const FIELD_CREATION_DATE = "creationDate";
 
   Sales({
     this.id = "",
-    this.idNegocio = "",
-    this.nombreProducto = "",
-    this.precioUnitario = 0.0,
-    this.precioMayoreo = 0.0,
-    this.ventasUnitario = 0,
-    this.ventasMayoreo = 0,
-    this.total = 0,
+    this.units = 0.0,
+    required this.creationDate,
   });
 
   Sales copyWith({
     String? id,
-    String? idNegocio,
-    String? nombreProducto,
-    double? precioUnitario,
-    double? precioMayoreo,
-    int? ventasUnitario,
-    int? ventasMayoreo,
-    double? total,
+    double? units,
+    Timestamp? creationDate,
   }) {
     return Sales(
       id: id ?? this.id,
-      idNegocio: idNegocio?? this.idNegocio,
-      nombreProducto: nombreProducto ?? this.nombreProducto,
-      precioUnitario: precioUnitario ?? this.precioUnitario,
-      precioMayoreo: precioMayoreo ?? this.precioMayoreo,
-      ventasUnitario: ventasUnitario ?? this.ventasUnitario,
-      ventasMayoreo: ventasMayoreo ?? this.ventasMayoreo,
-      total: total ?? this.total
+      units: units ?? this.units,
+      creationDate: creationDate ?? this.creationDate,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'idNegocio': idNegocio,
-      'nombreProducto': nombreProducto,
-      'precioUnitario': precioUnitario,
-      'precioMayoreo': precioMayoreo,
-      'ventasUnitario': ventasUnitario,
-      'ventasMayoreo': ventasMayoreo,
-      'total': total,
+      'units': units,
+      'creationDate': creationDate,
     };
   }
 
   factory Sales.fromMap(Map<String, dynamic> map) {
     return Sales(
       id: map['id'],
-      idNegocio: map['idNegocio'],
-      nombreProducto: map['nombreProducto'],
-      precioMayoreo: map['precioMayoreo'],
-      precioUnitario: map['precioUnitario'],
-      ventasUnitario: map['ventasUnitario'],
-      ventasMayoreo: map['ventasMayoreo'],
-      total: map['total']
+      creationDate: map['creationDate'],
+      units: map['units'],
     );
   }
 
@@ -79,6 +50,6 @@ class Sales {
 
   @override
   String toString() {
-    return 'User(id: $id, idNegocio: $idNegocio, nombre: $nombreProducto, precioUnitario: $precioUnitario, precioMayoreo: $precioMayoreo, ventasMayoreo: $ventasMayoreo, ventasUnitario: $ventasUnitario, total: $total)';
+    return 'User(id: $id, units: $units, creationDate: ${creationDate.toString()})';
   }
 }

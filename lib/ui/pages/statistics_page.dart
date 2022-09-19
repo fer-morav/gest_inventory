@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gest_inventory/domain/bloc/firebase/SalesCubit.dart';
 import 'package:gest_inventory/ui/components/AppBarComponent.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../../data/models/Sales.dart';
@@ -33,7 +32,7 @@ class _StatisticsState extends State<StatisticsPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getArguments();
-      _fetchTips();
+      // _fetchTips();
     });
     super.initState();
   }
@@ -104,7 +103,7 @@ class _StatisticsState extends State<StatisticsPage> {
                   color: primaryColor,
                 ),
                 StreamBuilder<List<Sales>>(
-                  stream: _fetchTips(),
+                  stream: null,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return hasError(text_connection_error);
@@ -138,9 +137,9 @@ class _StatisticsState extends State<StatisticsPage> {
     });
   }
 
-  Stream<List<Sales>>? _fetchTips() {
-    return BlocProvider.of<SalesCubit>(context).getSalesOrder(businessId!, Order);
-  }
+  // Stream<List<Sales>>? _fetchTips() {
+  //   return BlocProvider.of<SalesCubit>(context).getSalesOrder(businessId!, Order);
+  // }
 
   Widget _component(List<Sales> sales) {
     return ListView.builder(

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gest_inventory/data/repositories/AbstractSalesRepository.dart';
+import 'package:gest_inventory/utils/extensions_functions.dart';
 import '../../models/Sales.dart';
 import 'FirebaseConstants.dart';
 
@@ -8,34 +9,18 @@ class SalesDataSource extends AbstractSalesRepository {
   final FirebaseFirestore _database = FirebaseFirestore.instance;
 
   @override
-  Future<Sales?> getSale(String businessId, String saleId) async {
+  Future<bool> addSale(String productId, Sales sale) async {
     try {
-      final response = await _database
-          .collection(BUSINESS_COLLECTION)
-          .doc(businessId)
-          .collection(SALES_COLLECTION)
-          .doc(saleId)
-          .get();
+      final reference = _database
+          .collection(PRODUCT_COLLECTION)
+          .doc(productId)
+          .collection(SALES_COLLECTION);
 
-      if (response.exists && response.data() != null) {
-        return Sales.fromMap(response.data()!);
-      } else {
-        return null;
-      }
-    } catch (error) {
-      return null;
-    }
-  }
+      final salesId = reference.doc().id;
 
-  @override
-  Future<bool> addSale(Sales sale) async {
-    try {
-      await _database
-          .collection(BUSINESS_COLLECTION)
-          .doc(sale.idNegocio)
-          .collection(SALES_COLLECTION)
-          .doc(sale.id)
-          .set(sale.toMap());
+      sale.id = salesId;
+
+      await reference.doc(salesId).set(sale.toMap());
 
       return true;
     } catch (error) {
@@ -44,28 +29,11 @@ class SalesDataSource extends AbstractSalesRepository {
   }
 
   @override
-  Future<bool> updateSale(
-      String businessId, String saleId, Map<String, num> changes) async {
+  Future<bool> deleteSale(String productId, Sales sale) async {
     try {
       await _database
-          .collection(BUSINESS_COLLECTION)
-          .doc(businessId)
-          .collection(SALES_COLLECTION)
-          .doc(saleId)
-          .update(changes);
-
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  @override
-  Future<bool> deleteSale(Sales sale) async {
-    try {
-      await _database
-          .collection(BUSINESS_COLLECTION)
-          .doc(sale.idNegocio)
+          .collection(PRODUCT_COLLECTION)
+          .doc(productId)
           .collection(SALES_COLLECTION)
           .doc(sale.id)
           .delete();
@@ -77,44 +45,34 @@ class SalesDataSource extends AbstractSalesRepository {
   }
 
   @override
-  Stream<List<Sales>> getTableSales(String businessId) async* {
-    try {
-      final snapshots = await _database
-          .collection(BUSINESS_COLLECTION)
-          .doc(businessId)
-          .collection(SALES_COLLECTION)
-          .orderBy(Sales.TOTAL, descending: true)
-          .snapshots();
+  Future<Sales?> getSale(String productId, String saleId) async {
+    final response = await _database
+        .collection(PRODUCT_COLLECTION)
+        .doc(productId)
+        .collection(SALES_COLLECTION)
+        .doc(saleId)
+        .get();
 
-      await for (var document in snapshots) {
-        final documents = document.docs.where((element) => element.exists);
-        final sales = documents
-            .map((document) => Sales.fromMap(document.data()))
-            .toList();
-        yield sales;
-      }
-    } catch (error) {
-      yield [];
+    if (response.exists && response.data() != null) {
+      return Sales.fromMap(response.data()!);
+    } else {
+      return null;
     }
   }
 
   @override
-  Stream<List<Sales>> getSalesOrder(String businessId, bool order) async* {
+  Stream<List<Sales>> getSales(String productId, {bool descending = false}) async* {
     try {
       final snapshots = await _database
-          .collection(BUSINESS_COLLECTION)
-          .doc(businessId)
+          .collection(PRODUCT_COLLECTION)
+          .doc(productId)
           .collection(SALES_COLLECTION)
-          .orderBy(Sales.VENTAS_MAYOREO, descending: order)
-          .orderBy(Sales.VENTAS_UNITARIO, descending: order)
-          .orderBy(Sales.TOTAL, descending: order)
+          .orderBy(Sales.FIELD_CREATION_DATE, descending: descending)
           .snapshots();
 
       await for (final snapshot in snapshots) {
         final documents = snapshot.docs.where((document) => document.exists);
-        final sales = documents
-            .map((document) => Sales.fromMap(document.data()))
-            .toList();
+        final sales = documents.map((document) => Sales.fromMap(document.data())).toList();
         yield sales;
       }
     } catch (error) {
@@ -123,24 +81,77 @@ class SalesDataSource extends AbstractSalesRepository {
   }
 
   @override
-  Future<int> getTableSalesLength(String businessId) async {
+  Stream<List<Sales>> getSalesMonth(String productId, {bool descending = false}) async* {
     try {
       final snapshots = await _database
-          .collection(BUSINESS_COLLECTION)
-          .doc(businessId)
+          .collection(PRODUCT_COLLECTION)
+          .doc(productId)
           .collection(SALES_COLLECTION)
-          .get();
+          .orderBy(Sales.FIELD_CREATION_DATE, descending: descending)
+          .snapshots();
 
-      List<Sales> sales = [];
+      await for (final snapshot in snapshots) {
+        final documents = snapshot.docs.where((document) {
+          Timestamp date = document.data()[Sales.FIELD_CREATION_DATE];
 
-      for (var document in snapshots.docs) {
-        final sale = Sales.fromMap(document.data());
-        sales.add(sale);
+          return document.exists && date.toDate().inMonth();
+        });
+
+        final sales = documents.map((document) => Sales.fromMap(document.data())).toList();
+        yield sales;
       }
-
-      return sales.length;
     } catch (error) {
-      return 0;
+      yield [];
+    }
+  }
+
+  @override
+  Stream<List<Sales>> getSalesToday(String productId, {bool descending = false}) async* {
+    try {
+      final snapshots = await _database
+          .collection(PRODUCT_COLLECTION)
+          .doc(productId)
+          .collection(SALES_COLLECTION)
+          .orderBy(Sales.FIELD_CREATION_DATE, descending: descending)
+          .snapshots();
+
+      await for (final snapshot in snapshots) {
+        final documents = snapshot.docs.where((document) {
+          Timestamp date = document.data()[Sales.FIELD_CREATION_DATE];
+
+          return document.exists && date.toDate().isToday();
+        });
+
+        final sales = documents.map((document) => Sales.fromMap(document.data())).toList();
+        yield sales;
+      }
+    } catch (error) {
+      yield [];
+    }
+  }
+
+  @override
+  Stream<List<Sales>> getSalesWeek(String productId, {bool descending = false}) async* {
+    try {
+      final snapshots = await _database
+          .collection(PRODUCT_COLLECTION)
+          .doc(productId)
+          .collection(SALES_COLLECTION)
+          .orderBy(Sales.FIELD_CREATION_DATE, descending: descending)
+          .snapshots();
+
+      await for (final snapshot in snapshots) {
+        final documents = snapshot.docs.where((document) {
+          Timestamp date = document.data()[Sales.FIELD_CREATION_DATE];
+
+          return document.exists && date.toDate().inWeek();
+        });
+
+        final sales = documents.map((document) => Sales.fromMap(document.data())).toList();
+        yield sales;
+      }
+    } catch (error) {
+      yield [];
     }
   }
 }

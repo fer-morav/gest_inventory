@@ -6,7 +6,6 @@ import 'package:gest_inventory/data/models/Incoming.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
-import '../../domain/bloc/firebase/IncomingCubit.dart';
 import '../../utils/colors.dart';
 import '../components/pdf_gen.dart';
 import 'dart:typed_data';
@@ -28,8 +27,8 @@ class _IncomesPageState extends State<IncomesPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getArguments();
-      _listIncomingStream = BlocProvider.of<IncomingCubit>(context).getTableIncoming(businessId!);
+      // _getArguments();
+      // _listIncomingStream = BlocProvider.of<IncomingCubit>(context).getTableIncoming(businessId!);
     });
     super.initState();
   }

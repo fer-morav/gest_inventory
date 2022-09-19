@@ -6,5 +6,5 @@ class AddSaleUseCase {
 
   AddSaleUseCase({required this.salesRepository});
 
-  Future<bool> add(Sales sale) => salesRepository.addSale(sale);
+  Future<bool> add(String productId, Sales sale) => salesRepository.addSale(productId, sale);
 }

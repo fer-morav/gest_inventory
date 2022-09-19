@@ -6,5 +6,5 @@ class DeleteSaleUseCase {
 
   DeleteSaleUseCase({required this.salesRepository});
 
-  Future<bool> delete(Sales sale) => salesRepository.deleteSale(sale);
+  Future<bool> delete(String productId, Sales sale) => salesRepository.deleteSale(productId, sale);
 }

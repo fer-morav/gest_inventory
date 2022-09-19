@@ -25,6 +25,11 @@ class ProductComponent extends StatelessWidget {
     double _getResponsiveText(double size) =>
         size * sizeReference / MediaQuery.of(context).size.longestSide;
 
+    TextStyle textStyle(Color color, double size) => TextStyle(
+      color: color,
+      fontSize: _getResponsiveText(size),
+    );
+
     return ListTile(
       onTap: onTap,
       leading: ImageComponent(
@@ -47,10 +52,7 @@ class ProductComponent extends StatelessWidget {
           getIcon(AppIcons.barcode, color: primaryColor),
           Text(
             product.barcode,
-            style: TextStyle(
-              color: lightColor,
-              fontSize: _getResponsiveText(17),
-            ),
+            style: textStyle(lightColor, 17),
           )
         ],
       ),
@@ -61,18 +63,12 @@ class ProductComponent extends StatelessWidget {
                 Text(
                   '\$ ${product.unitPrice.toString()}',
                   textAlign: TextAlign.end,
-                  style: TextStyle(
-                    color: blackColor,
-                    fontSize: _getResponsiveText(19),
-                  ),
+                  style: textStyle(blackColor, 19),
                 ),
                 Text(
                   '$text_stock: ${product.stock.toString()}',
                   textAlign: TextAlign.end,
-                  style: TextStyle(
-                    color: blackColor,
-                    fontSize: _getResponsiveText(19),
-                  ),
+                  style: textStyle(blackColor, 19),
                 ),
               ],
             ),

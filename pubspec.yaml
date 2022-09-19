@@ -23,7 +23,7 @@ dependencies:
   firebase_dynamic_links: ^4.0.7
   firebase_messaging: ^12.0.1
   firebase_storage: ^10.2.8
-  cloud_firestore: ^3.4.3
+  cloud_firestore: ^3.4.7
   flutter_phoenix: ^1.0.0
   flutter_native_splash: ^2.1.2+1
   flutter_svg: ^0.22.0

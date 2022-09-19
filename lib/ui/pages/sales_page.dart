@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gest_inventory/domain/bloc/firebase/SalesCubit.dart';
 import 'package:gest_inventory/ui/components/AppBarComponent.dart';
 import 'package:gest_inventory/data/models/Sales.dart';
 import 'package:gest_inventory/utils/arguments.dart';
@@ -31,7 +30,7 @@ class _SalesPageState extends State<SalesPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getArguments();
-      _listSalesStream = BlocProvider.of<SalesCubit>(context).getTableSales(businessId!);
+      // _listSalesStream = BlocProvider.of<SalesCubit>(context).getTableSales(businessId!);
     });
     super.initState();
   }
@@ -199,18 +198,18 @@ class _SalesPageState extends State<SalesPage> {
       headerTab.cells[i].style = headerStyle;
     }
 
-    PdfGridRow row = grid.rows.add();
-    for(int i=0;i<_listSales.length;i++){//Renglones = 5
-      row.cells[0].value = _listSales[i].idNegocio;
-      row.cells[1].value = _listSales[i].id;
-      row.cells[2].value = _listSales[i].nombreProducto;
-      row.cells[3].value = "\$"+_listSales[i].precioMayoreo.toString();
-      row.cells[4].value = "\$"+_listSales[i].precioUnitario.toString();
-      row.cells[5].value = "\$"+_listSales[i].total.toString(); total = total + _listSales[i].total;
-      row.cells[6].value = _listSales[i].ventasMayoreo.toString();
-      row.cells[7].value = _listSales[i].ventasUnitario.toString();
-      row = grid.rows.add();
-    }
+    // PdfGridRow row = grid.rows.add();
+    // for(int i=0;i<_listSales.length;i++){//Renglones = 5
+    //   row.cells[0].value = _listSales[i].idNegocio;
+    //   row.cells[1].value = _listSales[i].id;
+    //   row.cells[2].value = _listSales[i].nombreProducto;
+    //   row.cells[3].value = "\$"+_listSales[i].precioMayoreo.toString();
+    //   row.cells[4].value = "\$"+_listSales[i].precioUnitario.toString();
+    //   row.cells[5].value = "\$"+_listSales[i].total.toString(); total = total + _listSales[i].total;
+    //   row.cells[6].value = _listSales[i].ventasMayoreo.toString();
+    //   row.cells[7].value = _listSales[i].ventasUnitario.toString();
+    //   row = grid.rows.add();
+    // }
 
     grid.style.cellPadding = PdfPaddings(left: 2, right: 2, top: 2, bottom: 2);
 

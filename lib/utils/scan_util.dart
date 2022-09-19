@@ -6,7 +6,7 @@ class ScanUtil {
 
   static Future<List<String>> startBarcodeScanStream() async {
     List<String> barcodeScanRes = [];
-    await FlutterBarcodeScanner.getBarcodeStreamReceiver(
+    FlutterBarcodeScanner.getBarcodeStreamReceiver(
       '#ff00446b',
       button_cancel,
       true,

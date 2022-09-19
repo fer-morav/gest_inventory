@@ -47,8 +47,10 @@ class CustomIcons {
   static const IconData arrows_ccw = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData store_slash = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData add_boxes = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData cash = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData barcode = IconData(0xf02a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData google = IconData(0xf1a0, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData boxes = IconData(0xf468, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData box_open = IconData(0xf49e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData cash_register = IconData(0xf788, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

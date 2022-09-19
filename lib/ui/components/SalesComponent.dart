@@ -37,46 +37,46 @@ class SalesComponent extends StatelessWidget {
             padding: const EdgeInsets.only(left: 5, right: 5),
             child: getIcon(AppIcons.price, color: Colors.greenAccent, size: 45)
           ),
-          Expanded(
-            child: Text(
-              sales.nombreProducto,
-              style: TextStyle(
-                  color: primaryColor,
-                  //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(14)),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              "Mayoreo: " + sales.ventasMayoreo.toString(),
-              style: TextStyle(
-                  color: primaryColor,
-                  //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(14)),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              "Unitario: " + sales.ventasUnitario.toString(),
-              style: TextStyle(
-                  color: primaryColor,
-                  //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(14)),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              "Total: \$" + sales.total.toString(),
-              style: TextStyle(
-                  color: primaryColor,
-                  //fontWeight: FontWeight.w900,
-                  fontSize: getResponsiveText(14)),
-              textAlign: TextAlign.left,
-            ),
-          ),
+          // Expanded(
+          //   child: Text(
+          //     sales.nombreProducto,
+          //     style: TextStyle(
+          //         color: primaryColor,
+          //         //fontWeight: FontWeight.w900,
+          //         fontSize: getResponsiveText(14)),
+          //     textAlign: TextAlign.left,
+          //   ),
+          // ),
+          // Expanded(
+          //   child: Text(
+          //     "Mayoreo: " + sales.ventasMayoreo.toString(),
+          //     style: TextStyle(
+          //         color: primaryColor,
+          //         //fontWeight: FontWeight.w900,
+          //         fontSize: getResponsiveText(14)),
+          //     textAlign: TextAlign.left,
+          //   ),
+          // ),
+          // Expanded(
+          //   child: Text(
+          //     "Unitario: " + sales.ventasUnitario.toString(),
+          //     style: TextStyle(
+          //         color: primaryColor,
+          //         //fontWeight: FontWeight.w900,
+          //         fontSize: getResponsiveText(14)),
+          //     textAlign: TextAlign.left,
+          //   ),
+          // ),
+          // Expanded(
+          //   child: Text(
+          //     "Total: \$" + sales.total.toString(),
+          //     style: TextStyle(
+          //         color: primaryColor,
+          //         //fontWeight: FontWeight.w900,
+          //         fontSize: getResponsiveText(14)),
+          //     textAlign: TextAlign.left,
+          //   ),
+          // ),
         ],
       ),
     );

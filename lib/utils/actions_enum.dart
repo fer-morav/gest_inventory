@@ -1,1 +1,1 @@
-enum ActionType {open, add, edit, select, delete}
+enum ActionType {open, add, edit, select, delete, sale}

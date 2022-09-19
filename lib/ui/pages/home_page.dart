@@ -55,12 +55,11 @@ class _Home extends State<HomePage> {
             child: Scaffold(
               key: _scaffoldKey,
               appBar: AppBar(
+                backgroundColor: primaryOnColor,
                 leading: IconButton(
                   icon: getIcon(AppIcons.menu, color: primaryColor, size: 35),
                   onPressed: () => _scaffoldKey.currentState?.openDrawer(),
                 ),
-                backgroundColor: primaryOnColor,
-                toolbarHeight: 80,
                 title: FittedBox(
                   child: Align(
                     child: Text(
@@ -183,12 +182,12 @@ class _Home extends State<HomePage> {
                         IconButtonComponent(
                           icon: AppIcons.products,
                           text: title_list_product,
-                          onPressed: () => pushNamedWithArgs(context, list_products_page, {user_args: state.user}),
+                          onPressed: () => pushNamedWithArgs(context, list_products_route, {user_args: state.user}),
                         ),
                         IconButtonComponent(
                           icon: AppIcons.shopping,
                           text: title_make_sale,
-                          onPressed: () {},
+                          onPressed: () => pushNamedWithArgs(context, make_sale_route, {user_args: state.user}),
                         ),
                         IconButtonComponent(
                           icon: AppIcons.statics,

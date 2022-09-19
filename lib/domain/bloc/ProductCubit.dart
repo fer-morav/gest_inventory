@@ -116,7 +116,17 @@ class ProductCubit extends Cubit<ProductState> {
         ),
       );
 
-      await _addProduct();
+      String? id = await _addProduct();
+
+      if (id == null) {
+        _showToast(text_add_product_not_success, false);
+      } else {
+        _newState(product: state.product!.copyWith(id: id));
+
+        await _uploadPhoto();
+
+        _showToast(text_add_product_success, true);
+      }
     } else {
       _newState(
         product: state.product!.copyWith(
@@ -129,35 +139,32 @@ class ProductCubit extends Cubit<ProductState> {
         ),
       );
 
-      await _updateProduct();
-    }
-  }
+      if (await _updateProduct()) {
+        await _uploadPhoto();
 
-  Future<void> _addProduct() async {
-    if (state.product != null) {
-      String? id = await _addProductUseCase.add(state.product!);
-
-      if (id == null) {
-        _showToast(text_add_product_not_success, false);
-        return;
+        _showToast(text_update_data, true);
+      } else {
+        _showToast(text_error_update_data, false);
       }
-
-      _newState(product: state.product!.copyWith(id: id));
-
-      _showToast(text_add_product_success, true);
-
-      await _uploadPhoto();
     }
   }
 
-  Future<void> _updateProduct() async {
+  Future<String?> _addProduct() async {
+    if (state.product != null) {
+      return await _addProductUseCase.add(state.product!);
+    }
+    return null;
+  }
+
+  Future<bool> _updateProduct() async {
     if (state.product != null && state.product!.id.isNotEmpty) {
       if (await _updateProductUseCase.update(state.product!.id, state.product!.toMap())) {
-        _showToast(text_update_data, true);
-
-        await _uploadPhoto();
+        return true;
+      } else {
+        return false;
       }
     }
+    return false;
   }
 
   Future<void> _uploadPhoto() async {
@@ -212,6 +219,17 @@ class ProductCubit extends Cubit<ProductState> {
     unitPriceController.text = product.unitPrice.toString();
     wholesalePriceController.text = product.wholesalePrice.toString();
     stockController.text = product.stock.toString();
+  }
+
+  @override
+  Future<void> close() {
+    barcodeController.dispose();
+    nameController.dispose();
+    descriptionController.dispose();
+    unitPriceController.dispose();
+    wholesalePriceController.dispose();
+    stockController.dispose();
+    return super.close();
   }
 
   void _newState({

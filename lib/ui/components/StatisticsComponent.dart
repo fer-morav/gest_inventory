@@ -33,45 +33,45 @@ class StatisticsComponent extends StatelessWidget {
               size: 40,
             ),
           ),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                sales.nombreProducto,
-                style: TextStyle(
-                  color: primaryColor,
-                  fontSize: getResponsiveText(15),
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.only(left: 30),
-              child: Text(
-                "\$" + sales.total.toString(),
-                style: TextStyle(
-                  color: primaryColor,
-                  fontSize: getResponsiveText(15),
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.only(left: 60),
-              child: Text(
-                (sales.ventasMayoreo + sales.ventasUnitario).toString(),
-                style: TextStyle(
-                  color: primaryColor,
-                  fontSize: getResponsiveText(15),
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-          ),
+          // Expanded(
+          //   child: Container(
+          //     padding: const EdgeInsets.only(left: 10),
+          //     child: Text(
+          //       sales.nombreProducto,
+          //       style: TextStyle(
+          //         color: primaryColor,
+          //         fontSize: getResponsiveText(15),
+          //       ),
+          //       textAlign: TextAlign.left,
+          //     ),
+          //   ),
+          // ),
+          // Expanded(
+          //   child: Container(
+          //     padding: const EdgeInsets.only(left: 30),
+          //     child: Text(
+          //       "\$" + sales.total.toString(),
+          //       style: TextStyle(
+          //         color: primaryColor,
+          //         fontSize: getResponsiveText(15),
+          //       ),
+          //       textAlign: TextAlign.left,
+          //     ),
+          //   ),
+          // ),
+          // Expanded(
+          //   child: Container(
+          //     padding: EdgeInsets.only(left: 60),
+          //     child: Text(
+          //       (sales.ventasMayoreo + sales.ventasUnitario).toString(),
+          //       style: TextStyle(
+          //         color: primaryColor,
+          //         fontSize: getResponsiveText(15),
+          //       ),
+          //       textAlign: TextAlign.left,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

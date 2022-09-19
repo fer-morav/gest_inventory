@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gest_inventory/ui/components/BackButton.dart';
 import '../../utils/colors.dart';
+import '../../utils/icons.dart';
 
 class AppBarComponent extends AppBar {
   AppBarComponent({
@@ -9,7 +9,6 @@ class AppBarComponent extends AppBar {
     IconButton? action,
   }) : super(
           elevation: 0,
-          toolbarHeight: 80,
           backgroundColor: primaryColor,
           title: FittedBox(
             child: Align(
@@ -22,14 +21,11 @@ class AppBarComponent extends AppBar {
               ),
             ),
           ),
-          leading: Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              padding: const EdgeInsets.only(left: 5, top: 15),
-              child: BackButtonBar(
-                onPressed: onPressed,
-                color: primaryOnColor,
-              ),
+          leading: IconButton(
+            onPressed: onPressed,
+            icon: getIcon(
+              AppIcons.arrow_back,
+              size: 30,
             ),
           ),
           actions: [

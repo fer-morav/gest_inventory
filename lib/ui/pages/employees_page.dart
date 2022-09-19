@@ -20,6 +20,7 @@ import '../../utils/colors.dart';
 import '../../utils/icons.dart';
 import '../../utils/routes.dart';
 import '../components/MessageComponent.dart';
+import '../components/search_user_delegate.dart';
 
 class EmployeesPage extends StatefulWidget {
   const EmployeesPage({Key? key}) : super(key: key);
@@ -36,17 +37,21 @@ class _EmployeesPageState extends State<EmployeesPage> {
         ..init(ModalRoute.of(context)?.settings.arguments as Map),
       child: BlocBuilder<EmployeesCubit, EmployeesState>(
         builder: (context, state) {
-          final bloc = context.read<EmployeesCubit>();
+          final employeesBloc = context.read<EmployeesCubit>();
 
           return Scaffold(
             appBar: AppBarComponent(
               textAppBar: title_employees,
               onPressed: () => pop(context),
+              action: IconButton(
+                icon: getIcon(AppIcons.search, size: 30),
+                onPressed: () => _searchUser(employeesBloc),
+              ),
             ),
             body: state.user == null
                 ? ProgressDialogComponent()
                 : StreamBuilder<List<User>>(
-                    stream: bloc.listUsers(state.user!.idBusiness),
+                    stream: employeesBloc.listStreamUsers(state.user!.idBusiness),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         return MessageComponent(text: text_connection_error);
@@ -55,7 +60,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
                         return MessageComponent(text: text_empty_list);
                       }
                       if (snapshot.hasData) {
-                        return _component(snapshot.data!, bloc);
+                        return _component(snapshot.data!, employeesBloc);
                       }
 
                       return ProgressDialogComponent();
@@ -65,21 +70,21 @@ class _EmployeesPageState extends State<EmployeesPage> {
                 ? SpeedDialComponent(
                     actionType: state.actionType,
                     onPressed: state.actionType != ActionType.select
-                        ? () => bloc.setAction(ActionType.select)
+                        ? () => employeesBloc.setAction(ActionType.select)
                         : null,
                     children: [
                       SpeedDialChild(
-                        onTap: () => bloc.setAction(ActionType.delete),
+                        onTap: () => employeesBloc.setAction(ActionType.delete),
                         backgroundColor: primaryOnColor,
                         child: getIcon(AppIcons.delete, color: errorColor, size: 30),
                       ),
                       SpeedDialChild(
-                        onTap: () => bloc.setAction(ActionType.edit),
+                        onTap: () => employeesBloc.setAction(ActionType.edit),
                         backgroundColor: primaryOnColor,
                         child: getIcon(AppIcons.edit, color: primaryColor, size: 30),
                       ),
                       SpeedDialChild(
-                        onTap: () => _addEmployee(bloc),
+                        onTap: () => _addEmployee(employeesBloc),
                         backgroundColor: primaryOnColor,
                         child: getIcon(AppIcons.add, color: primaryColor, size: 30),
                       ),
@@ -90,6 +95,38 @@ class _EmployeesPageState extends State<EmployeesPage> {
         },
       ),
     );
+  }
+
+  void _searchUser(EmployeesCubit bloc) async {
+    if (bloc.state.user == null) {
+      return;
+    }
+
+    User? user = await showSearch<User?>(
+      context: context,
+      delegate: SearchUserDelegate(
+        users: await bloc.listUsers(bloc.state.user!.idBusiness),
+        actionType: bloc.state.actionType,
+      ),
+    );
+
+    if (user == null) {
+      return;
+    }
+
+    switch(bloc.state.actionType) {
+      case ActionType.edit:
+        _updateValues(user, bloc);
+        break;
+      case ActionType.select:
+        _nextScreen(user);
+        break;
+      case ActionType.delete:
+        _deleteEmployee(user, bloc);
+        break;
+      default:
+        break;
+    }
   }
 
   Widget _component(List<User> users, EmployeesCubit bloc) {

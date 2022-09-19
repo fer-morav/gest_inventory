@@ -6,6 +6,7 @@ class GetProductsUseCase {
 
   GetProductsUseCase({required this.productRepository});
 
-  Stream<List<Product>> get(String businessId) =>
-      productRepository.getProducts(businessId);
+  Stream<List<Product>> getProducts(String businessId) => productRepository.getProducts(businessId);
+
+  Future<List<Product>> getList(String businessId) => productRepository.getListProducts(businessId);
 }

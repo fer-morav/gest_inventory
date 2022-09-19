@@ -9,11 +9,9 @@ import 'package:gest_inventory/utils/navigator_functions.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../../domain/bloc/ProductCubit.dart';
 import '../../utils/actions_enum.dart';
-import '../../utils/arguments.dart';
 import '../../utils/colors.dart';
 import '../../utils/custom_toast.dart';
 import '../../utils/icons.dart';
-import '../../utils/routes.dart';
 import '../components/AppBarComponent.dart';
 import '../components/HeaderPaintComponent.dart';
 import '../components/IconButton.dart';
@@ -47,18 +45,24 @@ class _ProductPageState extends State<ProductPage> {
               context: context,
               status: state.error,
             );
-          }
-          if (state.message == text_update_data ||
-              state.message == text_add_product_success) {
-            pop(context);
+
+            if (state.message == text_update_data ||
+                state.message == text_add_product_success) {
+              // popAndPushNamedWithArgs(context, home_route, {user_id_args: state.user!.id});
+              pop(context);
+            }
           }
         },
         builder: (context, state) {
-          final bloc = context.read<ProductCubit>();
+          final productBloc = context.read<ProductCubit>();
 
           return Scaffold(
             appBar: AppBarComponent(
-              textAppBar: title_product,
+              textAppBar: state.actionType == ActionType.add
+                  ? title_add_product
+                  : state.actionType == ActionType.edit
+                      ? title_edit_product
+                      : title_product,
               onPressed: () => pop(context),
             ),
             body: state.user == null
@@ -74,7 +78,7 @@ class _ProductPageState extends State<ProductPage> {
                               ? ImageProfileComponent(
                                   admin: true,
                                   image: state.profilePhoto,
-                                  onPressed: () => _showProfileMenuPhoto(bloc),
+                                  onPressed: () => _showProfileMenuPhoto(productBloc),
                                 )
                               : ImageComponent(
                                   color: state.product!.stock.lowStocks() ? adminColor : employeeColor,
@@ -94,64 +98,64 @@ class _ProductPageState extends State<ProductPage> {
                             TextInputForm(
                               hintText: textfield_hint_id,
                               labelText: textfield_label_id,
-                              controller: bloc.barcodeController,
+                              controller: productBloc.barcodeController,
                               inputAction: TextInputAction.next,
                               inputType: TextInputType.text,
                               barcode: true,
-                              onTap: () => bloc.scanBarcode(),
-                              validator: (barcode) => bloc.validatorBarcode(barcode),
+                              onTap: () => productBloc.scanBarcode(),
+                              validator: (barcode) => productBloc.validatorBarcode(barcode),
                               readOnly: state.actionType == ActionType.open,
                             ),
                             TextInputForm(
                               hintText: textfield_hint_name,
                               labelText: textfield_label_name,
-                              controller: bloc.nameController,
+                              controller: productBloc.nameController,
                               inputType: TextInputType.text,
                               inputAction: TextInputAction.next,
                               onTap: () {},
-                              validator: (name) => bloc.validatorName(name),
+                              validator: (name) => productBloc.validatorName(name),
                               readOnly: state.actionType == ActionType.open,
                             ),
                             TextInputForm(
                               hintText: textfield_hint_description,
                               labelText: textfield_label_description,
-                              controller: bloc.descriptionController,
+                              controller: productBloc.descriptionController,
                               inputType: TextInputType.text,
                               inputAction: TextInputAction.next,
                               onTap: () {},
-                              validator: (description) => bloc.validatorDescription(description),
+                              validator: (description) => productBloc.validatorDescription(description),
                               readOnly: state.actionType == ActionType.open,
                             ),
                             TextInputForm(
                               hintText: textfield_hint_unit_price,
                               labelText: textfield_label_unit_price,
-                              controller: bloc.unitPriceController,
+                              controller: productBloc.unitPriceController,
                               inputType: TextInputType.number,
                               inputAction: TextInputAction.next,
                               salary: true,
                               onTap: () {},
-                              validator: (price) => bloc.validatorPrice(price),
+                              validator: (price) => productBloc.validatorPrice(price),
                               readOnly: state.actionType == ActionType.open,
                             ),
                             TextInputForm(
                               hintText: textfield_hint_wholesale,
                               labelText: textfield_label_wholesale,
-                              controller: bloc.wholesalePriceController,
+                              controller: productBloc.wholesalePriceController,
                               inputType: TextInputType.number,
                               inputAction: TextInputAction.next,
                               salary: true,
                               onTap: () {},
-                              validator: (price) => bloc.validatorPrice(price),
+                              validator: (price) => productBloc.validatorPrice(price),
                               readOnly: state.actionType == ActionType.open,
                             ),
                             TextInputForm(
                               hintText: textfield_hint_stock,
                               labelText: textfield_label_stock,
-                              controller: bloc.stockController,
+                              controller: productBloc.stockController,
                               inputType: TextInputType.number,
                               inputAction: TextInputAction.done,
                               onTap: () {},
-                              validator: (stock) => bloc.validatorStock(stock),
+                              validator: (stock) => productBloc.validatorStock(stock),
                               readOnly: state.actionType == ActionType.open,
                             ),
                           ],
@@ -165,7 +169,7 @@ class _ProductPageState extends State<ProductPage> {
                           child: ButtonIcon(
                             onPressed: () {
                               if (_formKey.currentState?.validate() == true) {
-                                _registerProduct(bloc);
+                                _registerProduct(productBloc);
                               }
                             },
                             text: state.actionType == ActionType.edit
@@ -182,7 +186,7 @@ class _ProductPageState extends State<ProductPage> {
             floatingActionButton: Visibility(
               visible: state.actionType == ActionType.open && state.user!.admin,
               child: FloatingActionButton(
-                onPressed: () => bloc.setActionType(ActionType.edit),
+                onPressed: () => productBloc.setActionType(ActionType.edit),
                 backgroundColor: primaryColor,
                 child: getIcon(AppIcons.edit),
               ),

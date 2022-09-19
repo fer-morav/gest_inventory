@@ -55,28 +55,26 @@ class ProductDataSource extends AbstractProductRepository {
   }
 
   @override
-  Future<Product?> getProductForName(String businessId, String productName) async {
+  Stream<List<Product>> getProducts(String businessId) async* {
     try {
-      final response = await _database
+      final snapshots = await _database
           .collection(PRODUCT_COLLECTION)
           .where(Product.FIELD_BUSINESS_ID, isEqualTo: businessId)
-          .where(Product.FIELD_NAME, isEqualTo: productName)
-          .limit(1)
-          .get();
+          .orderBy(Product.FIELD_NAME)
+          .snapshots();
 
-      final products = response.docs
-          .where((element) => element.exists)
-          .map((e) => Product.fromMap(e.data()))
-          .toList();
-
-      return products.first;
+      await for (final snapshot in snapshots) {
+        final documents = snapshot.docs.where((document) => document.exists);
+        final products = documents.map((document) => Product.fromMap(document.data())).toList();
+        yield products;
+      }
     } catch (error) {
-      return null;
+      yield [];
     }
   }
 
   @override
-  Stream<List<Product>> getProducts(String businessId) async* {
+  Future<List<Product>> getListProducts(String businessId) async {
     try {
       final snapshots = await _database
           .collection(PRODUCT_COLLECTION)
@@ -91,9 +89,9 @@ class ProductDataSource extends AbstractProductRepository {
         products.add(product);
       }
 
-      yield products;
+      return products;
     } catch (error) {
-      yield [];
+      return [];
     }
   }
 
@@ -104,6 +102,20 @@ class ProductDataSource extends AbstractProductRepository {
           .collection(PRODUCT_COLLECTION)
           .doc(productId)
           .update(changes);
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> updateStock(String productId, int quantity, {bool increment = true}) async {
+    try {
+      await _database
+          .collection(PRODUCT_COLLECTION)
+          .doc(productId)
+          .update({Product.FIELD_STOCK: FieldValue.increment(increment ? quantity : -quantity)});
 
       return true;
     } catch (error) {
