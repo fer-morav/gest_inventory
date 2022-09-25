@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/models/User.dart';
-import '../../utils/actions_enum.dart';
+import '../../utils/enums.dart';
 import '../../utils/colors.dart';
 import '../../utils/icons.dart';
 import '../../utils/strings.dart';

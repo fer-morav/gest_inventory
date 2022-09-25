@@ -5,7 +5,7 @@ import 'package:gest_inventory/data/repositories/AbstractProductRepository.dart'
 import 'package:gest_inventory/domain/usecases/product/AddProductUseCase.dart';
 import 'package:gest_inventory/domain/usecases/product/GetProductUseCase.dart';
 import 'package:gest_inventory/domain/usecases/product/UpdateProductUseCase.dart';
-import 'package:gest_inventory/utils/actions_enum.dart';
+import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/scan_util.dart';
 import '../../data/models/Product.dart';

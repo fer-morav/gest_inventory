@@ -4,14 +4,16 @@ import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:gest_inventory/data/datasource/firebase/ProductDataSource.dart';
 import 'package:gest_inventory/data/datasource/firebase/StorageDataSource.dart';
 import 'package:gest_inventory/ui/components/ProgressDialogComponent.dart';
+import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/extensions_functions.dart';
 import 'package:gest_inventory/utils/navigator_functions.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../../domain/bloc/ProductCubit.dart';
-import '../../utils/actions_enum.dart';
+import '../../utils/enums.dart';
 import '../../utils/colors.dart';
 import '../../utils/custom_toast.dart';
 import '../../utils/icons.dart';
+import '../../utils/routes.dart';
 import '../components/AppBarComponent.dart';
 import '../components/HeaderPaintComponent.dart';
 import '../components/IconButton.dart';
@@ -85,6 +87,17 @@ class _ProductPageState extends State<ProductPage> {
                                   size: 120,
                                   photoURL: state.product!.photoUrl,
                                 ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: state.actionType == ActionType.open,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 80),
+                          child: ButtonIcon(
+                            onPressed: () => pushNamedWithArgs(context, sales_route, {product_args: state.product}),
+                            text: title_sales_history,
+                            icon: AppIcons.price,
+                          ),
                         ),
                       ),
                       SizedBox(

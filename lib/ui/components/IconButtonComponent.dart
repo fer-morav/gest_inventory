@@ -19,9 +19,10 @@ class IconButtonComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
+      hoverColor: primaryColor,
+      focusColor: primaryLight,
       child: Container(
         decoration: BoxDecoration(
-          color: primaryColor,
           borderRadius: BorderRadius.circular(10),
           gradient: LinearGradient(
             colors: [primaryDark, primaryColor],

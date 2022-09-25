@@ -3,7 +3,7 @@ import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/ui/components/ImageComponent.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/extensions_functions.dart';
-import '../../utils/actions_enum.dart';
+import '../../utils/enums.dart';
 import '../../utils/icons.dart';
 import '../../utils/strings.dart';
 

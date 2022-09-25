@@ -16,7 +16,7 @@ import 'package:gest_inventory/utils/navigator_functions.dart';
 import 'package:gest_inventory/utils/routes.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../../data/datasource/firebase/BusinessDataSource.dart';
-import '../../utils/actions_enum.dart';
+import '../../utils/enums.dart';
 import '../../utils/colors.dart';
 import '../components/HeaderPaintComponent.dart';
 import '../components/ImageProfileComponent.dart';

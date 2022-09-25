@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
+import 'package:gest_inventory/utils/extensions_functions.dart';
 import '../../data/models/Sales.dart';
 import '../../utils/icons.dart';
 
@@ -15,69 +16,36 @@ class SalesComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double getResponsiveText(double size) =>
+    double _getResponsiveText(double size) =>
         size * sizeReference / MediaQuery.of(context).size.longestSide;
 
-    return FloatingActionButton(
-      heroTag: null,
-      onPressed: () {
-        final args = {sales_args: sales};
-      },
-      backgroundColor: Colors.white,
-      elevation: 8,
-      isExtended: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-        //side: BorderSide(color: user.cargo == "[Administrador]" ? Colors.redAccent : Colors.greenAccent,),
+    TextStyle textStyle(Color color, double size) => TextStyle(
+          color: color,
+          fontSize: _getResponsiveText(size),
+        );
+
+    return ListTile(
+      leading: Container(
+        decoration: BoxDecoration(
+          color: adminColor,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: getIcon(AppIcons.price, color: primaryOnColor, size: 45),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            padding: const EdgeInsets.only(left: 5, right: 5),
-            child: getIcon(AppIcons.price, color: Colors.greenAccent, size: 45)
-          ),
-          // Expanded(
-          //   child: Text(
-          //     sales.nombreProducto,
-          //     style: TextStyle(
-          //         color: primaryColor,
-          //         //fontWeight: FontWeight.w900,
-          //         fontSize: getResponsiveText(14)),
-          //     textAlign: TextAlign.left,
-          //   ),
-          // ),
-          // Expanded(
-          //   child: Text(
-          //     "Mayoreo: " + sales.ventasMayoreo.toString(),
-          //     style: TextStyle(
-          //         color: primaryColor,
-          //         //fontWeight: FontWeight.w900,
-          //         fontSize: getResponsiveText(14)),
-          //     textAlign: TextAlign.left,
-          //   ),
-          // ),
-          // Expanded(
-          //   child: Text(
-          //     "Unitario: " + sales.ventasUnitario.toString(),
-          //     style: TextStyle(
-          //         color: primaryColor,
-          //         //fontWeight: FontWeight.w900,
-          //         fontSize: getResponsiveText(14)),
-          //     textAlign: TextAlign.left,
-          //   ),
-          // ),
-          // Expanded(
-          //   child: Text(
-          //     "Total: \$" + sales.total.toString(),
-          //     style: TextStyle(
-          //         color: primaryColor,
-          //         //fontWeight: FontWeight.w900,
-          //         fontSize: getResponsiveText(14)),
-          //     textAlign: TextAlign.left,
-          //   ),
-          // ),
-        ],
+      title: Text(
+        '${sales.creationDate.toDate().toFormatDate()}',
+        style: textStyle(blackColor, 18),
+        textAlign: TextAlign.left,
+      ),
+      subtitle: Text(
+        '${sales.creationDate.toDate().toFormatHour()}',
+        style: textStyle(lightColor, 15),
+        textAlign: TextAlign.left,
+      ),
+      trailing: Text(
+        sales.units.toString(),
+        style: textStyle(primaryColor, 18),
+        textAlign: TextAlign.left,
       ),
     );
   }

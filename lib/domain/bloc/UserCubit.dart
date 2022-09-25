@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gest_inventory/data/repositories/AbstractStorageRepository.dart';
 import 'package:gest_inventory/data/repositories/AbstractUserRepository.dart';
 import 'package:gest_inventory/domain/bloc/AuthCubit.dart';
-import 'package:gest_inventory/utils/actions_enum.dart';
+import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/extensions_functions.dart';
 import '../../data/models/User.dart';
 import '../usecases/storage/UploadUserPhotoUseCase.dart';

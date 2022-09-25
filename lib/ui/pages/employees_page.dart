@@ -14,7 +14,7 @@ import 'package:gest_inventory/ui/components/UserComponent.dart';
 import 'package:gest_inventory/utils/navigator_functions.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../../data/models/User.dart';
-import '../../utils/actions_enum.dart';
+import '../../utils/enums.dart';
 import '../../utils/arguments.dart';
 import '../../utils/colors.dart';
 import '../../utils/icons.dart';

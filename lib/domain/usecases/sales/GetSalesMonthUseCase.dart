@@ -6,6 +6,6 @@ class GetSalesMonthUseCase {
 
   GetSalesMonthUseCase({required this.salesRepository});
 
-  Stream<List<Sales>> get(String productId, {bool descending = false}) =>
+  Future<List<Sales>> get(String productId, {bool descending = false}) =>
       salesRepository.getSalesMonth(productId, descending: descending);
 }

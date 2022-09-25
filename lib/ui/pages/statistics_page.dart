@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gest_inventory/data/datasource/firebase/ProductDataSource.dart';
+import 'package:gest_inventory/data/datasource/firebase/SalesDataSource.dart';
+import 'package:gest_inventory/domain/bloc/StatisticsCubit.dart';
 import 'package:gest_inventory/ui/components/AppBarComponent.dart';
+import 'package:gest_inventory/ui/components/DividerComponent.dart';
+import 'package:gest_inventory/ui/components/MessageComponent.dart';
+import 'package:gest_inventory/utils/enums.dart';
+import 'package:gest_inventory/utils/navigator_functions.dart';
 import 'package:gest_inventory/utils/strings.dart';
+import '../../data/models/Product.dart';
 import '../../data/models/Sales.dart';
-import '../../utils/arguments.dart';
 import '../../utils/colors.dart';
 import '../../utils/icons.dart';
+import '../components/ProgressDialogComponent.dart';
 import '../components/StatisticsComponent.dart';
 
 class StatisticsPage extends StatefulWidget {
@@ -16,187 +24,144 @@ class StatisticsPage extends StatefulWidget {
 }
 
 class _StatisticsState extends State<StatisticsPage> {
-  final _padding = const EdgeInsets.only(
-    left: 15,
-    top: 5,
-    right: 15,
-    bottom: 5,
-  );
-
-  String? businessId;
-
-  bool Order = true;
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getArguments();
-      // _fetchTips();
-    });
-    super.initState();
-  }
-
   final sizeReference = 700.0;
+
   double getResponsiveText(double size) =>
       size * sizeReference / MediaQuery.of(context).size.longestSide;
 
+  TextStyle _textStyle(double size, {Color color = primaryColor}) => TextStyle(
+    color: color,
+    fontWeight: FontWeight.w600,
+    fontSize: getResponsiveText(size),
+  );
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarComponent(
-        textAppBar: title_statistics,
-        onPressed: () {
-          Navigator.of(context).pop();
+    return BlocProvider<StatisticsCubit>(
+      create: (_) => StatisticsCubit(
+          productRepository: ProductDataSource(),
+          salesRepository: SalesDataSource())
+        ..init(ModalRoute.of(context)?.settings.arguments as Map),
+      child: BlocBuilder<StatisticsCubit, StatisticsState>(
+        builder: (context, state) {
+          final statisticsBloc = context.read<StatisticsCubit>();
+
+          return Scaffold(
+            appBar: AppBarComponent(
+              textAppBar: title_statistics,
+              onPressed: () => pop(context),
+            ),
+            body: state.user == null
+                ? ProgressDialogComponent()
+                : ListView(
+                    children: [
+                      ListTile(
+                        leading: Text(
+                          text_sort_by,
+                          textAlign: TextAlign.left,
+                          style: _textStyle(20),
+                        ),
+                        title: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Text(
+                            state.descending ? text_more_sold : text_less_sold,
+                            style: _textStyle(20),
+                          ),
+                        ),
+                        trailing: FloatingActionButton(
+                          child: getIcon(AppIcons.change),
+                          backgroundColor: primaryColor,
+                          onPressed: () => statisticsBloc.setOrder(),
+                          mini: true,
+                        ),
+                      ),
+                      Center(
+                        child: DropdownButton<DateValues>(
+                          style: _textStyle(18),
+                          icon: getIcon(AppIcons.arrow_down, color: primaryColor),
+                          value: state.dateValues,
+                          items: <DropdownMenuItem<DateValues>>[
+                            DropdownMenuItem(
+                              value: DateValues.year,
+                              child: Text(button_all),
+                            ),
+                            DropdownMenuItem(
+                              value: DateValues.today,
+                              child: Text(button_today),
+                            ),
+                            DropdownMenuItem(
+                              value: DateValues.week,
+                              child: Text(button_week),
+                            ),
+                            DropdownMenuItem(
+                              value: DateValues.month,
+                              child: Text(button_month),
+                            ),
+                          ],
+                          onChanged: (value) => {
+                            if (value != null)
+                              {statisticsBloc.setDateValues(value)}
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              text_product,
+                              style: _textStyle(15),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 60),
+                              child: Text(
+                                text_total_sales,
+                                style: _textStyle(15),
+                              ),
+                            ),
+                            Text(
+                              text_total_units,
+                              style: _textStyle(15),
+                            ),
+                          ],
+                        ),
+                      ),
+                      DividerComponent(),
+                      StreamBuilder<Map<Product, List<Sales>>>(
+                        stream: statisticsBloc.getProductsSales(state.user!.idBusiness, state.dateValues),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return MessageComponent(text: text_connection_error);
+                          }
+                          if (snapshot.data == null || snapshot.data!.isEmpty) {
+                            return MessageComponent(text: text_empty_list);
+                          }
+                          if (snapshot.hasData) {
+                            return _component(snapshot.data!);
+                          }
+
+                          return ProgressDialogComponent();
+                        },
+                      ),
+                    ],
+                  ),
+          );
         },
       ),
-      body: isLoading
-          ? waitingConnection()
-          : ListView(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 15, top: 10),
-                      child: _labelText(text_sort_by, 14),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 10),
-                      child: _labelText(
-                        Order ? text_more_sold : text_less_sold,
-                        20,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 10, right: 15),
-                      child: FloatingActionButton(
-                        backgroundColor: primaryColor,
-                        mini: true,
-                        onPressed: () {_setOrder();},
-                        child: getIcon(AppIcons.change),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 15, top: 10),
-                      child: _labelText(text_product, 14),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 60, top: 10),
-                      child: _labelText(text_total_sales, 14),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(right: 15, top: 10),
-                      child: _labelText(text_total_units, 14),
-                    ),
-                  ],
-                ),
-                Divider(
-                  indent: 15,
-                  endIndent: 15,
-                  thickness: 2,
-                  color: primaryColor,
-                ),
-                StreamBuilder<List<Sales>>(
-                  stream: null,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return hasError(text_connection_error);
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return waitingConnection();
-                    }
-                    if (snapshot.data!.isEmpty) {
-                      return hasError(text_empty_list);
-                    }
-                    if (snapshot.hasData) {
-                      return _component(snapshot.data!);
-                    }
-                    return waitingConnection();
-                  },
-                ),
-              ],
-            ),
     );
   }
 
-  void _getArguments() {
-    final args = ModalRoute.of(context)?.settings.arguments as Map;
-    if (args.isEmpty) {
-      Navigator.pop(context);
-      return;
-    }
-    businessId = args[business_id_args];
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  // Stream<List<Sales>>? _fetchTips() {
-  //   return BlocProvider.of<SalesCubit>(context).getSalesOrder(businessId!, Order);
-  // }
-
-  Widget _component(List<Sales> sales) {
+  Widget _component(Map<Product, List<Sales>> sales) {
     return ListView.builder(
       itemCount: sales.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return Padding(
-          padding: _padding,
-          child: StatisticsComponent(
-            sales: sales[index],
-          ),
+        return StatisticsComponent(
+          sales: sales.values.elementAt(index),
+          product: sales.keys.elementAt(index),
         );
       },
-    );
-  }
-
-  Center waitingConnection() {
-    return Center(
-      child: SizedBox(
-        child: CircularProgressIndicator(
-          strokeWidth: 5,
-        ),
-        width: 75,
-        height: 75,
-      ),
-    );
-  }
-
-  Center hasError(String text) {
-    return Center(
-      child: Text(
-        text,
-        style: TextStyle(
-          color: primaryColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
-        ),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  void _setOrder() {
-    setState(() {
-      Order = !Order;
-    });
-  }
-
-  Text _labelText(String text, double size) {
-    return Text(
-      text,
-      textAlign: TextAlign.left,
-      style: TextStyle(
-        color: primaryColor,
-        fontWeight: FontWeight.bold,
-        fontSize: getResponsiveText(size),
-      ),
     );
   }
 }

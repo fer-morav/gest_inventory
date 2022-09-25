@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:gest_inventory/data/datasource/firebase/ProductDataSource.dart';
 import 'package:gest_inventory/data/datasource/firebase/SalesDataSource.dart';
@@ -7,7 +8,7 @@ import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/domain/bloc/MakeSaleCubit.dart';
 import 'package:gest_inventory/ui/components/IconButton.dart';
 import 'package:gest_inventory/ui/components/ProgressDialogComponent.dart';
-import 'package:gest_inventory/utils/actions_enum.dart';
+import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/navigator_functions.dart';
 import 'package:gest_inventory/utils/strings.dart';
@@ -46,6 +47,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
             message: state.message!,
             context: context,
             status: state.status,
+            gravity: ToastGravity.CENTER
           );
         }
       }, builder: (context, state) {

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/User.dart';
 import '../../data/repositories/AbstractUserRepository.dart';
-import '../../utils/actions_enum.dart';
+import '../../utils/enums.dart';
 import '../../utils/arguments.dart';
 import '../usecases/user/GetUsersAvailableUseCase.dart';
 import '../usecases/user/GetUsersUseCase.dart';

@@ -8,6 +8,7 @@ class CustomToast {
     required String message,
     BuildContext? context,
     bool status = true,
+    ToastGravity gravity = ToastGravity.BOTTOM,
   }) {
     context == null
         ? Fluttertoast.showToast(
@@ -16,15 +17,15 @@ class CustomToast {
             toastLength: Toast.LENGTH_LONG,
             backgroundColor: lightColor.withOpacity(0.2),
             textColor: blackColor,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 2,
+            gravity: gravity,
+            timeInSecForIosWeb: 3,
           )
         : FToast().init(context).showToast(
               child: FlutterToastDesign(
                 status: status,
                 message: message,
               ),
-              gravity: ToastGravity.BOTTOM,
+              gravity: gravity,
               toastDuration: Duration(
                 seconds: 3,
               ),

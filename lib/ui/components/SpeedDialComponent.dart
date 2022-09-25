@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:gest_inventory/utils/actions_enum.dart';
+import 'package:gest_inventory/utils/enums.dart';
 import '../../utils/colors.dart';
 import '../../utils/icons.dart';
 

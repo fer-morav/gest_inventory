@@ -6,7 +6,7 @@ import 'package:gest_inventory/domain/bloc/AuthCubit.dart';
 import 'package:gest_inventory/ui/components/IconButtonComponent.dart';
 import 'package:gest_inventory/ui/components/ImageComponent.dart';
 import 'package:gest_inventory/ui/components/ProgressDialogComponent.dart';
-import 'package:gest_inventory/utils/actions_enum.dart';
+import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/icons.dart';
 import 'package:gest_inventory/utils/navigator_functions.dart';
@@ -192,7 +192,7 @@ class _Home extends State<HomePage> {
                         IconButtonComponent(
                           icon: AppIcons.statics,
                           text: title_statistics,
-                          onPressed: () {},
+                          onPressed: () => pushNamedWithArgs(context, statistics_route, {user_args: state.user}),
                         ),
                         Visibility(
                         visible: state.user!.admin,
@@ -207,7 +207,7 @@ class _Home extends State<HomePage> {
                         child: IconButtonComponent(
                           icon: AppIcons.inform,
                           text: title_inform,
-                          onPressed: () {},
+                          onPressed: () => {},
                         ),
                       ),
                     ],

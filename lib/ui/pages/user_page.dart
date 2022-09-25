@@ -14,7 +14,7 @@ import 'package:gest_inventory/ui/components/ImageComponent.dart';
 import 'package:gest_inventory/ui/components/ProfilePictureMenu.dart';
 import 'package:gest_inventory/ui/components/ProgressDialogComponent.dart';
 import 'package:gest_inventory/ui/components/TextInputForm.dart';
-import 'package:gest_inventory/utils/actions_enum.dart';
+import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/icons.dart';
 import 'package:gest_inventory/utils/navigator_functions.dart';

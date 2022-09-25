@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/data/models/User.dart';
-import 'package:gest_inventory/utils/actions_enum.dart';
+import 'package:gest_inventory/utils/enums.dart';
 import '../../data/repositories/AbstractProductRepository.dart';
 import '../../utils/arguments.dart';
 import '../usecases/product/DeleteProductUseCase.dart';

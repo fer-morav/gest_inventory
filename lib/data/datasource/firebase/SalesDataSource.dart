@@ -61,97 +61,99 @@ class SalesDataSource extends AbstractSalesRepository {
   }
 
   @override
-  Stream<List<Sales>> getSales(String productId, {bool descending = false}) async* {
+  Future<List<Sales>> getSales(String productId, {bool descending = false}) async {
     try {
       final snapshots = await _database
           .collection(PRODUCT_COLLECTION)
           .doc(productId)
           .collection(SALES_COLLECTION)
           .orderBy(Sales.FIELD_CREATION_DATE, descending: descending)
-          .snapshots();
+          .get();
 
-      await for (final snapshot in snapshots) {
-        final documents = snapshot.docs.where((document) => document.exists);
-        final sales = documents.map((document) => Sales.fromMap(document.data())).toList();
-        yield sales;
+      List<Sales> sales = [];
+
+      for (var document in snapshots.docs) {
+        final sale = Sales.fromMap(document.data());
+        sales.add(sale);
       }
+       return sales;
     } catch (error) {
-      yield [];
+      return [];
     }
   }
 
   @override
-  Stream<List<Sales>> getSalesMonth(String productId, {bool descending = false}) async* {
+  Future<List<Sales>> getSalesMonth(String productId, {bool descending = false}) async {
     try {
       final snapshots = await _database
           .collection(PRODUCT_COLLECTION)
           .doc(productId)
           .collection(SALES_COLLECTION)
           .orderBy(Sales.FIELD_CREATION_DATE, descending: descending)
-          .snapshots();
+          .get();
 
-      await for (final snapshot in snapshots) {
-        final documents = snapshot.docs.where((document) {
-          Timestamp date = document.data()[Sales.FIELD_CREATION_DATE];
+      List<Sales> sales = [];
 
-          return document.exists && date.toDate().inMonth();
-        });
+      for (var document in snapshots.docs) {
+        final sale = Sales.fromMap(document.data());
 
-        final sales = documents.map((document) => Sales.fromMap(document.data())).toList();
-        yield sales;
+        if (sale.creationDate.toDate().inMonth()) {
+          sales.add(sale);
+        }
       }
+      return sales;
     } catch (error) {
-      yield [];
+      return [];
     }
   }
 
   @override
-  Stream<List<Sales>> getSalesToday(String productId, {bool descending = false}) async* {
+  Future<List<Sales>> getSalesToday(String productId, {bool descending = false}) async {
     try {
       final snapshots = await _database
           .collection(PRODUCT_COLLECTION)
           .doc(productId)
           .collection(SALES_COLLECTION)
           .orderBy(Sales.FIELD_CREATION_DATE, descending: descending)
-          .snapshots();
+          .get();
 
-      await for (final snapshot in snapshots) {
-        final documents = snapshot.docs.where((document) {
-          Timestamp date = document.data()[Sales.FIELD_CREATION_DATE];
+      List<Sales> sales = [];
 
-          return document.exists && date.toDate().isToday();
-        });
+      for (var document in snapshots.docs) {
+        final sale = Sales.fromMap(document.data());
 
-        final sales = documents.map((document) => Sales.fromMap(document.data())).toList();
-        yield sales;
+        if (sale.creationDate.toDate().isToday()) {
+          sales.add(sale);
+        }
       }
+      return sales;
     } catch (error) {
-      yield [];
+      return [];
     }
   }
 
   @override
-  Stream<List<Sales>> getSalesWeek(String productId, {bool descending = false}) async* {
+  Future<List<Sales>> getSalesWeek(String productId, {bool descending = false}) async {
     try {
       final snapshots = await _database
           .collection(PRODUCT_COLLECTION)
           .doc(productId)
           .collection(SALES_COLLECTION)
           .orderBy(Sales.FIELD_CREATION_DATE, descending: descending)
-          .snapshots();
+          .get();
 
-      await for (final snapshot in snapshots) {
-        final documents = snapshot.docs.where((document) {
-          Timestamp date = document.data()[Sales.FIELD_CREATION_DATE];
+      List<Sales> sales = [];
 
-          return document.exists && date.toDate().inWeek();
-        });
+      for (var document in snapshots.docs) {
+        final sale = Sales.fromMap(document.data());
 
-        final sales = documents.map((document) => Sales.fromMap(document.data())).toList();
-        yield sales;
+        if (sale.creationDate.toDate().inWeek()) {
+          sales.add(sale);
+        }
       }
+      return sales;
     } catch (error) {
-      yield [];
+      return [];
     }
   }
 }

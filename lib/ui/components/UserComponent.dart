@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/data/models/User.dart';
 import 'package:gest_inventory/ui/components/ImageComponent.dart';
-import 'package:gest_inventory/utils/actions_enum.dart';
+import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/icons.dart';
 

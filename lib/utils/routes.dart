@@ -28,10 +28,10 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     list_products_route: (BuildContext context) => const ListProductsPage(),
     product_route: (BuildContext context) => const ProductPage(),
     make_sale_route: (BuildContext context) => const MakeSalePage(),
-
     statistics_route: (BuildContext context) => const StatisticsPage(),
+    sales_route: (BuildContext context) => const SalesPage(),
+
     restock_route: (BuildContext context) => const RestockPage(),
-    all_sales_route: (BuildContext context) => const SalesPage(),
     all_incomes_route: (BuildContext context) => const IncomesPage(),
   };
 }
@@ -47,8 +47,8 @@ const employees_route = 'employees';
 const list_products_route = 'list_products';
 const product_route = 'product';
 const make_sale_route = 'make_sale';
-
 const statistics_route = 'statistics';
+const sales_route = 'sales';
+
 const restock_route = 'restock';
-const all_sales_route = 'all_sales';
 const all_incomes_route = 'all_incomes';

@@ -7,7 +7,7 @@ import 'package:gest_inventory/domain/usecases/business/UpdateBusinessMapUseCase
 import 'package:gest_inventory/domain/usecases/business/UpdateBusinessUseCase.dart';
 import 'package:gest_inventory/domain/usecases/user/GetUserUseCase.dart';
 import 'package:gest_inventory/domain/usecases/user/UpdateUserMapUseCase.dart';
-import 'package:gest_inventory/utils/actions_enum.dart';
+import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/extensions_functions.dart';
 import '../../data/models/Address.dart';
 import '../../data/models/Business.dart';

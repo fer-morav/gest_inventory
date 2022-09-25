@@ -13,7 +13,7 @@ import 'package:gest_inventory/ui/components/search_product_delegate.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../../data/models/User.dart';
-import '../../utils/actions_enum.dart';
+import '../../utils/enums.dart';
 import '../../utils/colors.dart';
 import '../../utils/icons.dart';
 import '../../utils/navigator_functions.dart';

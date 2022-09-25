@@ -6,6 +6,6 @@ class GetSalesWeekUseCase {
 
   GetSalesWeekUseCase({required this.salesRepository});
 
-  Stream<List<Sales>> get(String productId, {bool descending = false}) =>
+  Future<List<Sales>> get(String productId, {bool descending = false}) =>
       salesRepository.getSalesWeek(productId, descending: descending);
 }
