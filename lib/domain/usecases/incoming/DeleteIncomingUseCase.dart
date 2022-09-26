@@ -6,6 +6,6 @@ class DeleteIncomingUseCase {
 
   DeleteIncomingUseCase({required this.incomingRepository});
 
-  Future<bool> delete(Incomings incoming) =>
-      incomingRepository.deleteIncoming(incoming);
+  Future<bool> delete(String productId, String incomingId) =>
+      incomingRepository.deleteIncoming(productId, incomingId);
 }

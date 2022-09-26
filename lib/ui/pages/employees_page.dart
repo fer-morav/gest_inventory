@@ -6,7 +6,7 @@ import 'package:gest_inventory/data/datasource/firebase/UserDataSource.dart';
 import 'package:gest_inventory/domain/bloc/EmployeesCubit.dart';
 import 'package:gest_inventory/ui/components/AppBarComponent.dart';
 import 'package:gest_inventory/ui/components/DividerComponent.dart';
-import 'package:gest_inventory/ui/components/ProgressDialogComponent.dart';
+import 'package:gest_inventory/ui/components/LoadingComponent.dart';
 import 'package:gest_inventory/ui/components/SelectUserComponent.dart';
 import 'package:gest_inventory/ui/components/SpeedDialComponent.dart';
 import 'package:gest_inventory/ui/components/UpdateUserDialogComponent.dart';
@@ -49,7 +49,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
               ),
             ),
             body: state.user == null
-                ? ProgressDialogComponent()
+                ? LoadingComponent()
                 : StreamBuilder<List<User>>(
                     stream: employeesBloc.listStreamUsers(state.user!.idBusiness),
                     builder: (context, snapshot) {
@@ -63,7 +63,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
                         return _component(snapshot.data!, employeesBloc);
                       }
 
-                      return ProgressDialogComponent();
+                      return LoadingComponent();
                     },
                   ),
             floatingActionButton: state.user != null && state.user!.admin

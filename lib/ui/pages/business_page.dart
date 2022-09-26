@@ -7,7 +7,7 @@ import 'package:gest_inventory/data/datasource/firebase/UserDataSource.dart';
 import 'package:gest_inventory/ui/components/AppBarComponent.dart';
 import 'package:gest_inventory/ui/components/DividerComponent.dart';
 import 'package:gest_inventory/ui/components/IconButton.dart';
-import 'package:gest_inventory/ui/components/ProgressDialogComponent.dart';
+import 'package:gest_inventory/ui/components/LoadingComponent.dart';
 import 'package:gest_inventory/ui/components/TextInputForm.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/custom_toast.dart';
@@ -70,7 +70,7 @@ class _BusinessState extends State<BusinessPage> {
                 onPressed: () => _willPopCallback(bloc),
               ),
               body: state.viewer == null
-                  ? ProgressDialogComponent()
+                  ? LoadingComponent()
                   : ListView(
                       children: [
                         Container(

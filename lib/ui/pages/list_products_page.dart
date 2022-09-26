@@ -19,7 +19,7 @@ import '../../utils/icons.dart';
 import '../../utils/navigator_functions.dart';
 import '../../utils/routes.dart';
 import '../components/DividerComponent.dart';
-import '../components/ProgressDialogComponent.dart';
+import '../components/LoadingComponent.dart';
 
 class ListProductsPage extends StatefulWidget {
   const ListProductsPage({Key? key}) : super(key: key);
@@ -49,7 +49,7 @@ class _ListProductsPageState extends State<ListProductsPage> {
               ),
             ),
             body: state.user == null
-                ? ProgressDialogComponent()
+                ? LoadingComponent()
                 : StreamBuilder<List<Product>>(
                     stream: productsBloc.listStreamProducts(),
                     builder: (context, snapshot) {
@@ -63,7 +63,7 @@ class _ListProductsPageState extends State<ListProductsPage> {
                         return _component(snapshot.data!, productsBloc);
                       }
 
-                      return ProgressDialogComponent();
+                      return LoadingComponent();
                     },
                   ),
             floatingActionButton: Visibility(

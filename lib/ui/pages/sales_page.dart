@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gest_inventory/data/datasource/firebase/IncomingDataSource.dart';
 import 'package:gest_inventory/data/datasource/firebase/SalesDataSource.dart';
+import 'package:gest_inventory/data/models/Incoming.dart';
 import 'package:gest_inventory/domain/bloc/SalesCubit.dart';
 import 'package:gest_inventory/ui/components/AppBarComponent.dart';
 import 'package:gest_inventory/data/models/Sales.dart';
 import 'package:gest_inventory/ui/components/DividerComponent.dart';
 import 'package:gest_inventory/ui/components/MessageComponent.dart';
-import 'package:gest_inventory/ui/components/ProgressDialogComponent.dart';
+import 'package:gest_inventory/ui/components/LoadingComponent.dart';
+import 'package:gest_inventory/ui/components/TabBarComponent.dart';
 import 'package:gest_inventory/utils/extensions_functions.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import '../../utils/colors.dart';
@@ -15,6 +18,7 @@ import '../../utils/icons.dart';
 import '../../utils/navigator_functions.dart';
 import '../components/HeaderPaintComponent.dart';
 import '../components/ImageComponent.dart';
+import '../components/IncomingsComponent.dart';
 import '../components/SalesComponent.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import '../components/pdf_gen.dart';
@@ -44,18 +48,18 @@ class _SalesPageState extends State<SalesPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SalesCubit>(
-      create: (_) => SalesCubit(salesRepository: SalesDataSource())
+      create: (_) => SalesCubit(salesRepository: SalesDataSource(), incomingRepository: IncomingDataSource())
         ..init(ModalRoute.of(context)?.settings.arguments as Map),
       child: BlocBuilder<SalesCubit, SalesState>(builder: (context, state) {
         final salesCubit = context.read<SalesCubit>();
 
         return Scaffold(
           appBar: AppBarComponent(
-            textAppBar: title_sales_history,
+            textAppBar: title_report,
             onPressed: () => pop(context),
           ),
           body: state.product == null
-              ? ProgressDialogComponent()
+              ? LoadingComponent()
               : ListView(
                   children: [
                     Container(
@@ -75,28 +79,25 @@ class _SalesPageState extends State<SalesPage> {
                       height: 1.0,
                       width: double.infinity,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: ListTile(
-                        leading: Text(
-                          text_sort_by,
-                          textAlign: TextAlign.left,
+                    ListTile(
+                      leading: Text(
+                        text_sort_by_date,
+                        textAlign: TextAlign.left,
+                        style: _textStyle(18),
+                      ),
+                      title: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        child: Text(
+                          state.descending ? text_descendant : text_ascendant,
                           style: _textStyle(18),
                         ),
-                        title: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: Text(
-                            state.descending ? text_most_recent : text_less_recent,
-                            style: _textStyle(18),
-                          ),
-                        ),
-                        trailing: FloatingActionButton(
-                          heroTag: AppIcons.change,
-                          child: getIcon(AppIcons.change),
-                          backgroundColor: primaryColor,
-                          onPressed: () => salesCubit.setOrder(),
-                          mini: true,
-                        ),
+                      ),
+                      trailing: FloatingActionButton(
+                        heroTag: AppIcons.change,
+                        child: getIcon(AppIcons.change),
+                        backgroundColor: primaryColor,
+                        onPressed: () => salesCubit.setOrder(),
+                        mini: true,
                       ),
                     ),
                     Center(
@@ -130,30 +131,57 @@ class _SalesPageState extends State<SalesPage> {
                       ),
                     ),
                     DividerComponent(),
-                    StreamBuilder<List<Sales>>(
-                      stream: salesCubit.salesStream(state.dateValues),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return MessageComponent(text: text_error_connection);
-                        }
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (snapshot.data == null || snapshot.data!.isEmpty) {
-                          return MessageComponent(text: text_empty_list);
-                        }
-                        if (snapshot.hasData) {
-                          return _component(snapshot.data!);
-                        }
+                    TabBarComponent(
+                      tabs: [
+                        Tab(
+                          text: text_sale,
+                          icon: getIcon(AppIcons.price),
+                        ),
+                        Tab(
+                          text: text_incoming,
+                          icon: getIcon(AppIcons.edit_product),
+                        ),
+                      ],
+                      tabsView: [
+                        StreamBuilder<List<Sales>>(
+                          stream: salesCubit.listSales,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return MessageComponent(text: text_error_connection);
+                            }
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return LoadingComponent();
+                            }
+                            if (snapshot.data == null || snapshot.data!.isEmpty) {
+                              return MessageComponent(text: text_empty_list);
+                            }
+                            if (snapshot.hasData) {
+                              return _componentSales(snapshot.data!);
+                            }
 
-                        return Container(
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      },
+                            return LoadingComponent();
+                          },
+                        ),
+                        StreamBuilder<List<Incoming>>(
+                          stream: salesCubit.listIncoming,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return MessageComponent(text: text_error_connection);
+                            }
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return LoadingComponent();
+                            }
+                            if (snapshot.data == null || snapshot.data!.isEmpty) {
+                              return MessageComponent(text: text_empty_list);
+                            }
+                            if (snapshot.hasData) {
+                              return _componentIncoming(snapshot.data!);
+                            }
+
+                            return LoadingComponent();
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -161,20 +189,32 @@ class _SalesPageState extends State<SalesPage> {
             heroTag: AppIcons.gen_pdf,
             backgroundColor: primaryColor,
             onPressed: () {},
-            child: getIcon(AppIcons.gen_pdf, color: Colors.white),
+            child: getIcon(AppIcons.gen_pdf, color: primaryOnColor),
           ),
         );
       }),
     );
   }
 
-  Widget _component(List<Sales> sales) {
+  Widget _componentSales(List<Sales> sales) {
     return ListView.builder(
       shrinkWrap: true,
       itemCount: sales.length,
       itemBuilder: (context, index) {
         return SalesComponent(
           sales: sales[index],
+        );
+      },
+    );
+  }
+
+  Widget _componentIncoming(List<Incoming> incoming) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: incoming.length,
+      itemBuilder: (context, index) {
+        return IncomingComponent(
+          incoming: incoming[index],
         );
       },
     );

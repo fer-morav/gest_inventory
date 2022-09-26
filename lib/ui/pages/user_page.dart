@@ -12,7 +12,7 @@ import 'package:gest_inventory/ui/components/IconButton.dart';
 import 'package:gest_inventory/ui/components/ImageProfileComponent.dart';
 import 'package:gest_inventory/ui/components/ImageComponent.dart';
 import 'package:gest_inventory/ui/components/ProfilePictureMenu.dart';
-import 'package:gest_inventory/ui/components/ProgressDialogComponent.dart';
+import 'package:gest_inventory/ui/components/LoadingComponent.dart';
 import 'package:gest_inventory/ui/components/TextInputForm.dart';
 import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/colors.dart';
@@ -80,7 +80,7 @@ class _UserPageState extends State<UserPage> {
                 onPressed: () => _willPopCallback(context),
               ),
               body: state.viewerId == null && state.email == null
-                  ? ProgressDialogComponent()
+                  ? LoadingComponent()
                   : ListView(
                       children: [
                         Container(

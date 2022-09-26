@@ -6,6 +6,6 @@ class GetIncomingUseCase {
 
   GetIncomingUseCase({required this.incomingRepository});
 
-  Future<Incomings?> get(String businessId, String incomingId) =>
-      incomingRepository.getIncoming(businessId, incomingId);
+  Future<Incoming?> get(String productId, String incomingId) =>
+      incomingRepository.getIncoming(productId, incomingId);
 }

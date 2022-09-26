@@ -6,6 +6,6 @@ class AddIncomingUseCase {
 
   AddIncomingUseCase({required this.incomingRepository});
 
-  Future<bool> add(Incomings incoming) =>
-      incomingRepository.addIncoming(incoming);
+  Future<bool> add(String productId, Incoming incoming) =>
+      incomingRepository.addIncoming(productId, incoming);
 }

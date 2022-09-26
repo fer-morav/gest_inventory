@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gest_inventory/utils/extensions_functions.dart';
 
 class Sales {
   String id;
@@ -50,6 +51,6 @@ class Sales {
 
   @override
   String toString() {
-    return 'User(id: $id, units: $units, creationDate: ${creationDate.toString()})';
+    return 'Sales(id: $id, units: $units, creationDate: ${creationDate.toDate().toFormatDate()})';
   }
 }

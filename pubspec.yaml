@@ -39,6 +39,7 @@ dependencies:
   fluid_dialog: ^1.0.0
   image_picker: ^0.8.5+3
   flutter_speed_dial: ^6.0.0
+  rxdart: ^0.27.5
 
 dev_dependencies:
   flutter_test:

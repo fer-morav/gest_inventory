@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/colors.dart';
@@ -17,13 +18,10 @@ class RestockPage extends StatefulWidget {
 }
 
 class _RestockPageState extends State<RestockPage> {
-  Incomings _incoming = Incomings(
+  Incoming _incoming = Incoming(
     id: "",
-    idNegocio: "",
-    nombreProducto: "",
-    precioUnitario: 0.0,
-    precioMayoreo: 0.0,
-    unidadesCompradas: 0.0,
+    units: 0.0,
+    creationDate: Timestamp.now()
   );
 
   final _idProductController = TextEditingController();

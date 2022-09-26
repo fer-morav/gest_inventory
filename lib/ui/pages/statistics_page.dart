@@ -13,7 +13,7 @@ import '../../data/models/Product.dart';
 import '../../data/models/Sales.dart';
 import '../../utils/colors.dart';
 import '../../utils/icons.dart';
-import '../components/ProgressDialogComponent.dart';
+import '../components/LoadingComponent.dart';
 import '../components/StatisticsComponent.dart';
 
 class StatisticsPage extends StatefulWidget {
@@ -52,7 +52,7 @@ class _StatisticsState extends State<StatisticsPage> {
               onPressed: () => pop(context),
             ),
             body: state.user == null
-                ? ProgressDialogComponent()
+                ? LoadingComponent()
                 : ListView(
                     children: [
                       ListTile(
@@ -141,7 +141,7 @@ class _StatisticsState extends State<StatisticsPage> {
                             return _component(snapshot.data!);
                           }
 
-                          return ProgressDialogComponent();
+                          return LoadingComponent();
                         },
                       ),
                     ],

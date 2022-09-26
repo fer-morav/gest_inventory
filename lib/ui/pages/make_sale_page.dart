@@ -7,7 +7,7 @@ import 'package:gest_inventory/data/datasource/firebase/SalesDataSource.dart';
 import 'package:gest_inventory/data/models/Product.dart';
 import 'package:gest_inventory/domain/bloc/MakeSaleCubit.dart';
 import 'package:gest_inventory/ui/components/IconButton.dart';
-import 'package:gest_inventory/ui/components/ProgressDialogComponent.dart';
+import 'package:gest_inventory/ui/components/LoadingComponent.dart';
 import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/navigator_functions.dart';
@@ -59,7 +59,7 @@ class _MakeSalePageState extends State<MakeSalePage> {
             onPressed: () => pop(context),
           ),
           body: state.user == null
-              ? ProgressDialogComponent()
+              ? LoadingComponent()
               : ListView(
                   children: [
                     Padding(

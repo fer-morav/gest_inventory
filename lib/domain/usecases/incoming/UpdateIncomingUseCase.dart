@@ -6,6 +6,6 @@ class UpdateIncomingUseCase {
 
   UpdateIncomingUseCase({required this.incomingRepository});
 
-  Future<bool> update(Incomings incoming) =>
-      incomingRepository.updateIncoming(incoming);
+  Future<bool> update(String productId, Incoming incoming) =>
+      incomingRepository.updateIncoming(productId, incoming);
 }

@@ -21,8 +21,8 @@ class IncomesPage extends StatefulWidget {
 
 class _IncomesPageState extends State<IncomesPage> {
   String? businessId, businessName, businessAdmin;
-  late Future<List<Incomings>> _listIncomingStream;
-  late List<Incomings> _listIncoming;
+  late Future<List<Incoming>> _listIncomingStream;
+  late List<Incoming> _listIncoming;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _IncomesPageState extends State<IncomesPage> {
       ),
       body: isLoading
           ? waitingConnection()
-          : FutureBuilder<List<Incomings>>(
+          : FutureBuilder<List<Incoming>>(
               future: _listIncomingStream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -92,14 +92,14 @@ class _IncomesPageState extends State<IncomesPage> {
     });
   }
 
-  Widget _component(List<Incomings> incoming) {
+  Widget _component(List<Incoming> incoming) {
     return ListView.builder(
       itemCount: incoming.length,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(10),
-          child: IncomingsComponent(
-            incomings: incoming[index],
+          child: IncomingComponent(
+            incoming: incoming[index],
           ),
         );
       },
@@ -195,15 +195,15 @@ class _IncomesPageState extends State<IncomesPage> {
     }
 
     PdfGridRow row = grid.rows.add();
-    for(int i=0;i<_listIncoming.length;i++){//Renglones = 5
-      row.cells[0].value = _listIncoming[i].idNegocio;
-      row.cells[1].value = _listIncoming[i].id;
-      row.cells[2].value = _listIncoming[i].nombreProducto;
-      row.cells[3].value = "\$"+_listIncoming[i].precioMayoreo.toString();
-      row.cells[4].value = "\$"+_listIncoming[i].precioUnitario.toString();
-      row.cells[5].value = _listIncoming[i].unidadesCompradas.toString();
-      row = grid.rows.add();
-    }
+    // for(int i=0;i<_listIncoming.length;i++){//Renglones = 5
+    //   row.cells[0].value = _listIncoming[i].idNegocio;
+    //   row.cells[1].value = _listIncoming[i].id;
+    //   row.cells[2].value = _listIncoming[i].nombreProducto;
+    //   row.cells[3].value = "\$"+_listIncoming[i].precioMayoreo.toString();
+    //   row.cells[4].value = "\$"+_listIncoming[i].units.toString();
+    //   row.cells[5].value = _listIncoming[i].unidadesCompradas.toString();
+    //   row = grid.rows.add();
+    // }
 
     grid.style.cellPadding = PdfPaddings(left: 2, right: 2, top: 2, bottom: 2);
 

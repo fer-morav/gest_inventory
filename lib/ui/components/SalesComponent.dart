@@ -20,9 +20,9 @@ class SalesComponent extends StatelessWidget {
         size * sizeReference / MediaQuery.of(context).size.longestSide;
 
     TextStyle textStyle(Color color, double size) => TextStyle(
-          color: color,
-          fontSize: _getResponsiveText(size),
-        );
+      color: color,
+      fontSize: _getResponsiveText(size),
+    );
 
     return ListTile(
       leading: Container(

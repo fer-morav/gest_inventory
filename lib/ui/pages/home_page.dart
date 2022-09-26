@@ -5,7 +5,7 @@ import 'package:gest_inventory/data/datasource/firebase/UserDataSource.dart';
 import 'package:gest_inventory/domain/bloc/AuthCubit.dart';
 import 'package:gest_inventory/ui/components/IconButtonComponent.dart';
 import 'package:gest_inventory/ui/components/ImageComponent.dart';
-import 'package:gest_inventory/ui/components/ProgressDialogComponent.dart';
+import 'package:gest_inventory/ui/components/LoadingComponent.dart';
 import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/icons.dart';
@@ -74,7 +74,7 @@ class _Home extends State<HomePage> {
               ),
               drawer: Drawer(
                 child: state.user == null
-                    ? ProgressDialogComponent()
+                    ? LoadingComponent()
                     : ListView(
                         children: [
                           Container(
@@ -155,7 +155,7 @@ class _Home extends State<HomePage> {
                       ),
               ),
               body: state.user == null
-                  ? ProgressDialogComponent()
+                  ? LoadingComponent()
                   : GridView.count(
                       crossAxisCount: 2,
                       childAspectRatio: 1.25,
