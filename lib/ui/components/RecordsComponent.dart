@@ -1,17 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gest_inventory/utils/arguments.dart';
+import 'package:gest_inventory/data/models/Sales.dart';
 import 'package:gest_inventory/utils/colors.dart';
 import 'package:gest_inventory/utils/extensions_functions.dart';
-import '../../data/models/Sales.dart';
 import '../../utils/icons.dart';
 
-class SalesComponent extends StatelessWidget {
-  final Sales sales;
+class RecordsComponent extends StatelessWidget {
+  final Map<String, dynamic> values;
+  final bool sales;
   final sizeReference = 700.0;
 
-  const SalesComponent({
+  const RecordsComponent({
     Key? key,
-    required this.sales,
+    required this.values,
+    this.sales = true,
   }) : super(key: key);
 
   @override
@@ -25,25 +27,27 @@ class SalesComponent extends StatelessWidget {
     );
 
     return ListTile(
-      leading: Container(
-        decoration: BoxDecoration(
-          color: adminColor,
-          borderRadius: BorderRadius.circular(25),
-        ),
-        child: getIcon(AppIcons.price, color: primaryOnColor, size: 45),
-      ),
+      leading: sales
+          ? Container(
+              decoration: BoxDecoration(
+                color: adminColor,
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: getIcon(AppIcons.price, color: primaryOnColor, size: 45),
+            )
+          : getIcon(AppIcons.add_product, color: employeeColor, size: 45),
       title: Text(
-        '${sales.creationDate.toDate().toFormatDate()}',
+        '${(values[Sales.FIELD_CREATION_DATE] as Timestamp).toDate().toFormatDate()}',
         style: textStyle(blackColor, 18),
         textAlign: TextAlign.left,
       ),
       subtitle: Text(
-        '${sales.creationDate.toDate().toFormatHour()}',
+        '${(values[Sales.FIELD_CREATION_DATE] as Timestamp).toDate().toFormatHour()}',
         style: textStyle(lightColor, 15),
         textAlign: TextAlign.left,
       ),
       trailing: Text(
-        sales.units.toString(),
+        values[Sales.FIELD_UNITS].toString(),
         style: textStyle(primaryColor, 18),
         textAlign: TextAlign.left,
       ),

@@ -26,24 +26,20 @@ class TabBarComponent extends StatelessWidget {
 
     return DefaultTabController(
       length: tabs.length,
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
-        width: MediaQuery.of(context).size.width,
-        child: Scaffold(
-          appBar: TabBar(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            labelStyle: _textStyle(18),
-            indicatorWeight: 3,
-            indicatorColor: primaryColor,
-            labelColor: primaryColor,
-            unselectedLabelColor: lightColor,
-            tabs: tabs,
-          ),
-          body: TabBarView(
-            physics: BouncingScrollPhysics(),
-            dragStartBehavior: DragStartBehavior.down,
-            children: tabsView,
-          ),
+      child: Scaffold(
+        appBar: TabBar(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          labelStyle: _textStyle(18),
+          indicatorWeight: 3,
+          indicatorColor: primaryColor,
+          labelColor: primaryColor,
+          unselectedLabelColor: lightColor,
+          tabs: tabs,
+        ),
+        body: TabBarView(
+          physics: BouncingScrollPhysics(),
+          dragStartBehavior: DragStartBehavior.down,
+          children: tabsView,
         ),
       ),
     );

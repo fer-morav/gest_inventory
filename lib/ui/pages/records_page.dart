@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gest_inventory/data/datasource/firebase/IncomingDataSource.dart';
 import 'package:gest_inventory/data/datasource/firebase/SalesDataSource.dart';
 import 'package:gest_inventory/data/models/Incoming.dart';
-import 'package:gest_inventory/domain/bloc/SalesCubit.dart';
+import 'package:gest_inventory/domain/bloc/RecordsCubit.dart';
 import 'package:gest_inventory/ui/components/AppBarComponent.dart';
 import 'package:gest_inventory/data/models/Sales.dart';
 import 'package:gest_inventory/ui/components/DividerComponent.dart';
@@ -18,181 +18,191 @@ import '../../utils/icons.dart';
 import '../../utils/navigator_functions.dart';
 import '../components/HeaderPaintComponent.dart';
 import '../components/ImageComponent.dart';
-import '../components/IncomingsComponent.dart';
-import '../components/SalesComponent.dart';
+import '../components/RecordsComponent.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import '../components/pdf_gen.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
 
-class SalesPage extends StatefulWidget {
-  const SalesPage({Key? key}) : super(key: key);
+class RecordsPage extends StatefulWidget {
+  const RecordsPage({Key? key}) : super(key: key);
 
   @override
-  State<SalesPage> createState() => _SalesPageState();
+  State<RecordsPage> createState() => _RecordsPageState();
 }
 
-class _SalesPageState extends State<SalesPage> {
+class _RecordsPageState extends State<RecordsPage> {
   final sizeReference = 700.0;
 
   double getResponsiveText(double size) =>
       size * sizeReference / MediaQuery.of(context).size.longestSide;
 
   TextStyle _textStyle(double size, {Color color = primaryColor}) => TextStyle(
-    color: color,
-    fontWeight: FontWeight.w600,
-    fontSize: getResponsiveText(size),
-  );
+        color: color,
+        fontWeight: FontWeight.w600,
+        fontSize: getResponsiveText(size),
+      );
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SalesCubit>(
-      create: (_) => SalesCubit(salesRepository: SalesDataSource(), incomingRepository: IncomingDataSource())
+    return BlocProvider<RecordsCubit>(
+      create: (_) => RecordsCubit(
+          salesRepository: SalesDataSource(),
+          incomingRepository: IncomingDataSource())
         ..init(ModalRoute.of(context)?.settings.arguments as Map),
-      child: BlocBuilder<SalesCubit, SalesState>(builder: (context, state) {
-        final salesCubit = context.read<SalesCubit>();
+      child: BlocBuilder<RecordsCubit, RecordsState>(
+        builder: (context, state) {
+          final recordsCubit = context.read<RecordsCubit>();
 
-        return Scaffold(
-          appBar: AppBarComponent(
-            textAppBar: title_report,
-            onPressed: () => pop(context),
-          ),
-          body: state.product == null
-              ? LoadingComponent()
-              : ListView(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      child: CustomPaint(
-                        painter: HeaderPaintCurve(),
-                        child: ImageComponent(
-                          color: state.product!.stock.lowStocks()
-                              ? adminColor
-                              : employeeColor,
-                          size: 120,
-                          photoURL: state.product!.photoUrl,
+          return Scaffold(
+            appBar: AppBarComponent(
+              textAppBar: title_report,
+              onPressed: () => pop(context),
+            ),
+            body: state.product == null
+                ? LoadingComponent()
+                : ListView(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: CustomPaint(
+                          painter: HeaderPaintCurve(),
+                          child: ImageComponent(
+                            color: state.product!.stock.lowStocks()
+                                ? adminColor
+                                : employeeColor,
+                            size: 120,
+                            photoURL: state.product!.photoUrl,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 1.0,
-                      width: double.infinity,
-                    ),
-                    ListTile(
-                      leading: Text(
-                        text_sort_by_date,
-                        textAlign: TextAlign.left,
-                        style: _textStyle(18),
+                      SizedBox(
+                        height: 1.0,
+                        width: double.infinity,
                       ),
-                      title: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
-                          state.descending ? text_descendant : text_ascendant,
+                      ListTile(
+                        leading: Text(
+                          text_sort_by_date,
+                          textAlign: TextAlign.left,
                           style: _textStyle(18),
                         ),
-                      ),
-                      trailing: FloatingActionButton(
-                        heroTag: AppIcons.change,
-                        child: getIcon(AppIcons.change),
-                        backgroundColor: primaryColor,
-                        onPressed: () => salesCubit.setOrder(),
-                        mini: true,
-                      ),
-                    ),
-                    Center(
-                      child: DropdownButton<DateValues>(
-                        style: _textStyle(18),
-                        icon: getIcon(AppIcons.arrow_down, color: primaryColor),
-                        value: state.dateValues,
-                        items: <DropdownMenuItem<DateValues>>[
-                          DropdownMenuItem(
-                            value: DateValues.year,
-                            child: Text(button_alls),
+                        title: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          child: Text(
+                            state.descending ? text_most_recent : text_less_recent,
+                            style: _textStyle(18),
                           ),
-                          DropdownMenuItem(
-                            value: DateValues.today,
-                            child: Text(button_today),
-                          ),
-                          DropdownMenuItem(
-                            value: DateValues.week,
-                            child: Text(button_week),
-                          ),
-                          DropdownMenuItem(
-                            value: DateValues.month,
-                            child: Text(button_month),
-                          ),
-                        ],
-                        onChanged: (value) => {
-                          if (value != null) {
-                            salesCubit.setValues(value)
-                          }
-                        },
-                      ),
-                    ),
-                    DividerComponent(),
-                    TabBarComponent(
-                      tabs: [
-                        Tab(
-                          text: text_sale,
-                          icon: getIcon(AppIcons.price),
                         ),
-                        Tab(
-                          text: text_incoming,
-                          icon: getIcon(AppIcons.edit_product),
+                        trailing: Container(
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: IconButton(
+                            color: primaryOnColor,
+                            icon: getIcon(state.descending ? AppIcons.sort_amount_down : AppIcons.sort_amount_up),
+                            onPressed: () => recordsCubit.setOrder(),
+                          ),
                         ),
-                      ],
-                      tabsView: [
-                        StreamBuilder<List<Sales>>(
-                          stream: salesCubit.listSales,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return MessageComponent(text: text_error_connection);
-                            }
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return LoadingComponent();
-                            }
-                            if (snapshot.data == null || snapshot.data!.isEmpty) {
-                              return MessageComponent(text: text_empty_list);
-                            }
-                            if (snapshot.hasData) {
-                              return _componentSales(snapshot.data!);
-                            }
-
-                            return LoadingComponent();
+                      ),
+                      Center(
+                        child: DropdownButton<DateValues>(
+                          style: _textStyle(18),
+                          icon:
+                              getIcon(AppIcons.arrow_down, color: primaryColor),
+                          value: state.dateValues,
+                          items: <DropdownMenuItem<DateValues>>[
+                            DropdownMenuItem(
+                              value: DateValues.year,
+                              child: Text(button_alls),
+                            ),
+                            DropdownMenuItem(
+                              value: DateValues.today,
+                              child: Text(button_today),
+                            ),
+                            DropdownMenuItem(
+                              value: DateValues.week,
+                              child: Text(button_week),
+                            ),
+                            DropdownMenuItem(
+                              value: DateValues.month,
+                              child: Text(button_month),
+                            ),
+                          ],
+                          onChanged: (value) => {
+                            if (value != null) {recordsCubit.setValues(value)}
                           },
                         ),
-                        StreamBuilder<List<Incoming>>(
-                          stream: salesCubit.listIncoming,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return MessageComponent(text: text_error_connection);
-                            }
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return LoadingComponent();
-                            }
-                            if (snapshot.data == null || snapshot.data!.isEmpty) {
-                              return MessageComponent(text: text_empty_list);
-                            }
-                            if (snapshot.hasData) {
-                              return _componentIncoming(snapshot.data!);
-                            }
+                      ),
+                      DividerComponent(),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        width: MediaQuery.of(context).size.width,
+                        child: TabBarComponent(
+                          tabs: [
+                            Tab(
+                              text: text_sale,
+                              icon: getIcon(AppIcons.price),
+                            ),
+                            Tab(
+                              text: text_incoming,
+                              icon: getIcon(AppIcons.add_product),
+                            ),
+                          ],
+                          tabsView: [
+                            StreamBuilder<List<Sales>>(
+                              stream: recordsCubit.listSales,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  return MessageComponent(text: text_error_connection);
+                                }
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return LoadingComponent();
+                                }
+                                if (snapshot.data == null || snapshot.data!.isEmpty) {
+                                  return MessageComponent(text: text_empty_list);
+                                }
+                                if (snapshot.hasData) {
+                                  return _componentSales(snapshot.data!);
+                                }
 
-                            return LoadingComponent();
-                          },
+                                return LoadingComponent();
+                              },
+                            ),
+                            StreamBuilder<List<Incoming>>(
+                              stream: recordsCubit.listIncoming,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  return MessageComponent(text: text_error_connection);
+                                }
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return LoadingComponent();
+                                }
+                                if (snapshot.data == null || snapshot.data!.isEmpty) {
+                                  return MessageComponent(text: text_empty_list);
+                                }
+                                if (snapshot.hasData) {
+                                  return _componentIncoming(snapshot.data!);
+                                }
+
+                                return LoadingComponent();
+                              },
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-          floatingActionButton: FloatingActionButton(
-            heroTag: AppIcons.gen_pdf,
-            backgroundColor: primaryColor,
-            onPressed: () {},
-            child: getIcon(AppIcons.gen_pdf, color: primaryOnColor),
-          ),
-        );
-      }),
+                      ),
+                    ],
+                  ),
+            floatingActionButton: FloatingActionButton(
+              heroTag: AppIcons.gen_pdf,
+              backgroundColor: primaryColor,
+              onPressed: () {},
+              child: getIcon(AppIcons.gen_pdf, color: primaryOnColor),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -201,8 +211,8 @@ class _SalesPageState extends State<SalesPage> {
       shrinkWrap: true,
       itemCount: sales.length,
       itemBuilder: (context, index) {
-        return SalesComponent(
-          sales: sales[index],
+        return RecordsComponent(
+          values: sales[index].toMap(),
         );
       },
     );
@@ -213,8 +223,9 @@ class _SalesPageState extends State<SalesPage> {
       shrinkWrap: true,
       itemCount: incoming.length,
       itemBuilder: (context, index) {
-        return IncomingComponent(
-          incoming: incoming[index],
+        return RecordsComponent(
+          values: incoming[index].toMap(),
+          sales: false,
         );
       },
     );

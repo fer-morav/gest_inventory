@@ -94,7 +94,7 @@ class _ProductPageState extends State<ProductPage> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 80),
                           child: ButtonIcon(
-                            onPressed: () => pushNamedWithArgs(context, sales_route, {product_args: state.product}),
+                            onPressed: () => pushNamedWithArgs(context, records_route, {product_args: state.product}),
                             text: title_report,
                             icon: AppIcons.inform,
                           ),

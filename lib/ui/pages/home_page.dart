@@ -198,8 +198,8 @@ class _Home extends State<HomePage> {
                         visible: state.user!.admin,
                         child: IconButtonComponent(
                           icon: AppIcons.edit_product,
-                          text: title_restock_product,
-                          onPressed: () {},
+                          text: title_restock_products,
+                          onPressed: () => pushNamedWithArgs(context, restock_route, {user_args: state.user}),
                         ),
                       ),
                       Visibility(
@@ -207,7 +207,7 @@ class _Home extends State<HomePage> {
                         child: IconButtonComponent(
                           icon: AppIcons.inform,
                           text: title_inform,
-                          onPressed: () => {},
+                          onPressed: () => pushNamedWithArgs(context, inform_route, {user_args: state.user}),
                         ),
                       ),
                     ],

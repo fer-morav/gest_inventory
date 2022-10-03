@@ -56,6 +56,10 @@ final _icons = <AppIcons, IconData>{
   AppIcons.options: Icons.more_vert,
   AppIcons.delete: Icons.delete_forever_rounded,
   AppIcons.pay: CustomIcons.cash,
+  AppIcons.sort_up: CustomIcons.sort_up,
+  AppIcons.sort_down: CustomIcons.sort_down,
+  AppIcons.sort_amount_up: CustomIcons.sort_amount_up,
+  AppIcons.sort_amount_down: CustomIcons.sort_amount_down,
 };
 
 Icon getIcon(AppIcons icon, {Color? color, double? size}) {
@@ -125,4 +129,8 @@ enum AppIcons {
   options,
   delete,
   pay,
+  sort_up,
+  sort_down,
+  sort_amount_up,
+  sort_amount_down,
 }

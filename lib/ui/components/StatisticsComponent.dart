@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/utils/extensions_functions.dart';
 import '../../data/models/Product.dart';
-import '../../data/models/Sales.dart';
 import '../../utils/colors.dart';
 import '../../utils/icons.dart';
 import 'ImageComponent.dart';
 
 class StatisticsComponent extends StatelessWidget {
   final Product product;
-  final List<Sales> sales;
+  final List<int> values;
+  final bool sales;
   final sizeReference = 700.0;
 
   const StatisticsComponent({
     Key? key,
-    required this.sales,
+    required this.values,
     required this.product,
+    this.sales = true,
   }) : super(key: key);
 
   @override
@@ -30,11 +31,11 @@ class StatisticsComponent extends StatelessWidget {
     double _calculateTotalSale() {
       var total = 0.0;
 
-      sales.forEach((sale) {
-        if (sale.units >= 10) {
-          total += product.wholesalePrice * sale.units;
+      values.forEach((value) {
+        if (value >= 10) {
+          total += product.wholesalePrice * value;
         } else {
-          total += product.unitPrice * sale.units;
+          total += product.unitPrice * value;
         }
       });
 
@@ -44,9 +45,7 @@ class StatisticsComponent extends StatelessWidget {
     double _calculateTotalUnits() {
       var total = 0.0;
 
-      sales.forEach((sale) {
-        total += sale.units;
-      });
+      values.forEach((value) => total += value);
 
       return total;
     }
@@ -78,17 +77,19 @@ class StatisticsComponent extends StatelessWidget {
               )
             ],
           ),
-          Container(
-            padding: const EdgeInsets.only(left: 40),
-            child: Text(
-              '\$ ${_calculateTotalSale()}',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: primaryColor,
-                fontSize: _getResponsiveText(20),
-              ),
-            ),
-          ),
+          sales
+              ? Container(
+                  padding: const EdgeInsets.only(left: 40),
+                  child: Text(
+                    '\$ ${_calculateTotalSale()}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: primaryColor,
+                      fontSize: _getResponsiveText(20),
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       ),
       trailing: Padding(

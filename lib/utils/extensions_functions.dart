@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:gest_inventory/utils/strings.dart';
 import 'package:intl/intl.dart';
@@ -20,65 +19,75 @@ extension numberExtensions on double {
 
 extension DateTimeExtensions on DateTime {
   bool inMonth() {
-    final now = Timestamp.now().toDate();
-    return DateTime(
-          year,
-          month,
-          day,
-          minute,
-          second,
-        )
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second)
             .difference(DateTime(
-              now.year,
-              now.month,
-              now.day,
-              now.minute,
-              now.second,
-            ))
-            .inDays <=
-        30;
+              year,
+              month,
+              day,
+              hour,
+              minute,
+              second,
+            )).inDays <= 30;
   }
 
   bool inWeek() {
-    final now = Timestamp.now().toDate();
-    return DateTime(year, month, day, minute, second)
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second)
             .difference(DateTime(
-              now.year,
-              now.month,
-              now.day,
-              now.minute,
-              now.second,
-            ))
-            .inDays <=
-        7;
+              year,
+              month,
+              day,
+              hour,
+              minute,
+              second,
+            )).inDays <= 7;
   }
 
   bool isToday() {
-    final now = Timestamp.now().toDate();
-    return DateTime(year, month, day, minute, second)
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second)
             .difference(DateTime(
-              now.year,
-              now.month,
-              now.day,
-              now.minute,
-              now.second,
-            ))
-            .inDays ==
-        0;
+              year,
+              month,
+              day,
+              hour,
+              minute,
+              second,
+            )).inDays == 0;
   }
 
   bool isYesterday() {
-    final now = Timestamp.now().toDate();
-    return DateTime(year, month, day, minute, second)
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second)
             .difference(DateTime(
-              now.year,
-              now.month,
-              now.day,
-              now.minute,
-              now.second,
-            ))
-            .inDays ==
-        1;
+              year,
+              month,
+              day,
+              hour,
+              minute,
+              second,
+            )).inDays == 1;
+  }
+
+  bool compareDates(DateTime otherDate) {
+    return DateTime(
+          otherDate.year,
+          otherDate.month,
+          otherDate.day,
+          otherDate.hour,
+          otherDate.minute,
+          otherDate.second,
+        ).difference(
+              DateTime(
+                year,
+                month,
+                day,
+                hour,
+                minute,
+                second,
+              ),
+            ).inDays == 0;
   }
 
   String toFormatDate() {

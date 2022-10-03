@@ -17,7 +17,7 @@ import '../usecases/sales/GetSalesMonthUseCase.dart';
 import '../usecases/sales/GetSalesUseCase.dart';
 import '../usecases/sales/GetSalesWeekUseCase.dart';
 
-class SalesCubit extends Cubit<SalesState> {
+class RecordsCubit extends Cubit<RecordsState> {
   final AbstractSalesRepository salesRepository;
   final AbstractIncomingRepository incomingRepository;
 
@@ -34,12 +34,12 @@ class SalesCubit extends Cubit<SalesState> {
   final _salesController = BehaviorSubject<List<Sales>>();
   final _incomingController = BehaviorSubject<List<Incoming>>();
 
-  final _cubitController = StreamController<SalesState>();
+  final _cubitController = StreamController<RecordsState>();
 
-  SalesCubit({
+  RecordsCubit({
     required this.salesRepository,
     required this.incomingRepository,
-  }) : super(SalesState());
+  }) : super(RecordsState());
 
   void init(Map<dynamic, dynamic> args) {
     _getSalesUseCase = GetSalesUseCase(salesRepository: salesRepository);
@@ -59,7 +59,6 @@ class SalesCubit extends Cubit<SalesState> {
   }
 
   void setValues(DateValues value) => _newState(dateValues: value);
-
 
   void setOrder() => _newState(descending: !state.descending);
 
@@ -122,7 +121,7 @@ class SalesCubit extends Cubit<SalesState> {
     bool? descending,
     DateValues? dateValues,
   }) {
-    emit(SalesState(
+    emit(RecordsState(
       product: product ?? state.product,
       descending: descending ?? state.descending,
       dateValues: dateValues ?? state.dateValues,
@@ -137,12 +136,12 @@ class SalesCubit extends Cubit<SalesState> {
   }
 }
 
-class SalesState {
+class RecordsState {
   final Product? product;
   final bool descending;
   final DateValues dateValues;
 
-  SalesState({
+  RecordsState({
     this.product = null,
     this.descending = true,
     this.dateValues = DateValues.year,

@@ -49,6 +49,10 @@ class CustomIcons {
   static const IconData add_boxes = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData cash = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData barcode = IconData(0xf02a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData sort_amount_up = IconData(0xf160, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData sort_amount_down = IconData(0xf161, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData sort_up = IconData(0xf162, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData sort_down = IconData(0xf163, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData google = IconData(0xf1a0, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData boxes = IconData(0xf468, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData box_open = IconData(0xf49e, fontFamily: _kFontFam, fontPackage: _kFontPkg);

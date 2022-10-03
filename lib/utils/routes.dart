@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/ui/pages/business_page.dart';
-import 'package:gest_inventory/ui/pages/incomes_page.dart';
 import 'package:gest_inventory/ui/pages/employees_page.dart';
+import 'package:gest_inventory/ui/pages/inform_page.dart';
 import 'package:gest_inventory/ui/pages/make_sale_page.dart';
 import 'package:gest_inventory/ui/pages/restock_page.dart';
 import 'package:gest_inventory/ui/pages/splash_page.dart';
 import 'package:gest_inventory/ui/pages/statistics_page.dart';
-import 'package:gest_inventory/ui/pages/sales_page.dart';
+import 'package:gest_inventory/ui/pages/records_page.dart';
 import 'package:gest_inventory/ui/pages/waiting_page.dart';
 import '../ui/pages/home_page.dart';
 import '../ui/pages/login_page.dart';
@@ -29,10 +29,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     product_route: (BuildContext context) => const ProductPage(),
     make_sale_route: (BuildContext context) => const MakeSalePage(),
     statistics_route: (BuildContext context) => const StatisticsPage(),
-    sales_route: (BuildContext context) => const SalesPage(),
-
+    records_route: (BuildContext context) => const RecordsPage(),
     restock_route: (BuildContext context) => const RestockPage(),
-    all_incomes_route: (BuildContext context) => const IncomesPage(),
+    inform_route: (BuildContext context) => const InformPage(),
   };
 }
 
@@ -48,7 +47,6 @@ const list_products_route = 'list_products';
 const product_route = 'product';
 const make_sale_route = 'make_sale';
 const statistics_route = 'statistics';
-const sales_route = 'sales';
-
+const records_route = 'records';
 const restock_route = 'restock';
-const all_incomes_route = 'all_incomes';
+const inform_route = 'inform';
