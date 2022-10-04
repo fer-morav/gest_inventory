@@ -1,78 +1,88 @@
 import 'dart:convert';
+import '../../utils/resources.dart';
 
 class Product {
-  String id = "";
-  String idNegocio = "";
-  String nombre = "";
-  double precioUnitario = 0.0;
-  double precioMayoreo = 0.0;
-  double stock = 0.0;
-  int ventaSemana = 0;
-  int ventaMes = 0;
+  String id;
+  String businessId;
+  String barcode;
+  String name;
+  String description;
+  double unitPrice;
+  double wholesalePrice;
+  double stock;
+  String photoUrl;
 
   static const FIELD_ID = "id";
-  static const FIELD_BUSINESS_ID = "idNegocio";
-  static const FIELD_NAME = "nombre";
-  static const FIELD_UNIT_PRICE = "precioUnitario";
-  static const FIELD_WHOLESALE_PRICE = "precioMayoreo";
+  static const FIELD_BUSINESS_ID = "businessId";
+  static const FIELD_BARCODE = "barcode";
+  static const FIELD_NAME = "name";
+  static const FIELD_DESCRIPTION = "description";
+  static const FIELD_UNIT_PRICE = "unitPrice";
+  static const FIELD_WHOLESALE_PRICE = "wholesalePrice";
   static const FIELD_STOCK = "stock";
+  static const FIELD_URL_PHOTOS = "photoUrl";
 
   Product({
-    required this.id,
-    required this.idNegocio,
-    required this.nombre,
-    required this.precioUnitario,
-    required this.precioMayoreo,
-    required this.stock,
-    required this.ventaSemana,
-    required this.ventaMes,
+    this.id = "",
+    this.businessId = "",
+    this.barcode = "",
+    this.name = "",
+    this.description = "",
+    this.unitPrice = 0.0,
+    this.wholesalePrice = 0.0,
+    this.stock = 0.0,
+    this.photoUrl = image_product_default,
   });
 
   Product copyWith({
     String? id,
-    String? idNegocio,
-    String? nombre,
-    double? precioUnitario,
-    double? precioMayoreo,
+    String? businessId,
+    String? barcode,
+    String? name,
+    String? description,
+    double? unitPrice,
+    double? wholesalePrice,
     double? stock,
-    int? ventaSemana,
-    int? ventaMes,
+    String? photoUrl,
   }) {
     return Product(
       id: id ?? this.id,
-      idNegocio: idNegocio?? this.idNegocio,
-      nombre: nombre ?? this.nombre,
-      precioUnitario: precioUnitario ?? this.precioUnitario,
-      precioMayoreo: precioMayoreo ?? this.precioMayoreo,
+      businessId: businessId ?? this.businessId,
+      barcode: barcode ?? this.barcode,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      unitPrice: unitPrice ?? this.unitPrice,
+      wholesalePrice: wholesalePrice ?? this.wholesalePrice,
       stock: stock ?? this.stock,
-      ventaMes: ventaMes ?? this.ventaMes,
-      ventaSemana: ventaSemana ?? this.ventaSemana,
+      photoUrl: photoUrl ?? this.photoUrl
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'idNegocio': idNegocio,
-      'nombre': nombre,
-      'precioUnitario': precioUnitario,
-      'precioMayoreo': precioMayoreo,
+      'businessId': businessId,
+      'barcode': barcode,
+      'name': name,
+      'description': description,
+      'unitPrice': unitPrice,
+      'wholesalePrice': wholesalePrice,
       'stock': stock,
-      'ventaSemana': ventaSemana,
-      'ventaMes': ventaMes,
+      'photoUrl': photoUrl,
     };
   }
 
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      id: map['id'],
-      idNegocio: map['idNegocio'],
-      nombre: map['nombre'],
-      precioMayoreo: map['precioMayoreo'],
-      precioUnitario: map['precioUnitario'],
-      stock: map['stock'],
-      ventaSemana: map['ventaSemana'],
-      ventaMes: map['ventaMes'],
+      id: map['id'] ?? '',
+      businessId: map['businessId'] ?? '',
+      barcode: map['barcode'] ?? '',
+      name: map['name'] ?? '',
+      description: map['description'] ?? '',
+      unitPrice: map['unitPrice'] ?? 0,
+      wholesalePrice: map['wholesalePrice'] ?? 0,
+      stock: map['stock'] ?? 0,
+      photoUrl: map['photoUrl'] ?? '',
     );
   }
 
@@ -82,6 +92,33 @@ class Product {
 
   @override
   String toString() {
-    return 'User(id: $id, idNegocio: $idNegocio, nombre: $nombre, precioUnitario: $precioUnitario, precioMayoreo: $precioMayoreo, stock: $stock, ventaSemana: $ventaSemana, ventaMes: $ventaMes)';
+    return 'Product{id: $id, businessId: $businessId, barcode: $barcode, name: $name, description: $description, unitPrice: $unitPrice, wholesalePrice: $wholesalePrice, stock: $stock, photoUrl: $photoUrl}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Product &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          businessId == other.businessId &&
+          barcode == other.barcode &&
+          name == other.name &&
+          description == other.description &&
+          unitPrice == other.unitPrice &&
+          wholesalePrice == other.wholesalePrice &&
+          stock == other.stock &&
+          photoUrl == other.photoUrl;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      businessId.hashCode ^
+      barcode.hashCode ^
+      name.hashCode ^
+      description.hashCode ^
+      unitPrice.hashCode ^
+      wholesalePrice.hashCode ^
+      stock.hashCode ^
+      photoUrl.hashCode;
 }

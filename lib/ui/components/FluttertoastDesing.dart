@@ -14,29 +14,21 @@ class FlutterToastDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: status ? okColor : errorColor,
+    return ListTile(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      tileColor: status ? okColor : errorColor,
+      leading: getIcon(
+        status ? AppIcons.ok : AppIcons.error,
+        color: primaryOnColor,
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          getIcon(
-            status ? AppIcons.ok : AppIcons.error,
-          ),
-          SizedBox(
-            width: 12,
-          ),
-          Expanded(
-            child: Text(
-              message,
-              style: TextStyle(fontSize: 15),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
+      title: Text(
+        message,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 15, color: primaryOnColor),
+      ),
+      trailing: getIcon(
+        status ? AppIcons.ok : AppIcons.error,
+        color: status ? okColor : errorColor,
       ),
     );
   }

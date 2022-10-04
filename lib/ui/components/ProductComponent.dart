@@ -1,114 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:gest_inventory/data/models/Product.dart';
-import 'package:gest_inventory/utils/arguments.dart';
+import 'package:gest_inventory/ui/components/ImageComponent.dart';
 import 'package:gest_inventory/utils/colors.dart';
-import 'package:gest_inventory/utils/routes.dart';
-
+import 'package:gest_inventory/utils/extensions_functions.dart';
+import '../../utils/enums.dart';
 import '../../utils/icons.dart';
-
+import '../../utils/strings.dart';
 
 class ProductComponent extends StatelessWidget {
   final Product product;
-  final String? userPosition;
+  final ActionType actionType;
+  final Function()? onTap;
   final sizeReference = 700.0;
 
   const ProductComponent({
     Key? key,
     required this.product,
-    required this.userPosition,
+    this.onTap,
+    required this.actionType,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     double _getResponsiveText(double size) =>
         size * sizeReference / MediaQuery.of(context).size.longestSide;
 
-    return InkWell(
-      onTap: () => _productPage(context),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    TextStyle textStyle(Color color, double size) => TextStyle(
+      color: color,
+      fontSize: _getResponsiveText(size),
+    );
+
+    return ListTile(
+      onTap: onTap,
+      leading: ImageComponent(
+        color: product.stock.lowStocks() ? adminColor : employeeColor,
+        photoURL: product.photoUrl,
+        size: 28.5,
+      ),
+      title: Text(
+        product.name,
+        style: TextStyle(
+          color: blackColor,
+          fontSize: _getResponsiveText(25),
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      subtitle: Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            radius: 35,
-            backgroundColor: primaryOnColor,
-            child: getIcon(
-              AppIcons.product,
-              color: product.stock.toString() == "0.0"
-                  ? Colors.redAccent
-                  : Colors.greenAccent,
-              size: 50,
-            ),
-          ),
-          SizedBox(width: 10),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.57,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+          getIcon(AppIcons.barcode, color: primaryColor),
+          Text(
+            product.barcode,
+            style: textStyle(lightColor, 17),
+          )
+        ],
+      ),
+      trailing: actionType == ActionType.delete
+          ? getIcon(AppIcons.delete, color: errorColor)
+          : Column(
               children: [
                 Text(
-                  product.nombre,
-                  style: TextStyle(
-                    color: primaryColor,
-                    fontSize: _getResponsiveText(25),
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.left,
+                  '\$ ${product.unitPrice.toString()}',
+                  textAlign: TextAlign.end,
+                  style: textStyle(blackColor, 19),
                 ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    getIcon(
-                      AppIcons.scanner,
-                      color: primaryColor,
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      product.id,
-                      style: TextStyle(
-                        color: lightColor,
-                        fontSize: _getResponsiveText(17),
-                      ),
-                    )
-                  ],
+                Text(
+                  '$text_stock: ${product.stock.toString()}',
+                  textAlign: TextAlign.end,
+                  style: textStyle(blackColor, 19),
                 ),
               ],
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "\$" + product.precioUnitario.toString(),
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: blackColor,
-                  fontSize: _getResponsiveText(19),
-                ),
-              ),
-              Text(
-                "Stock: " + product.stock.toString(),
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: blackColor,
-                  fontSize: _getResponsiveText(19),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
-  }
-
-  void _productPage(BuildContext context) {
-    final args = {
-      product_args: product,
-      user_position_args: userPosition,
-    };
-    Navigator.pushNamed(context, see_product_info_route, arguments: args);
   }
 }

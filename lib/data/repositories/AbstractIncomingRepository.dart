@@ -1,10 +1,12 @@
 import '../models/Incoming.dart';
 
 abstract class AbstractIncomingRepository {
-  Future<Incomings?> getIncoming(String businessId, String incomingId);
-  Future<bool> addIncoming(Incomings incoming);
-  Future<bool> updateIncoming(Incomings incoming);
-  Future<bool> deleteIncoming(Incomings incoming);
-  Future<List<Incomings>> getTableIncoming(String businessId);
-  Future<int> getTableIncomingLength(String businessId);
+  Future<Incoming?> getIncoming(String productId, String incomingId);
+  Future<bool> addIncoming(String productId, Incoming incoming);
+  Future<bool> deleteIncoming(String productId, String incomingId);
+  Future<bool> updateIncoming(String productId, Incoming incoming);
+  Future<List<Incoming>> getListIncoming(String productId, {bool descending = false});
+  Future<List<Incoming>> getListIncomingToday(String productId, {bool descending = false});
+  Future<List<Incoming>> getListIncomingWeek(String productId, {bool descending = false});
+  Future<List<Incoming>> getListIncomingMonth(String productId, {bool descending = false});
 }

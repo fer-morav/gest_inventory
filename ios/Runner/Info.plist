@@ -45,5 +45,11 @@
 		<false/>
 		<key>UIStatusBarHidden</key>
 		<true/>
+		<key>NSCameraUsageDescription</key>
+        <string>GestInventory requiere acceso a la cámara del dispositivo para captura de fotos y video.</string>
+       	<key>NSMicrophoneUsageDescription</key>
+       	<string>GestInventory requiere acceso al microfono del dispositivo para capturar videos.</string>
+       	<key>NSPhotoLibraryUsageDescription</key>
+       	<string>GestInventory requiere acceso a tus fotos para seleccionar fotos y videos.</string>
 	</dict>
 </plist>

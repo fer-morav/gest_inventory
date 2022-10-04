@@ -1,111 +1,224 @@
-import 'dart:io';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gest_inventory/utils/arguments.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:gest_inventory/data/datasource/firebase/UserDataSource.dart';
+import 'package:gest_inventory/domain/bloc/EmployeesCubit.dart';
+import 'package:gest_inventory/ui/components/AppBarComponent.dart';
+import 'package:gest_inventory/ui/components/DividerComponent.dart';
+import 'package:gest_inventory/ui/components/LoadingComponent.dart';
+import 'package:gest_inventory/ui/components/SelectUserComponent.dart';
+import 'package:gest_inventory/ui/components/SpeedDialComponent.dart';
+import 'package:gest_inventory/ui/components/UpdateUserDialogComponent.dart';
+import 'package:gest_inventory/ui/components/UserComponent.dart';
+import 'package:gest_inventory/utils/navigator_functions.dart';
 import 'package:gest_inventory/utils/strings.dart';
-import '../../domain/bloc/firebase/AuthCubit.dart';
-import '../../ui/components/ButtonSecond.dart';
 import '../../data/models/User.dart';
+import '../../utils/enums.dart';
+import '../../utils/arguments.dart';
+import '../../utils/colors.dart';
+import '../../utils/icons.dart';
 import '../../utils/routes.dart';
-import '../components/AppBarComponent.dart';
-import '../components/ButtonMain.dart';
+import '../components/MessageComponent.dart';
+import '../components/search_user_delegate.dart';
 
 class EmployeesPage extends StatefulWidget {
   const EmployeesPage({Key? key}) : super(key: key);
 
   @override
-  State<EmployeesPage> createState() => _Employees();
+  State<EmployeesPage> createState() => _EmployeesPageState();
 }
 
-class _Employees extends State<EmployeesPage> {
-  final _padding = const EdgeInsets.only(
-    left: 15,
-    top: 10,
-    right: 15,
-    bottom: 10,
-  );
-
-  User? user;
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getArguments();
-    });
-  }
-
+class _EmployeesPageState extends State<EmployeesPage> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => exit(0),
-      child: Scaffold(
-        appBar: AppBarComponent(
-          textAppBar: title_employees,
-        ),
-        body: ListView(
-          children: [
-            Container(
-              padding: _padding,
-              height: 80,
-              child: ButtonMain(
-                onPressed: () {_nextScreenArgs(make_sale_route, user!.idNegocio.toString(), user!.cargo);},
-                text: button_make_sale,
-                isDisabled: true,
+    return BlocProvider<EmployeesCubit>(
+      create: (_) => EmployeesCubit(userRepository: UserDataSource())
+        ..init(ModalRoute.of(context)?.settings.arguments as Map),
+      child: BlocBuilder<EmployeesCubit, EmployeesState>(
+        builder: (context, state) {
+          final employeesBloc = context.read<EmployeesCubit>();
+
+          return Scaffold(
+            appBar: AppBarComponent(
+              textAppBar: title_employees,
+              onPressed: () => pop(context),
+              action: IconButton(
+                icon: getIcon(AppIcons.search, size: 30),
+                onPressed: () => _searchUser(employeesBloc),
               ),
             ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: ButtonMain(
-                onPressed: () {_nextScreenArgs(
-                      optionsList_product_page, user!.idNegocio.toString(), user!.cargo);},
-                text: button_see_info_product,
-                isDisabled: true,
-              ),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: ButtonMain(
-                onPressed: () {_nextScreenArgs(
-                      info_business_route, user!.idNegocio.toString(), user!.cargo);},
-                text: button_see_info_business,
-                isDisabled: true,
-              ),
-            ),
-            Container(
-              padding: _padding,
-              height: 80,
-              child: ButtonSecond(
-                onPressed: () => _signOut(),
-                text: button_logout,
-              ),
-            ),
-          ],
-        ),
+            body: state.user == null
+                ? LoadingComponent()
+                : StreamBuilder<List<User>>(
+                    stream: employeesBloc.listStreamUsers(state.user!.idBusiness, state.user!.id),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return MessageComponent(text: text_connection_error);
+                      }
+                      if (snapshot.data == null || snapshot.data!.isEmpty) {
+                        return MessageComponent(text: text_empty_list);
+                      }
+                      if (snapshot.hasData) {
+                        return _component(snapshot.data!, employeesBloc);
+                      }
+
+                      return LoadingComponent();
+                    },
+                  ),
+            floatingActionButton: state.user != null && state.user!.admin
+                ? SpeedDialComponent(
+                    actionType: state.actionType,
+                    onPressed: state.actionType != ActionType.select
+                        ? () => employeesBloc.setAction(ActionType.select)
+                        : null,
+                    children: [
+                      SpeedDialChild(
+                        onTap: () => employeesBloc.setAction(ActionType.delete),
+                        backgroundColor: primaryOnColor,
+                        child: getIcon(AppIcons.delete, color: errorColor, size: 30),
+                      ),
+                      SpeedDialChild(
+                        onTap: () => employeesBloc.setAction(ActionType.edit),
+                        backgroundColor: primaryOnColor,
+                        child: getIcon(AppIcons.edit, color: primaryColor, size: 30),
+                      ),
+                      SpeedDialChild(
+                        onTap: () => _addEmployee(employeesBloc),
+                        backgroundColor: primaryOnColor,
+                        child: getIcon(AppIcons.add, color: primaryColor, size: 30),
+                      ),
+                    ],
+                  )
+                : Container(),
+          );
+        },
       ),
     );
   }
 
-  void _getArguments() {
-    final args = ModalRoute.of(context)?.settings.arguments as Map;
-    if (args.isEmpty) {
-      Navigator.pop(context);
+  void _searchUser(EmployeesCubit bloc) async {
+    if (bloc.state.user == null) {
       return;
     }
-    user = args[user_args];
+
+    User? user = await showSearch<User?>(
+      context: context,
+      delegate: SearchUserDelegate(
+        users: await bloc.listUsers(bloc.state.user!.idBusiness, bloc.state.user!.id),
+        actionType: bloc.state.actionType,
+      ),
+    );
+
+    if (user == null) {
+      return;
+    }
+
+    switch(bloc.state.actionType) {
+      case ActionType.edit:
+        _updateValues(user, bloc);
+        break;
+      case ActionType.select:
+        _nextScreen(user);
+        break;
+      case ActionType.delete:
+        _deleteEmployee(user, bloc);
+        break;
+      default:
+        break;
+    }
   }
 
-  void _nextScreenArgs(String route, String businessId, String userPosition) {
-    final args = {business_id_args: businessId,user_position_args:userPosition};
-    Navigator.pushNamed(context, route, arguments: args);
+  Widget _component(List<User> users, EmployeesCubit bloc) {
+    return ListView.separated(
+      itemCount: users.length,
+      separatorBuilder: (_, int index) => DividerComponent(),
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: UserComponent(
+            user: users[index],
+            onTap: () => bloc.state.actionType == ActionType.edit
+                ? _updateValues(users[index], bloc)
+                : bloc.state.actionType == ActionType.delete
+                    ? _deleteEmployee(users[index], bloc)
+                    : _nextScreen(users[index]),
+            actionType: bloc.state.actionType,
+          ),
+        );
+      },
+    );
   }
 
-  void _signOut () async {
-    if(await BlocProvider.of<AuthCubit>(context).signOut()){
-      Navigator.pushNamedAndRemoveUntil(context, login_route, (route) => false);
+  void _nextScreen(User user) {
+    final args = {
+      action_type_args: ActionType.open,
+      user_args: user,
+    };
+    pushNamedWithArgs(context, user_route, args);
+  }
+
+  void _updateValues(User user, EmployeesCubit bloc) async {
+    Map<String, dynamic> result = await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return UpdateUserDialogComponent(user: user);
+      },
+    );
+
+    if (result[result_args] == button_save) {
+      bloc.updateValues(user.id, result[admin_args], result[salary_args]);
+    }
+  }
+
+  void _addEmployee(EmployeesCubit bloc) async {
+    User? user = await showDialog(
+      context: context,
+      builder: (_) {
+        return SelectUserComponent(
+          listUser: bloc.availableUsers(),
+          indications: text_indications_add_user,
+        );
+      },
+    );
+
+    if (user != null) {
+      Map<String, dynamic> result = await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return UpdateUserDialogComponent(user: user);
+        },
+      );
+
+      if (result[result_args] == button_save) {
+        bloc.addEmployee(
+          user.id,
+          bloc.state.user!.idBusiness,
+          result[admin_args],
+          result[salary_args],
+        );
+      }
+    }
+  }
+
+  Future<void> _deleteEmployee(User user, EmployeesCubit bloc) async {
+    final result = await showOkCancelAlertDialog(
+      title: title_confirm_delete,
+      message: '$text_want_remove ${user.name} $text_as_employee',
+      context: context,
+      okLabel: button_yes,
+      cancelLabel: button_no,
+      barrierDismissible: false,
+      isDestructiveAction: false,
+      onWillPop: () async {
+        return false;
+      },
+    );
+
+    if (result == OkCancelResult.ok) {
+      bloc.deleteEmployee(user.id);
     }
   }
 }

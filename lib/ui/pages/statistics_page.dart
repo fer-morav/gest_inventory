@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gest_inventory/domain/bloc/firebase/SalesCubit.dart';
+import 'package:gest_inventory/data/datasource/firebase/IncomingDataSource.dart';
+import 'package:gest_inventory/data/datasource/firebase/ProductDataSource.dart';
+import 'package:gest_inventory/data/datasource/firebase/SalesDataSource.dart';
+import 'package:gest_inventory/domain/bloc/StatisticsCubit.dart';
 import 'package:gest_inventory/ui/components/AppBarComponent.dart';
+import 'package:gest_inventory/ui/components/DividerComponent.dart';
+import 'package:gest_inventory/ui/components/MessageComponent.dart';
+import 'package:gest_inventory/ui/components/TabBarComponent.dart';
+import 'package:gest_inventory/utils/enums.dart';
+import 'package:gest_inventory/utils/navigator_functions.dart';
 import 'package:gest_inventory/utils/strings.dart';
+import '../../data/models/Incoming.dart';
+import '../../data/models/Product.dart';
 import '../../data/models/Sales.dart';
-import '../../utils/arguments.dart';
 import '../../utils/colors.dart';
 import '../../utils/icons.dart';
+import '../components/LoadingComponent.dart';
 import '../components/StatisticsComponent.dart';
 
 class StatisticsPage extends StatefulWidget {
@@ -17,187 +27,251 @@ class StatisticsPage extends StatefulWidget {
 }
 
 class _StatisticsState extends State<StatisticsPage> {
-  final _padding = const EdgeInsets.only(
-    left: 15,
-    top: 5,
-    right: 15,
-    bottom: 5,
-  );
-
-  String? businessId;
-
-  bool Order = true;
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getArguments();
-      _fetchTips();
-    });
-    super.initState();
-  }
-
   final sizeReference = 700.0;
+
   double getResponsiveText(double size) =>
       size * sizeReference / MediaQuery.of(context).size.longestSide;
 
+  TextStyle _textStyle(double size, {Color color = primaryColor}) => TextStyle(
+    color: color,
+    fontWeight: FontWeight.w500,
+    fontSize: getResponsiveText(size),
+  );
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarComponent(
-        textAppBar: title_statistics,
-        onPressed: () {
-          Navigator.of(context).pop();
+    return BlocProvider<StatisticsCubit>(
+      create: (_) => StatisticsCubit(
+          productRepository: ProductDataSource(),
+          salesRepository: SalesDataSource(),
+          incomingRepository: IncomingDataSource())
+        ..init(ModalRoute.of(context)?.settings.arguments as Map),
+      child: BlocBuilder<StatisticsCubit, StatisticsState>(
+        builder: (context, state) {
+          final statisticsBloc = context.read<StatisticsCubit>();
+
+          return Scaffold(
+            appBar: AppBarComponent(
+              textAppBar: title_statistics,
+              onPressed: () => pop(context),
+            ),
+            body: state.user == null
+                ? LoadingComponent()
+                : ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            DropdownButton<DateValues>(
+                              style: _textStyle(20),
+                              icon: getIcon(AppIcons.arrow_down, color: primaryColor),
+                              value: state.dateValues,
+                              items: <DropdownMenuItem<DateValues>>[
+                                DropdownMenuItem(
+                                  value: DateValues.year,
+                                  child: Text(button_all),
+                                ),
+                                DropdownMenuItem(
+                                  value: DateValues.today,
+                                  child: Text(button_today),
+                                ),
+                                DropdownMenuItem(
+                                  value: DateValues.week,
+                                  child: Text(button_week),
+                                ),
+                                DropdownMenuItem(
+                                  value: DateValues.month,
+                                  child: Text(button_month),
+                                ),
+                              ],
+                              onChanged: (value) => {
+                                if (value != null)
+                                  {statisticsBloc.setDateValues(value)}
+                              },
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: primaryColor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: IconButton(
+                                color: primaryOnColor,
+                                icon: getIcon(state.descending ? AppIcons.sort_down : AppIcons.sort_up),
+                                onPressed: () => statisticsBloc.setOrder(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.82,
+                        width: MediaQuery.of(context).size.width,
+                        child: TabBarComponent(
+                          tabs: [
+                            Tab(
+                              text: text_sale,
+                              icon: getIcon(AppIcons.price),
+                            ),
+                            Tab(
+                              text: text_incoming,
+                              icon: getIcon(AppIcons.add_product),
+                            ),
+                          ],
+                          tabsView: [
+                            StreamBuilder<Map<Product, List<Sales>>?>(
+                              stream: statisticsBloc.listSalesProduct,
+                              builder: (context, snapshot) {
+                                return Scaffold(
+                                  appBar: AppBar(
+                                    elevation: 0,
+                                    backgroundColor: primaryOnColor,
+                                    bottom: PreferredSize(
+                                      preferredSize: Size(double.infinity, 90),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 30),
+                                            child: Text(state.descending ? text_more_sold : text_less_sold,
+                                              style: _textStyle(20),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  text_product,
+                                                  style: _textStyle(15),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(left: 60),
+                                                  child: Text(
+                                                    text_total_sales,
+                                                    style: _textStyle(16),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  text_total_units,
+                                                  style: _textStyle(16),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          DividerComponent(),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  body: snapshot.hasError
+                                      ? MessageComponent(text: text_connection_error)
+                                      : snapshot.data == null
+                                          ? MessageComponent(text: text_empty_list)
+                                          : snapshot.data!.isEmpty
+                                              ? LoadingComponent()
+                                              : _componentSales(snapshot.data!),
+                                );
+                              },
+                            ),
+                            StreamBuilder<Map<Product, List<Incoming>>?>(
+                              stream: statisticsBloc.listIncomingProduct,
+                              builder: (context, snapshot) {
+                                return Scaffold(
+                                  appBar: AppBar(
+                                    elevation: 0,
+                                    backgroundColor: primaryOnColor,
+                                    bottom: PreferredSize(
+                                      preferredSize: Size(double.infinity, 90),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 30),
+                                            child: Text(state.descending ? text_most_entry : text_less_entry,
+                                              style: _textStyle(20),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  text_product,
+                                                  style: _textStyle(16),
+                                                ),
+                                                Text(
+                                                  text_total_units,
+                                                  style: _textStyle(16),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          DividerComponent(),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  body: snapshot.hasError
+                                      ? MessageComponent(text: text_connection_error)
+                                      : snapshot.data == null
+                                          ? MessageComponent(text: text_empty_list)
+                                          : snapshot.data!.isEmpty
+                                              ? LoadingComponent()
+                                              : _componentIncoming(snapshot.data!),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+          );
         },
       ),
-      body: isLoading
-          ? waitingConnection()
-          : ListView(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 15, top: 10),
-                      child: _labelText(text_sort_by, 14),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 10),
-                      child: _labelText(
-                        Order ? text_more_sold : text_less_sold,
-                        20,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 10, right: 15),
-                      child: FloatingActionButton(
-                        backgroundColor: primaryColor,
-                        mini: true,
-                        onPressed: () {_setOrder();},
-                        child: getIcon(AppIcons.change),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 15, top: 10),
-                      child: _labelText(text_product, 14),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 60, top: 10),
-                      child: _labelText(text_total_sales, 14),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(right: 15, top: 10),
-                      child: _labelText(text_total_units, 14),
-                    ),
-                  ],
-                ),
-                Divider(
-                  indent: 15,
-                  endIndent: 15,
-                  thickness: 2,
-                  color: primaryColor,
-                ),
-                StreamBuilder<List<Sales>>(
-                  stream: _fetchTips(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return hasError(text_connection_error);
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return waitingConnection();
-                    }
-                    if (snapshot.data!.isEmpty) {
-                      return hasError(text_empty_list);
-                    }
-                    if (snapshot.hasData) {
-                      return _component(snapshot.data!);
-                    }
-                    return waitingConnection();
-                  },
-                ),
-              ],
-            ),
     );
   }
 
-  void _getArguments() {
-    final args = ModalRoute.of(context)?.settings.arguments as Map;
-    if (args.isEmpty) {
-      Navigator.pop(context);
-      return;
-    }
-    businessId = args[business_id_args];
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  Stream<List<Sales>>? _fetchTips() {
-    return BlocProvider.of<SalesCubit>(context).getSalesOrder(businessId!, Order);
-  }
-
-  Widget _component(List<Sales> sales) {
+  Widget _componentSales(Map<Product, List<Sales>> sales) {
     return ListView.builder(
       itemCount: sales.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return Padding(
-          padding: _padding,
-          child: StatisticsComponent(
-            sales: sales[index],
-          ),
+        List<int> values = [];
+
+        sales.values
+            .elementAt(index)
+            .forEach((element) => values.add(element.units.toInt()));
+
+        return StatisticsComponent(
+          values: values,
+          product: sales.keys.elementAt(index),
         );
       },
     );
   }
 
-  Center waitingConnection() {
-    return Center(
-      child: SizedBox(
-        child: CircularProgressIndicator(
-          strokeWidth: 5,
-        ),
-        width: 75,
-        height: 75,
-      ),
-    );
-  }
+  Widget _componentIncoming(Map<Product, List<Incoming>> incoming) {
+    return ListView.builder(
+      itemCount: incoming.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        List<int> values = [];
 
-  Center hasError(String text) {
-    return Center(
-      child: Text(
-        text,
-        style: TextStyle(
-          color: primaryColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
-        ),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
+        incoming.values
+            .elementAt(index)
+            .forEach((element) => values.add(element.units.toInt()));
 
-  void _setOrder() {
-    setState(() {
-      Order = !Order;
-    });
-  }
-
-  Text _labelText(String text, double size) {
-    return Text(
-      text,
-      textAlign: TextAlign.left,
-      style: TextStyle(
-        color: primaryColor,
-        fontWeight: FontWeight.bold,
-        fontSize: getResponsiveText(size),
-      ),
+        return StatisticsComponent(
+          values: values,
+          product: incoming.keys.elementAt(index),
+          sales: false,
+        );
+      },
     );
   }
 }

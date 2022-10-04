@@ -16,6 +16,9 @@ class TextInputForm extends StatelessWidget {
   final bool passwordTextStatus;
   final String? errorText;
   final TextInputAction? inputAction;
+  final bool salary;
+  final bool state;
+  final bool barcode;
 
   TextInputForm({
     Key? key,
@@ -31,7 +34,14 @@ class TextInputForm extends StatelessWidget {
     this.passwordTextStatus = false,
     this.inputAction,
     this.validator,
+    this.salary = false,
+    this.state = false,
+    this.barcode = false,
   }) : super(key: key);
+
+  final _border = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10),
+  );
 
   final _focusBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
@@ -44,7 +54,7 @@ class TextInputForm extends StatelessWidget {
   );
 
   final _textStyle = TextStyle(
-    fontSize: 18,
+    fontSize: 16,
   );
 
   @override
@@ -62,29 +72,58 @@ class TextInputForm extends StatelessWidget {
         validator: validator,
         obscureText: passwordTextStatus,
         textInputAction: inputAction,
+        readOnly: readOnly,
         decoration: InputDecoration(
+          icon: _getIcon(),
           isDense: true,
           errorText: errorText,
           labelText: labelText,
           hintText: hintText,
           helperText: helperText,
-          enabledBorder: _focusBorder,
+          enabledBorder: _border,
           focusedBorder: _focusBorder,
           errorBorder: _errorBorder,
-          border: _focusBorder,
-          labelStyle: const TextStyle(
-            color: primaryColor,
-          ),
+          border: _border,
           suffixIcon: inputType == TextInputType.visiblePassword
               ? InkWell(
                   onTap: onTap,
                   child: passwordTextStatus
-                      ? getIcon(AppIcons.hide, color: primaryColor)
-                      : getIcon(AppIcons.show, color: primaryColor),
+                      ? getIcon(AppIcons.hide)
+                      : getIcon(AppIcons.show),
                 )
-              : null,
+              : barcode
+                  ? InkWell(
+                      onTap: onTap,
+                      child: getIcon(AppIcons.scanner),
+                    )
+                  : null,
         ),
       ),
     );
+  }
+
+  Icon? _getIcon() {
+    if (inputType == TextInputType.emailAddress) {
+      return getIcon(AppIcons.email);
+    } else if (inputType == TextInputType.visiblePassword) {
+      return getIcon(AppIcons.password);
+    } else if (inputType == TextInputType.phone) {
+      return getIcon(AppIcons.phone);
+    } else if (inputType == TextInputType.number && salary) {
+      return getIcon(AppIcons.salary);
+    } else if (inputType == TextInputType.number) {
+      return getIcon(AppIcons.quantity);
+    } else if (inputType == TextInputType.name) {
+      return getIcon(AppIcons.person);
+    } else if (inputType == TextInputType.text && state) {
+      return getIcon(AppIcons.city);
+    } else if (inputType == TextInputType.text && barcode) {
+      return getIcon(AppIcons.barcode);
+    } else if (inputType == TextInputType.text) {
+      return getIcon(AppIcons.text);
+    } else if (inputType == TextInputType.streetAddress) {
+      return getIcon(AppIcons.address);
+    }
+    return null;
   }
 }

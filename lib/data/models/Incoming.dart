@@ -1,68 +1,56 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gest_inventory/utils/extensions_functions.dart';
 
-class Incomings {
+class Incoming {
   String id = "";
-  String idNegocio = "";
-  String nombreProducto = "";
-  double precioUnitario = 0.0;
-  double precioMayoreo = 0.0;
-  double unidadesCompradas = 0.0;
+  double units = 0.0;
+  Timestamp creationDate;
 
-  Incomings({
-    required this.id,
-    required this.idNegocio,
-    required this.nombreProducto,
-    required this.precioUnitario,
-    required this.precioMayoreo,
-    required this.unidadesCompradas,
+  static const FIELD_ID = "id";
+  static const FIELD_UNITS = "units";
+  static const FIELD_CREATION_DATE = "creationDate";
+
+  Incoming({
+    this.id = "",
+    this.units = 0.0,
+    required this.creationDate,
   });
 
-  Incomings copyWith({
+  Incoming copyWith({
     String? id,
-    String? idNegocio,
-    String? nombreProducto,
-    double? precioUnitario,
-    double? precioMayoreo,
-    double? unidadesCompradas,
+    double? units,
+    Timestamp? creationDate,
   }) {
-    return Incomings(
-        id: id ?? this.id,
-        idNegocio: idNegocio?? this.idNegocio,
-        nombreProducto: nombreProducto ?? this.nombreProducto,
-        precioUnitario: precioUnitario ?? this.precioUnitario,
-        precioMayoreo: precioMayoreo ?? this.precioMayoreo,
-        unidadesCompradas: unidadesCompradas ?? this.unidadesCompradas,
+    return Incoming(
+      id: id ?? this.id,
+      units: units ?? this.units,
+      creationDate: creationDate ?? this.creationDate,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'idNegocio': idNegocio,
-      'nombreProducto': nombreProducto,
-      'precioUnitario': precioUnitario,
-      'precioMayoreo': precioMayoreo,
-      'unidadesCompradas': unidadesCompradas,
+      'units': units,
+      'creationDate': creationDate,
     };
   }
 
-  factory Incomings.fromMap(Map<String, dynamic> map) {
-    return Incomings(
-        id: map['id'],
-        idNegocio: map['idNegocio'],
-        nombreProducto: map['nombreProducto'],
-        precioMayoreo: map['precioMayoreo'],
-        precioUnitario: map['precioUnitario'],
-        unidadesCompradas: map['unidadesCompradas']
+  factory Incoming.fromMap(Map<String, dynamic> map) {
+    return Incoming(
+      id: map['id'],
+      creationDate: map['creationDate'],
+      units: map['units'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Incomings.fromJson(String source) => Incomings.fromMap(json.decode(source));
+  factory Incoming.fromJson(String source) => Incoming.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'User(id: $id, idNegocio: $idNegocio, nombre: $nombreProducto, precioUnitario: $precioUnitario, precioMayoreo: $precioMayoreo,  unidadesCompradas: $unidadesCompradas)';
+    return 'Sales(id: $id, units: $units, creationDate: ${creationDate.toDate().toFormatDate()})';
   }
 }
