@@ -6,6 +6,7 @@ import 'package:gest_inventory/data/repositories/AbstractUserRepository.dart';
 import 'package:gest_inventory/domain/bloc/AuthCubit.dart';
 import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/extensions_functions.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../data/models/User.dart';
 import '../usecases/storage/UploadUserPhotoUseCase.dart';
 import '../usecases/user/AddUserUseCase.dart';
@@ -23,7 +24,7 @@ class UserCubit extends Cubit<UserState> {
   late UpdateUserUseCase _updateUserUseCase;
   late UploadUserPhotoUseCase _uploadUserPhotoUseCase;
 
-  final _pickerUtils = ImagePickerUtils();
+  final _pickerUtils = ImagePickerUtils(picker: ImagePicker());
 
   final emailController = TextEditingController();
   final nameController = TextEditingController();
@@ -106,7 +107,7 @@ class UserCubit extends Cubit<UserState> {
         break;
 
       case button_delete_photo:
-        _newState(photoFile: null, profilePhoto: NetworkImage(image_business_default));
+        _newState(photoFile: null, profilePhoto: NetworkImage(image_profile_default));
         break;
     }
   }

@@ -56,8 +56,9 @@ class _UserPageState extends State<UserPage> {
           }
           if (state.message == text_add_user_success && state.isAdmin) {
             _registerBusiness(state.user!);
+            return;
           }
-          if (state.message == text_update_data) {
+          if (state.message == text_update_data || state.message == text_add_user_success) {
             final args = {
               user_id_args: state.viewerId,
             };

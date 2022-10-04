@@ -165,7 +165,9 @@ class InformCubit extends Cubit<InformState> {
         resultEntries.add(modelEntries);
       }
 
-      _newState(salesProducts: resultSales, entriesProducts: resultEntries);
+      if (!this.isClosed) {
+        _newState(salesProducts: resultSales, entriesProducts: resultEntries);
+      }
     }
   }
 

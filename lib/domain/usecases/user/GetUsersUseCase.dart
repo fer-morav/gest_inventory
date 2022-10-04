@@ -6,7 +6,10 @@ class GetUsersUseCase {
   
   GetUsersUseCase({required this.userRepository});
 
-  Stream<List<User>> getUsers(String businessId) => userRepository.getUsers(businessId);
+  Stream<List<User>> getUsers(String businessId,
+          {String userExcludedId = ''}) =>
+      userRepository.getUsers(businessId, userExcludedId: userExcludedId);
 
-  Future<List<User>> getList(String businessId) => userRepository.getListUsers(businessId);
+  Future<List<User>> getList(String businessId, {String userExcludedId = ''}) =>
+      userRepository.getListUsers(businessId, userExcludedId: userExcludedId);
 }

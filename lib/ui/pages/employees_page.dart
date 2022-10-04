@@ -51,7 +51,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
             body: state.user == null
                 ? LoadingComponent()
                 : StreamBuilder<List<User>>(
-                    stream: employeesBloc.listStreamUsers(state.user!.idBusiness),
+                    stream: employeesBloc.listStreamUsers(state.user!.idBusiness, state.user!.id),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         return MessageComponent(text: text_connection_error);
@@ -105,7 +105,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
     User? user = await showSearch<User?>(
       context: context,
       delegate: SearchUserDelegate(
-        users: await bloc.listUsers(bloc.state.user!.idBusiness),
+        users: await bloc.listUsers(bloc.state.user!.idBusiness, bloc.state.user!.id),
         actionType: bloc.state.actionType,
       ),
     );

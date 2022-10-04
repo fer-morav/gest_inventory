@@ -7,6 +7,7 @@ import 'package:gest_inventory/utils/icons.dart';
 import 'package:gest_inventory/utils/navigator_functions.dart';
 import '../../data/models/User.dart';
 import '../../utils/arguments.dart';
+import '../../utils/enums.dart';
 import '../../utils/routes.dart';
 import '../../utils/strings.dart';
 
@@ -20,17 +21,14 @@ class WaitingPage extends StatelessWidget {
         ..init(ModalRoute.of(context)?.settings.arguments as Map),
       child: BlocConsumer<WaitingCubit, WaitingState>(
         listener: (context, state) {
-          if (state.user == null) {
-            pop(context);
-          }
-          if (state.businessId != null) {
+          if (state.businessId != null && state.businessId!.isNotEmpty) {
             context.read<WaitingCubit>().updateStatus(false);
 
             final args = {
-              user_args: state.user,
+              user_id_args: state.user?.id,
             };
 
-            pushNamedWithArgs(context, business_route, args);
+            popAndPushNamedWithArgs(context, home_route, args);
           }
         },
         builder: (context, state) {
@@ -144,8 +142,13 @@ class WaitingPage extends StatelessWidget {
     return false;
   }
 
-  void _registerBusiness(BuildContext context, User? user) {
+  void _registerBusiness(BuildContext context, User? user) async {
+    final bloc = context.read<WaitingCubit>();
+
+    await bloc.updateStatus(false);
+
     final args = {
+      action_type_args: ActionType.add,
       user_args: user,
     };
 

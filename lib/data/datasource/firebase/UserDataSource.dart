@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gest_inventory/data/repositories/AbstractUserRepository.dart';
+import 'package:gest_inventory/utils/icons.dart';
 import '../../models/User.dart';
 import 'FirebaseConstants.dart';
 
@@ -47,7 +48,7 @@ class UserDataSource extends AbstractUserRepository {
   }
 
   @override
-  Stream<List<User>> getUsers(String businessId) async* {
+  Stream<List<User>> getUsers(String businessId, {String userExcludedId = ''}) async* {
     try {
       final snapshots = await _database
           .collection(USERS_COLLECTION)
@@ -57,7 +58,7 @@ class UserDataSource extends AbstractUserRepository {
           .snapshots();
 
       await for (final snapshot in snapshots) {
-        final documents = snapshot.docs.where((document) => document.exists);
+        final documents = snapshot.docs.where((document) => document.exists && document[User.FIELD_ID] != userExcludedId);
         final users = documents.map((document) => User.fromMap(document.data())).toList();
         yield users;
       }
@@ -67,7 +68,7 @@ class UserDataSource extends AbstractUserRepository {
   }
 
   @override
-  Future<List<User>> getListUsers(String businessId) async {
+  Future<List<User>> getListUsers(String businessId, {String userExcludedId = ''}) async {
     try {
       final snapshots = await _database
           .collection(USERS_COLLECTION)
@@ -80,7 +81,9 @@ class UserDataSource extends AbstractUserRepository {
 
       for (var document in snapshots.docs) {
         final user = User.fromMap(document.data());
-        users.add(user);
+        if (user.id != userExcludedId) {
+          users.add(user);
+        }
       }
 
       return users;

@@ -92,7 +92,7 @@ class _InformPageState extends State<InformPage> {
                       ),
                     ],
                     onChanged: (value) => {
-                      if (value != null) {informBloc.setDateValues(value)}
+                      if (value != null && mounted) {informBloc.setDateValues(value)}
                     },
                   ),
                 ],

@@ -26,9 +26,9 @@ class EmployeesCubit extends Cubit<EmployeesState> {
 
   void setAction(ActionType action) => _newState(actionType: action);
 
-  Stream<List<User>> listStreamUsers(String businessId) => _getUsersUseCase.getUsers(businessId);
+  Stream<List<User>> listStreamUsers(String businessId, String userId) => _getUsersUseCase.getUsers(businessId, userExcludedId: userId);
 
-  Future<List<User>> listUsers(String businessId) => _getUsersUseCase.getList(businessId);
+  Future<List<User>> listUsers(String businessId, String userId) => _getUsersUseCase.getList(businessId, userExcludedId: userId);
 
   Stream<List<User>> availableUsers() => _getUsersAvailableUseCase.get();
 

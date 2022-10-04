@@ -21,14 +21,10 @@ class WaitingCubit extends Cubit<WaitingState> {
 
     emit(WaitingState(user: user));
 
-    _listenBusinessIdUseCase =
-        ListenBusinessIdUseCase(userRepository: userRepository);
-    _updateUserMapUseCase =
-        UpdateUserMapUseCase(userRepository: userRepository);
+    _listenBusinessIdUseCase = ListenBusinessIdUseCase(userRepository: userRepository);
+    _updateUserMapUseCase = UpdateUserMapUseCase(userRepository: userRepository);
 
-    if (!await updateStatus(true)) {
-      emit(WaitingState(user: null));
-    }
+    await updateStatus(true);
 
     if (state.user != null) {
       _streamSubscription = _listenBusinessIdUseCase

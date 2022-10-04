@@ -8,6 +8,7 @@ import 'package:gest_inventory/domain/usecases/product/UpdateProductUseCase.dart
 import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/arguments.dart';
 import 'package:gest_inventory/utils/scan_util.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../data/models/Product.dart';
 import '../../data/models/User.dart';
 import '../../data/repositories/AbstractStorageRepository.dart';
@@ -25,7 +26,7 @@ class ProductCubit extends Cubit<ProductState> {
   late UpdateProductUseCase _updateProductUseCase;
   late UploadProductPhotoUseCase _uploadProductPhotoUseCase;
 
-  final _pickerUtils = ImagePickerUtils();
+  final _pickerUtils = ImagePickerUtils(picker: ImagePicker());
 
   final barcodeController = TextEditingController();
   final nameController = TextEditingController();

@@ -9,6 +9,7 @@ import 'package:gest_inventory/domain/usecases/user/GetUserUseCase.dart';
 import 'package:gest_inventory/domain/usecases/user/UpdateUserMapUseCase.dart';
 import 'package:gest_inventory/utils/enums.dart';
 import 'package:gest_inventory/utils/extensions_functions.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../data/models/Address.dart';
 import '../../data/models/Business.dart';
 import '../../data/models/User.dart';
@@ -34,7 +35,7 @@ class BusinessCubit extends Cubit<BusinessState> {
   late UploadBusinessPhotoUseCase _uploadBusinessPhotoUseCase;
   late UpdateBusinessMapUseCase _updateBusinessMapUseCase;
 
-  final _pickerUtils = ImagePickerUtils();
+  final _pickerUtils = ImagePickerUtils(picker: ImagePicker());
 
   final nameController = TextEditingController();
   final ownerController = TextEditingController();
